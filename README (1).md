@@ -1,7 +1,7 @@
 # 🏥 HỆ THỐNG QUẢN LÝ PHÒNG KHÁM TƯ NHÂN VÀ ĐẶT LỊCH KHÁM BỆNH
 
 **Bài tập lớn môn Phân tích và Thiết kế Phần mềm (PTTKPM)**  
-**Lớp:** N05 — **Nhóm:** 16  
+**Lớp:** N01 — **Nhóm:** 03
 **Trường:** Đại học Phenikaa — Khoa Công nghệ Thông tin
 
 > **Trạng thái:** Đề tài mới đang trong giai đoạn phân tích, thiết kế và phát triển. Các chức năng được mô tả bên dưới là **phạm vi dự kiến**, không phải tuyên bố tất cả đã được triển khai.
@@ -255,14 +255,7 @@ Dựa trên cấu hình mã nguồn hiện có của repository (`pom.xml`), nh�
 - MySQL nếu triển khai tầng lưu trữ dữ liệu.
 - IDE: IntelliJ IDEA / Eclipse / Visual Studio Code.
 
-### 11.2. Tải mã nguồn
-
-```bash
-git clone https://github.com/dunggdinh/PTTKPM25-26_ClassN05_Nhom16.git
-cd PTTKPM25-26_ClassN05_Nhom16
-```
-
-### 11.3. Biên dịch dự án hiện có
+### 11.2. Biên dịch dự án hiện có
 
 ```bash
 mvn clean package
@@ -270,7 +263,7 @@ mvn clean package
 
 File `.war` được tạo tại thư mục `target/` nếu quá trình build thành công. Tên file phụ thuộc `artifactId` và `version` trong `pom.xml`.
 
-### 11.4. Triển khai
+### 11.3. Triển khai
 
 1. Đặt file `.war` vào thư mục `webapps/` của Tomcat phù hợp.
 2. Khởi động Tomcat và truy cập đường dẫn theo context path của ứng dụng.
@@ -317,19 +310,8 @@ Tài liệu và bản thiết kế có thể được tổ chức tại hai thư
 | **4. Xây dựng quy trình khám** | Tiếp nhận, khám bệnh, dịch vụ, thanh toán mô phỏng | Demo quy trình toàn phần |
 | **5. Kiểm thử & báo cáo** | Kiểm thử tích hợp, hoàn thiện tài liệu và thuyết trình | Báo cáo, slide, bản bàn giao |
 
-## 👨‍💻 15. Thành viên nhóm
 
-| STT | Họ và tên | Mã sinh viên |
-|:--:|---|---|
-| 1 | Nguyễn Văn Thăng | 23010572 |
-| 2 | Phạm Văn Sự | 23010523 |
-| 3 | Đặng Anh Tuyền | 23010912 |
-| 4 | Trần Đình Dũng | 23010596 |
-| 5 | Nguyễn Huy Toàn | 23017052 |
-
-*Danh sách thành viên được giữ từ README hiện tại; nhóm cập nhật nếu có thay đổi.*
-
-## 🌱 16. Hướng phát triển
+## 🌱 15. Hướng phát triển
 
 - Tự động nhắc lịch khám qua email/SMS.
 - Hỗ trợ nhiều chi nhánh và quản lý phòng khám theo cơ sở.
@@ -338,14 +320,11 @@ Tài liệu và bản thiết kế có thể được tổ chức tại hai thư
 - Thanh toán trực tuyến khi có hạ tầng bảo mật và yêu cầu triển khai phù hợp.
 - Mở rộng quản lý xét nghiệm, đơn thuốc và hồ sơ khám theo yêu cầu nghiệp vụ thực tế.
 
-## 📚 17. Liên kết dự án
+## 📚 16. Liên kết dự án
 
-- **GitHub repository:** https://github.com/dunggdinh/PTTKPM25-26_ClassN05_Nhom16
 - **Tài liệu phân tích và thiết kế:** [`Documents/`](./Documents/)
 - **Giao diện và sơ đồ:** [`Design/`](./Design/)
 - **Nhật ký thay đổi:** [`Changelog.md`](./Changelog.md)
 
 ---
-
-**© 2026 — Nhóm 16, Lớp N05 | Đại học Phenikaa**  
 *Dự án phục vụ mục đích học tập và nghiên cứu trong môn Phân tích và Thiết kế Phần mềm.*
