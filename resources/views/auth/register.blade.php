@@ -1,0 +1,5 @@
+@extends('layouts.app')
+@section('title', 'Đăng ký bệnh nhân')
+@section('content')
+<div class="auth-wrap"><section class="form-card wide-card"><span class="eyebrow">HỒ SƠ BỆNH NHÂN</span><h1>Tạo tài khoản</h1><form method="post" action="{{ route('register.submit') }}">@csrf<div class="form-grid"><label>Họ và tên<input name="name" value="{{ old('name') }}" required></label><label>Email<input type="email" name="email" value="{{ old('email') }}" required></label><label>Số điện thoại<input name="phone" value="{{ old('phone') }}" required></label><label>Ngày sinh<input type="date" name="birth_date" value="{{ old('birth_date') }}" required></label><label>Giới tính<select name="gender" required><option>Nam</option><option>Nữ</option><option>Khác</option></select></label><label>Địa chỉ<input name="address" value="{{ old('address') }}" required></label><label>Mật khẩu<input type="password" name="password" required></label><label>Nhập lại mật khẩu<input type="password" name="password_confirmation" required></label></div><button class="button wide">Tạo tài khoản</button></form></section></div>
+@endsection
