@@ -64,7 +64,3 @@ Mật khẩu chung: `Password@123`
 ```
 
 Bộ test kiểm tra đăng ký bệnh nhân, chống đặt trùng và quy tắc bước thời gian của ca khám.
-
-## Phần mã được tái sử dụng
-
-Từ dự án Nhóm 2 chỉ giữ phần khung trung tính, cách tổ chức authentication/session và một số tài nguyên Laravel. Không sao chép model, controller, route, migration hoặc dữ liệu của hệ thống bán điện thoại. Toàn bộ domain và database phòng khám được viết mới; project hiện chạy trên Laravel 10 để tương thích Laragon 6/PHP 8.1.
