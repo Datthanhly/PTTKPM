@@ -1,0 +1,19 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\node[ent,text width=3.4cm] (VisitController) at (0,0) {\textbf{Visit\allowbreak{}Controller}\par\smallskip\hrule\smallskip +transition(); record()\\+prescription(); sign()\\+order()};
+\node[ent,text width=3.4cm] (VisitWorkflow) at (7.3,0) {\textbf{Visit\allowbreak{}Workflow}\par\smallskip\hrule\smallskip +check\allowbreak{}In(); walk\allowbreak{}In()\\+record(); prescription()\\+sign\allowbreak{}Prescription(); order()};
+\node[ent,text width=3.4cm] (ClinicAccess) at (0,-4) {\textbf{Clinic\allowbreak{}Access}\par\smallskip\hrule\smallskip +require()\\+treat(); scope()};
+\node[ent,text width=3.4cm] (DiagnosticController) at (7.3,-4) {\textbf{Diagnostic\allowbreak{}Controller}\par\smallskip\hrule\smallskip +enter(); verify()\\+download(); measurement()};
+\draw[arr] (VisitController) -- node[lab] {điều phối} (VisitWorkflow);
+\draw[arr] (VisitWorkflow) -- node[lab] {kiểm quyền} (ClinicAccess);
+\draw[arr] (DiagnosticController) -- node[lab] {kiểm quyền} (ClinicAccess);
+\end{tikzpicture}
+\endgroup

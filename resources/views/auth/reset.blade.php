@@ -1,0 +1,2 @@
+@extends('layouts.app')
+@section('content')<form class="form-card" method="post" action="{{ route('password.update') }}">@csrf<h1>Đặt lại mật khẩu</h1><input type="hidden" name="token" value="{{ $token }}"><label>Email<input type="email" name="email" value="{{ $email }}" required></label><label>Mật khẩu mới<input type="password" name="password" required minlength="8"></label><label>Nhập lại<input type="password" name="password_confirmation" required></label><button>Lưu mật khẩu</button></form>@endsection

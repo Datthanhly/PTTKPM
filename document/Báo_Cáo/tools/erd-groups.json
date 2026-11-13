@@ -1,0 +1,107 @@
+[
+  {
+    "key": "erd_identity",
+    "title": "Danh tính và phân công",
+    "tables": [
+      "roles",
+      "users",
+      "branches",
+      "branch_user",
+      "user_permissions",
+      "doctors",
+      "specialties",
+      "doctor_specialty"
+    ]
+  },
+  {
+    "key": "erd_booking",
+    "title": "Ca khám và lịch hẹn",
+    "tables": [
+      "patients",
+      "doctors",
+      "doctor_schedules",
+      "doctor_time_off",
+      "appointments",
+      "appointment_history",
+      "visits",
+      "shift_transfer_requests"
+    ]
+  },
+  {
+    "key": "erd_clinical",
+    "title": "Hồ sơ và đơn thuốc",
+    "tables": [
+      "visits",
+      "medical_records",
+      "medical_record_revisions",
+      "prescriptions",
+      "prescription_items",
+      "medicines",
+      "visit_services",
+      "services"
+    ]
+  },
+  {
+    "key": "erd_diagnostic",
+    "title": "Chỉ định, kết quả và tái khám",
+    "tables": [
+      "visits",
+      "service_orders",
+      "service_order_items",
+      "services",
+      "diagnostic_results",
+      "device_measurements",
+      "follow_up_plans"
+    ]
+  },
+  {
+    "key": "erd_finance",
+    "title": "Hóa đơn và dòng tiền",
+    "tables": [
+      "visits",
+      "invoices",
+      "invoice_items",
+      "services",
+      "payments",
+      "refunds"
+    ]
+  },
+  {
+    "key": "erd_inventory",
+    "title": "Kho và cấp phát theo lô",
+    "tables": [
+      "medicines",
+      "medicine_batches",
+      "goods_receipts",
+      "stock_movements",
+      "prescriptions",
+      "prescription_items",
+      "dispensations",
+      "dispensation_items"
+    ]
+  },
+  {
+    "key": "erd_workforce",
+    "title": "Nhân viên và bảng lương",
+    "tables": [
+      "users",
+      "branches",
+      "staff_schedule_requests",
+      "staff_work_shifts",
+      "salary_profiles",
+      "payroll_entries"
+    ]
+  },
+  {
+    "key": "erd_integration",
+    "title": "Tích hợp và thông báo",
+    "tables": [
+      "branches",
+      "integration_systems",
+      "integration_messages",
+      "appointments",
+      "notification_jobs",
+      "audit_logs"
+    ]
+  }
+]

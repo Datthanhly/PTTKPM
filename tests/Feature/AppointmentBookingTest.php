@@ -24,10 +24,12 @@ class AppointmentBookingTest extends TestCase
         $specialty = Specialty::create(['code' => 'NOI', 'name' => 'Nội']);
         $doctorUser = User::create(['role_id' => $doctorRole->id, 'name' => 'Bác sĩ A', 'email' => 'doctor@test.local', 'password' => 'Password@123']);
         $doctor = Doctor::create(['user_id' => $doctorUser->id, 'specialty_id' => $specialty->id, 'doctor_code' => 'BS01', 'license_number' => 'GP01']);
+        $doctorUser->branches()->attach(\App\Models\Branch::firstOrFail()->id);
         $date = today()->addDays(2)->format('Y-m-d');
         DoctorSchedule::create(['doctor_id' => $doctor->id, 'work_date' => $date, 'start_time' => '08:00', 'end_time' => '11:00', 'slot_minutes' => 30]);
         $makePatient = function (string $email, string $code) use ($patientRole) {
             $user = User::create(['role_id' => $patientRole->id, 'name' => $code, 'email' => $email, 'password' => 'Password@123']);
+
             return Patient::create(['user_id' => $user->id, 'patient_code' => $code, 'full_name' => $code]);
         };
         $service = app(AppointmentBookingService::class);
@@ -44,6 +46,7 @@ class AppointmentBookingTest extends TestCase
         $specialty = Specialty::create(['code' => 'TIM', 'name' => 'Tim']);
         $doctorUser = User::create(['role_id' => $doctorRole->id, 'name' => 'Bác sĩ B', 'email' => 'doctor2@test.local', 'password' => 'Password@123']);
         $doctor = Doctor::create(['user_id' => $doctorUser->id, 'specialty_id' => $specialty->id, 'doctor_code' => 'BS02', 'license_number' => 'GP02']);
+        $doctorUser->branches()->attach(\App\Models\Branch::firstOrFail()->id);
         $date = today()->addDays(2)->format('Y-m-d');
         DoctorSchedule::create(['doctor_id' => $doctor->id, 'work_date' => $date, 'start_time' => '08:00', 'end_time' => '11:00', 'slot_minutes' => 30]);
         $user = User::create(['role_id' => $patientRole->id, 'name' => 'BN', 'email' => 'p@test.local', 'password' => 'Password@123']);

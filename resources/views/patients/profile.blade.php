@@ -1,0 +1,9 @@
+@extends('layouts.app')
+@section('content')
+<h1>Hồ sơ của tôi</h1><p>{{ $patient->patient_code }} · {{ $patient->full_name }} · {{ $patient->birth_date?->format('d/m/Y') }}</p><form method="post" class="form-card wide-card" action="{{ route('patients.profile.save') }}">@csrf @method('PUT')
+<div class="form-grid"><label>Họ tên<input name="full_name" value="{{ old('full_name',$patient->full_name) }}" required maxlength="255"></label><label>Điện thoại<input name="phone" value="{{ old('phone',$patient->phone) }}" required maxlength="20"></label><label>Ngày sinh<input type="date" name="birth_date" value="{{ old('birth_date',$patient->birth_date?->format('Y-m-d')) }}" max="{{ today()->format('Y-m-d') }}" required></label><label>Giới tính<select name="gender">@foreach(['Nam','Nữ','Khác'] as $g)<option @selected(old('gender',$patient->gender)===$g)>{{ $g }}</option>@endforeach</select></label></div>
+@foreach(['address'=>'Địa chỉ','emergency_contact'=>'Liên hệ khẩn cấp'] as $field=>$label)<label>{{ $label }}<input name="{{ $field }}" value="{{ old($field,$patient->$field) }}" maxlength="255"></label>@endforeach
+@foreach(['allergies'=>'Dị ứng','medical_history'=>'Tiền sử'] as $field=>$label)<label>{{ $label }}<textarea name="{{ $field }}" rows="3" maxlength="3000">{{ old($field,$patient->$field) }}</textarea></label>@endforeach
+<label class="check"><input type="checkbox" name="email_enabled" value="1" @checked($patient->email_enabled)>Nhận email và nhắc lịch</label>
+<label class="check"><input type="checkbox" name="auto_booking" value="1" @checked($patient->auto_booking_consented_at && $patient->auto_booking_expires_at?->isFuture())>Tôi đồng ý tự đặt giờ trống sớm nhất trong khoảng ngày bác sĩ đề xuất (hiệu lực 6 tháng từ khi lưu).</label><p>Bỏ chọn để thu hồi đồng ý cho các đề xuất chưa đặt. Lịch đã đặt được quản lý tại “Lịch của tôi”.</p><button>Lưu hồ sơ và tùy chọn</button></form>
+@endsection

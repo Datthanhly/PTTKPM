@@ -1,0 +1,31 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\node[box,text width=2.6cm] (l0) at (0.0,0) {Bệnh nhân};
+\draw[dashed,black!50] (0.0,-.5) -- (0.0,-9.549999999999999);
+\node[box,text width=2.6cm] (l1) at (3.1,0) {Trang lịch};
+\draw[dashed,black!50] (3.1,-.5) -- (3.1,-9.549999999999999);
+\node[box,text width=2.6cm] (l2) at (6.2,0) {Điều khiển hủy};
+\draw[dashed,black!50] (6.2,-.5) -- (6.2,-9.549999999999999);
+\node[box,text width=2.6cm] (l3) at (9.3,0) {Lịch hẹn};
+\draw[dashed,black!50] (9.3,-.5) -- (9.3,-9.549999999999999);
+\node[box,text width=2.6cm] (l4) at (12.4,0) {Thông báo};
+\draw[dashed,black!50] (12.4,-.5) -- (12.4,-9.549999999999999);
+\draw[arr] (0.0,-1.15) -- node[lab,above] {nhập lý do hủy} (3.1,-1.15);
+\draw[arr] (3.1,-2.0999999999999996) -- node[lab,above] {yêu cầu hủy lịch} (6.2,-2.0999999999999996);
+\draw[arr] (6.2,-3.05) -- node[lab,above] {kiểm quyền, khóa và đọc trạng thái} (9.3,-3.05);
+\draw[arr] (6.2,-3.9999999999999996) -- node[lab,above] {kiểm now <= giờ khám - 24h} (9.3,-3.9999999999999996);
+\draw[arr] (9.3,-4.949999999999999) -- node[lab,above] {đủ hạn / không đủ hạn} (6.2,-4.949999999999999);
+\draw[arr] (6.2,-5.9) -- node[lab,above] {[đủ hạn] cập nhật CANCELLED} (9.3,-5.9);
+\draw[arr] (6.2,-6.85) -- node[lab,above] {[đủ hạn] hủy nhắc, ghi sự kiện} (12.4,-6.85);
+\draw[arr] (6.2,-7.799999999999999) -- node[lab,above] {thành công hoặc lỗi nghiệp vụ} (3.1,-7.799999999999999);
+\draw[arr] (3.1,-8.75) -- node[lab,above] {hiển thị kết quả, giữ dữ liệu nếu lỗi} (0.0,-8.75);
+\end{tikzpicture}
+\endgroup

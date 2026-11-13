@@ -1,0 +1,1753 @@
+\appendix\chapter{TỪ ĐIỂN DỮ LIỆU ĐẦY ĐỦ}\label{app:dictionary}
+Từ điển dữ liệu gồm 52 bảng, bao quát dữ liệu nghiệp vụ, phần tương thích và hạ tầng Laravel.\allowbreak{} Mỗi thuộc tính có kiểu lưu trữ, khóa, giá trị mặc định và ý nghĩa sử dụng.\allowbreak{} Dấu * thể hiện thuộc tính không nhận NULL hoặc là khóa chính; giá trị có thể được hệ thống sinh tự động.\allowbreak{} Cấu trúc My\allowbreak{}SQL là cơ sở triển khai; các khác biệt của SQLite cần được kiểm tra khi chuyển môi trường.\allowbreak{}
+
+JSON của My\allowbreak{}SQL có thể là text ở SQLite.\allowbreak{} Quy tắc trạng thái, khoảng giờ và tổng tiền còn nằm trong service; tham chiếu subject/\allowbreak{}source/\allowbreak{}reference đa hình không được suy thành FK không tồn tại.\allowbreak{}
+
+
+\section{Bảng nghiệp vụ}
+\begingroup\fontsize{11.5}{14.5}\selectfont
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{appointment\_\allowbreak{}history}
+Lịch sử thay đổi ngày/\allowbreak{}giờ của lịch hẹn.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng appointment\_\allowbreak{}history}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+appointment\_\allowbreak{}id * & bigint unsigned & FK & Lịch hẹn liên quan.\allowbreak{}\\[1pt]
+old\_\allowbreak{}values * & json & - & Ảnh dữ liệu trước đổi.\allowbreak{}\\[1pt]
+new\_\allowbreak{}values * & json & - & Ảnh dữ liệu sau đổi.\allowbreak{}\\[1pt]
+reason * & varchar(255) & - & Lý do nghiệp vụ.\allowbreak{}\\[1pt]
+changed\_\allowbreak{}by * & bigint unsigned & FK & Người thực hiện thay đổi.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} appointment\_\allowbreak{}id → appointments.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); changed\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} NO ACTION).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (appointment\_\allowbreak{}id); (changed\_\allowbreak{}by).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} old\_\allowbreak{}values và new\_\allowbreak{}values là cặp ảnh chụp; changed\_\allowbreak{}by xác định người thực hiện; reason giải thích nghiệp vụ.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Được ghi cùng giao dịch đổi lịch; lịch bị chặn bởi hạn 24 giờ không tạo dòng lịch sử.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{appointments}
+Lịch hẹn trước khi người bệnh được tiếp nhận.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng appointments}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+appointment\_\allowbreak{}code * & varchar(24) & - & Mã lịch để tra cứu.\allowbreak{}\\[1pt]
+patient\_\allowbreak{}id * & bigint unsigned & FK & Hồ sơ bệnh nhân.\allowbreak{}\\[1pt]
+doctor\_\allowbreak{}id * & bigint unsigned & FK & Bác sĩ phụ trách.\allowbreak{}\\[1pt]
+doctor\_\allowbreak{}schedule\_\allowbreak{}id & bigint unsigned & FK & Ca khám của bác sĩ.\allowbreak{}\\[1pt]
+created\_\allowbreak{}by & bigint unsigned & FK & Người tạo bản ghi.\allowbreak{}\\[1pt]
+appointment\_\allowbreak{}date * & date & - & Ngày hẹn khám.\allowbreak{}\\[1pt]
+start\_\allowbreak{}time * & time & - & Giờ bắt đầu trong ngày.\allowbreak{}\\[1pt]
+end\_\allowbreak{}time * & time & - & Giờ kết thúc trong ngày.\allowbreak{}\\[1pt]
+status * & varchar(30) & mặc định 'PENDING' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+reason * & text & - & Lý do nghiệp vụ.\allowbreak{}\\[1pt]
+patient\_\allowbreak{}note & text & - & Ghi chú của bệnh nhân.\allowbreak{}\\[1pt]
+cancel\_\allowbreak{}reason & text & - & Lý do hủy.\allowbreak{}\\[1pt]
+checked\_\allowbreak{}in\_\allowbreak{}at & timestamp & - & Thời điểm tiếp nhận.\allowbreak{}\\[1pt]
+cancelled\_\allowbreak{}at & timestamp & - & Thời điểm hủy.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+branch\_\allowbreak{}id * & bigint unsigned & FK, mặc định '1' & Cơ sở của dữ liệu.\allowbreak{}\\[1pt]
+idempotency\_\allowbreak{}key & varchar(100) & - & Khóa chống tác động lặp.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} branch\_\allowbreak{}id → branches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); created\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} SET NULL); doctor\_\allowbreak{}id → doctors.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); doctor\_\allowbreak{}schedule\_\allowbreak{}id → doctor\_\allowbreak{}schedules.\allowbreak{}id (xóa:\allowbreak{} SET NULL); patient\_\allowbreak{}id → patients.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (appointment\_\allowbreak{}code) UNIQUE; (idempotency\_\allowbreak{}key) UNIQUE; (doctor\_\allowbreak{}schedule\_\allowbreak{}id); (created\_\allowbreak{}by); (doctor\_\allowbreak{}id, appointment\_\allowbreak{}date, status); (patient\_\allowbreak{}id, appointment\_\allowbreak{}date); (branch\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Mã lịch và khóa gửi lặp là duy nhất.\allowbreak{} Dòng liên kết bác sĩ, bệnh nhân, cơ sở và ca; giờ kết thúc được xác định từ slot hợp lệ.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Đổi/\allowbreak{}hủy không xóa dòng; appointment\_\allowbreak{}history và outbox giữ dấu vết thay đổi.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{audit\_\allowbreak{}logs}
+Nhật ký thao tác quan trọng và đọc dữ liệu nhạy cảm.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng audit\_\allowbreak{}logs}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+user\_\allowbreak{}id & bigint unsigned & FK & Tài khoản liên quan.\allowbreak{}\\[1pt]
+action * & varchar(80) & - & Mã hành động kiểm toán.\allowbreak{}\\[1pt]
+subject\_\allowbreak{}type & varchar(255) & - & Loại chủ thể audit.\allowbreak{}\\[1pt]
+subject\_\allowbreak{}id & bigint unsigned & - & ID chủ thể audit.\allowbreak{}\\[1pt]
+old\_\allowbreak{}values & json & - & Ảnh dữ liệu trước đổi.\allowbreak{}\\[1pt]
+new\_\allowbreak{}values & json & - & Ảnh dữ liệu sau đổi.\allowbreak{}\\[1pt]
+ip\_\allowbreak{}address & varchar(45) & - & IP của phiên/\allowbreak{}yêu cầu.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+branch\_\allowbreak{}id & bigint unsigned & FK & Cơ sở của dữ liệu.\allowbreak{}\\[1pt]
+request\_\allowbreak{}id & varchar(40) & - & Mã tương quan yêu cầu.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} branch\_\allowbreak{}id → branches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); user\_\allowbreak{}id → users.\allowbreak{}id (xóa:\allowbreak{} SET NULL).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (user\_\allowbreak{}id); (subject\_\allowbreak{}type, subject\_\allowbreak{}id); (branch\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Ghi actor, action, chủ thể, dữ liệu trước/\allowbreak{}sau, branch và request\_\allowbreak{}id khi có.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Quan hệ subject\_\allowbreak{}type/\allowbreak{}id là đa hình; cần kiểm tránh log mật khẩu/\allowbreak{}token và nội dung vượt nhu cầu.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{branch\_\allowbreak{}user}
+Quan hệ nhiều-nhiều giữa nhân sự và cơ sở.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng branch\_\allowbreak{}user}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+branch\_\allowbreak{}id * & bigint unsigned & PK, FK & Cơ sở của dữ liệu.\allowbreak{}\\[1pt]
+user\_\allowbreak{}id * & bigint unsigned & PK, FK & Tài khoản liên quan.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} branch\_\allowbreak{}id → branches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); user\_\allowbreak{}id → users.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (user\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Cặp branch\_\allowbreak{}id/\allowbreak{}user\_\allowbreak{}id không trùng; các kiểm tra quyền dùng phân công này.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Một nhân sự có thể phục vụ nhiều cơ sở nhưng không được xếp ca trùng thời gian.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{branches}
+Cơ sở khám và kho logic.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng branches}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+code * & varchar(20) & - & Mã nghiệp vụ/\allowbreak{}danh mục.\allowbreak{}\\[1pt]
+name * & varchar(255) & - & Tên hiển thị.\allowbreak{}\\[1pt]
+address & varchar(255) & - & Địa chỉ liên hệ.\allowbreak{}\\[1pt]
+phone & varchar(20) & - & Số điện thoại.\allowbreak{}\\[1pt]
+timezone * & varchar(255) & mặc định 'Asia/\allowbreak{}Ho\_\allowbreak{}Chi\_\allowbreak{}Minh' & Ngữ cảnh múi giờ cơ sở.\allowbreak{}\\[1pt]
+opening\_\allowbreak{}hours & varchar(255) & - & Thông tin giờ mở cửa cơ sở.\allowbreak{}\\[1pt]
+is\_\allowbreak{}active * & tinyint(1) & mặc định '1' & Cờ hoạt động của danh mục/\allowbreak{}hồ sơ.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Chỉ mục:\allowbreak{} (code) UNIQUE.\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} code duy nhất; timezone ghi ngữ cảnh giờ.\allowbreak{} Mã nguồn hiện áp dụng múi giờ Việt Nam cho nghiệp vụ.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} opening\_\allowbreak{}hours là thông tin cơ sở; slot đặt khám còn phải dựa trên ca cụ thể của bác sĩ.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{device\_\allowbreak{}measurements}
+Số đo nhận từ thiết bị thử nghiệm.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng device\_\allowbreak{}measurements}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+visit\_\allowbreak{}id * & bigint unsigned & FK & Lượt khám liên quan.\allowbreak{}\\[1pt]
+device\_\allowbreak{}code * & varchar(60) & - & Mã thiết bị gửi số đo.\allowbreak{}\\[1pt]
+measurement\_\allowbreak{}type * & varchar(40) & - & Loại số đo thiết bị.\allowbreak{}\\[1pt]
+value * & decimal(8,2) & - & Giá trị số đo hoặc cache.\allowbreak{}\\[1pt]
+unit * & varchar(20) & - & Đơn vị ghi nhận/\allowbreak{}cấp phát.\allowbreak{}\\[1pt]
+measured\_\allowbreak{}at * & timestamp & - & Thời điểm đo.\allowbreak{}\\[1pt]
+status * & varchar(20) & mặc định 'RECEIVED' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+verified\_\allowbreak{}by & bigint unsigned & FK & Người xác minh kết quả.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} verified\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} NO ACTION); visit\_\allowbreak{}id → visits.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (visit\_\allowbreak{}id); (verified\_\allowbreak{}by).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Có value, unit, measurement\_\allowbreak{}type, measured\_\allowbreak{}at và device\_\allowbreak{}code.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Đơn vị được kiểm trong API, trạng thái RECEIVED cần bác sĩ xác minh; chưa phải mô hình observation đa thành phần.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{diagnostic\_\allowbreak{}results}
+Nội dung và tệp kết quả chờ/\allowbreak{}đã xác minh.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng diagnostic\_\allowbreak{}results}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+service\_\allowbreak{}order\_\allowbreak{}item\_\allowbreak{}id * & bigint unsigned & FK & Dòng chỉ định gốc.\allowbreak{}\\[1pt]
+value\_\allowbreak{}text * & text & - & Nội dung kết quả.\allowbreak{}\\[1pt]
+unit & varchar(40) & - & Đơn vị ghi nhận/\allowbreak{}cấp phát.\allowbreak{}\\[1pt]
+status * & varchar(20) & mặc định 'RECEIVED' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+source * & varchar(40) & mặc định 'MANUAL' & Nguồn MANUAL hoặc tích hợp.\allowbreak{}\\[1pt]
+attachment\_\allowbreak{}path & varchar(255) & - & Đường dẫn tệp trên disk riêng.\allowbreak{}\\[1pt]
+verified\_\allowbreak{}at & timestamp & - & Thời điểm xác minh.\allowbreak{}\\[1pt]
+verified\_\allowbreak{}by & bigint unsigned & FK & Người xác minh kết quả.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} service\_\allowbreak{}order\_\allowbreak{}item\_\allowbreak{}id → service\_\allowbreak{}order\_\allowbreak{}items.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); verified\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} NO ACTION).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (service\_\allowbreak{}order\_\allowbreak{}item\_\allowbreak{}id); (verified\_\allowbreak{}by).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} service\_\allowbreak{}order\_\allowbreak{}item\_\allowbreak{}id gắn dòng chỉ định; source cho biết MANUAL hoặc tích hợp; attachment\_\allowbreak{}path là đường dẫn riêng.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} VERIFIED/\allowbreak{}REJECTED kèm người, thời điểm; quyền tải kiểm trên Visit và chủ sở hữu.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{dispensation\_\allowbreak{}items}
+Phân bổ lượng cấp từ từng lô tới từng dòng đơn.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng dispensation\_\allowbreak{}items}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+dispensation\_\allowbreak{}id * & bigint unsigned & FK & Đợt cấp phát liên quan.\allowbreak{}\\[1pt]
+prescription\_\allowbreak{}item\_\allowbreak{}id * & bigint unsigned & FK & Dòng thuốc trong đơn.\allowbreak{}\\[1pt]
+batch\_\allowbreak{}id * & bigint unsigned & FK & Lô thuốc nguồn.\allowbreak{}\\[1pt]
+quantity * & int unsigned & - & Số lượng theo đơn vị danh mục.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} batch\_\allowbreak{}id → medicine\_\allowbreak{}batches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); dispensation\_\allowbreak{}id → dispensations.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); prescription\_\allowbreak{}item\_\allowbreak{}id → prescription\_\allowbreak{}items.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (dispensation\_\allowbreak{}id); (prescription\_\allowbreak{}item\_\allowbreak{}id); (batch\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Nối dispensation, prescription\_\allowbreak{}item và batch; quantity là lượng allocation.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Một dòng đơn có thể lấy từ nhiều lô; một đợt có nhiều allocation, không thể chỉ lưu tổng theo thuốc.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{dispensations}
+Đợt cấp phát cho một đơn tại cơ sở.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng dispensations}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+prescription\_\allowbreak{}id * & bigint unsigned & FK & Đơn thuốc gốc.\allowbreak{}\\[1pt]
+branch\_\allowbreak{}id * & bigint unsigned & FK & Cơ sở của dữ liệu.\allowbreak{}\\[1pt]
+status * & varchar(30) & - & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+idempotency\_\allowbreak{}key * & varchar(100) & - & Khóa chống tác động lặp.\allowbreak{}\\[1pt]
+dispensed\_\allowbreak{}by * & bigint unsigned & FK & Người thực hiện cấp phát.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} branch\_\allowbreak{}id → branches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); dispensed\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} NO ACTION); prescription\_\allowbreak{}id → prescriptions.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (idempotency\_\allowbreak{}key) UNIQUE; (prescription\_\allowbreak{}id); (branch\_\allowbreak{}id); (dispensed\_\allowbreak{}by).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} idempotency\_\allowbreak{}key duy nhất; status PARTIALLY\_\allowbreak{}DISPENSED hoặc DISPENSED; dispensed\_\allowbreak{}by xác định người giao.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Một đơn có thể được cấp nhiều đợt nhưng tổng không vượt số kê.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{doctor\_\allowbreak{}schedules}
+Ca khám cụ thể theo ngày của bác sĩ.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng doctor\_\allowbreak{}schedules}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+doctor\_\allowbreak{}id * & bigint unsigned & FK & Bác sĩ phụ trách.\allowbreak{}\\[1pt]
+work\_\allowbreak{}date * & date & - & Ngày ca làm.\allowbreak{}\\[1pt]
+start\_\allowbreak{}time * & time & - & Giờ bắt đầu trong ngày.\allowbreak{}\\[1pt]
+end\_\allowbreak{}time * & time & - & Giờ kết thúc trong ngày.\allowbreak{}\\[1pt]
+slot\_\allowbreak{}minutes * & smallint unsigned & mặc định '30' & Thời lượng mỗi slot khám.\allowbreak{}\\[1pt]
+is\_\allowbreak{}open * & tinyint(1) & mặc định '1' & Ca đang mở nhận hẹn.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+branch\_\allowbreak{}id * & bigint unsigned & FK, mặc định '1' & Cơ sở của dữ liệu.\allowbreak{}\\[1pt]
+capacity * & smallint unsigned & mặc định '1' & Sức chứa đồng thời trong slot.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} branch\_\allowbreak{}id → branches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); doctor\_\allowbreak{}id → doctors.\allowbreak{}id (xóa:\allowbreak{} CASCADE).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (doctor\_\allowbreak{}id, work\_\allowbreak{}date, start\_\allowbreak{}time, end\_\allowbreak{}time) UNIQUE; (work\_\allowbreak{}date, is\_\allowbreak{}open); (branch\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} start\_\allowbreak{}time/\allowbreak{}end\_\allowbreak{}time cùng work\_\allowbreak{}date; slot\_\allowbreak{}minutes và capacity điều khiển khoảng khám và sức chứa.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} is\_\allowbreak{}open=false vẫn giữ ca để bảo toàn lịch sử; kiểm trùng lịch xét cả ca đóng theo chính sách điều phối.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{doctor\_\allowbreak{}specialty}
+Quan hệ bác sĩ với các chuyên khoa bổ sung.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng doctor\_\allowbreak{}specialty}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+doctor\_\allowbreak{}id * & bigint unsigned & PK, FK & Bác sĩ phụ trách.\allowbreak{}\\[1pt]
+specialty\_\allowbreak{}id * & bigint unsigned & PK, FK & Chuyên khoa liên quan.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} doctor\_\allowbreak{}id → doctors.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); specialty\_\allowbreak{}id → specialties.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (specialty\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Khóa ghép giữ mỗi cặp chỉ xuất hiện một lần.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Bộ lọc chuyên khoa xem quan hệ này và chuyên khoa chính; công cụ độ phủ dùng khoa chính để tính lực lượng.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{doctor\_\allowbreak{}time\_\allowbreak{}off}
+Khoảng nghỉ của bác sĩ trên toàn hệ thống.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng doctor\_\allowbreak{}time\_\allowbreak{}off}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+doctor\_\allowbreak{}id * & bigint unsigned & FK & Bác sĩ phụ trách.\allowbreak{}\\[1pt]
+starts\_\allowbreak{}at * & datetime & - & Bắt đầu khoảng nghỉ.\allowbreak{}\\[1pt]
+ends\_\allowbreak{}at * & datetime & - & Kết thúc khoảng nghỉ.\allowbreak{}\\[1pt]
+reason * & varchar(255) & - & Lý do nghiệp vụ.\allowbreak{}\\[1pt]
+created\_\allowbreak{}by * & bigint unsigned & FK & Người tạo bản ghi.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} created\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} NO ACTION); doctor\_\allowbreak{}id → doctors.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (doctor\_\allowbreak{}id); (created\_\allowbreak{}by).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} starts\_\allowbreak{}at/\allowbreak{}ends\_\allowbreak{}at tạo khoảng liên tục; người tạo và lý do được lưu.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Lịch nghỉ giao với slot làm slot không khả dụng; nguồn lương loại ca giao với nghỉ thay vì tự tính chấm công một phần.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{doctors}
+Hồ sơ chuyên môn của tài khoản bác sĩ.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng doctors}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+user\_\allowbreak{}id * & bigint unsigned & FK & Tài khoản liên quan.\allowbreak{}\\[1pt]
+specialty\_\allowbreak{}id * & bigint unsigned & FK & Chuyên khoa liên quan.\allowbreak{}\\[1pt]
+doctor\_\allowbreak{}code * & varchar(20) & - & Mã bác sĩ.\allowbreak{}\\[1pt]
+license\_\allowbreak{}number * & varchar(40) & - & Số chứng chỉ trong hồ sơ.\allowbreak{}\\[1pt]
+qualification & varchar(255) & - & Trình độ/\allowbreak{}chức danh.\allowbreak{}\\[1pt]
+room & varchar(30) & - & Phòng khám hiển thị.\allowbreak{}\\[1pt]
+bio & text & - & Giới thiệu bác sĩ.\allowbreak{}\\[1pt]
+is\_\allowbreak{}active * & tinyint(1) & mặc định '1' & Cờ hoạt động của danh mục/\allowbreak{}hồ sơ.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} specialty\_\allowbreak{}id → specialties.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); user\_\allowbreak{}id → users.\allowbreak{}id (xóa:\allowbreak{} CASCADE).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (user\_\allowbreak{}id) UNIQUE; (doctor\_\allowbreak{}code) UNIQUE; (license\_\allowbreak{}number) UNIQUE; (specialty\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} user\_\allowbreak{}id duy nhất; doctor\_\allowbreak{}code và license\_\allowbreak{}number duy nhất.\allowbreak{} Dữ liệu chứng chỉ trong bộ học tập không chứng minh hành nghề thật.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Phân công cơ sở đi qua user; room là thông tin phòng hiển thị theo hồ sơ hiện tại.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{follow\_\allowbreak{}up\_\allowbreak{}plans}
+Đề xuất tái khám theo khoảng ngày.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng follow\_\allowbreak{}up\_\allowbreak{}plans}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+visit\_\allowbreak{}id * & bigint unsigned & FK & Lượt khám liên quan.\allowbreak{}\\[1pt]
+suggested\_\allowbreak{}from * & date & - & Ngày đầu khoảng tái khám.\allowbreak{}\\[1pt]
+suggested\_\allowbreak{}to * & date & - & Ngày cuối khoảng tái khám.\allowbreak{}\\[1pt]
+reason * & varchar(255) & - & Lý do nghiệp vụ.\allowbreak{}\\[1pt]
+status * & varchar(20) & mặc định 'PROPOSED' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+appointment\_\allowbreak{}id & bigint unsigned & FK & Lịch hẹn liên quan.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} appointment\_\allowbreak{}id → appointments.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); visit\_\allowbreak{}id → visits.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (appointment\_\allowbreak{}id) UNIQUE; (visit\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} appointment\_\allowbreak{}id tùy chọn/\allowbreak{}duy nhất ngăn một lịch được dùng cho nhiều đề xuất.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Consent nằm trên patients; PROPOSED không tự cho phép worker đặt lịch.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{goods\_\allowbreak{}receipts}
+Phiếu nhập lượng vào một lô.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng goods\_\allowbreak{}receipts}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+batch\_\allowbreak{}id * & bigint unsigned & FK & Lô thuốc nguồn.\allowbreak{}\\[1pt]
+quantity * & int unsigned & - & Số lượng theo đơn vị danh mục.\allowbreak{}\\[1pt]
+reference * & varchar(100) & - & Mã đối chiếu chứng từ.\allowbreak{}\\[1pt]
+created\_\allowbreak{}by * & bigint unsigned & FK & Người tạo bản ghi.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} batch\_\allowbreak{}id → medicine\_\allowbreak{}batches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); created\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} NO ACTION).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (reference) UNIQUE; (batch\_\allowbreak{}id); (created\_\allowbreak{}by).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} reference duy nhất chống nhập trùng chứng từ; created\_\allowbreak{}by lưu nhân sự.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Tăng tồn, dòng phiếu và biến động dương được commit cùng giao dịch.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{integration\_\allowbreak{}messages}
+Lịch sử tiếp nhận thông điệp và chống lặp.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng integration\_\allowbreak{}messages}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+integration\_\allowbreak{}system\_\allowbreak{}id * & bigint unsigned & FK & Nguồn tích hợp gửi thông điệp.\allowbreak{}\\[1pt]
+external\_\allowbreak{}message\_\allowbreak{}id * & varchar(100) & - & Mã thông điệp do nguồn cấp.\allowbreak{}\\[1pt]
+payload\_\allowbreak{}hash * & varchar(64) & - & Hash kiểm trùng nội dung.\allowbreak{}\\[1pt]
+status * & varchar(20) & mặc định 'RECEIVED' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+error\_\allowbreak{}code & varchar(60) & - & Mã lỗi xử lý.\allowbreak{}\\[1pt]
+resource\_\allowbreak{}id & bigint unsigned & - & ID tài nguyên nhận tích hợp.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} integration\_\allowbreak{}system\_\allowbreak{}id → integration\_\allowbreak{}systems.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (integration\_\allowbreak{}system\_\allowbreak{}id, external\_\allowbreak{}message\_\allowbreak{}id) UNIQUE.\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Cặp integration\_\allowbreak{}system\_\allowbreak{}id/\allowbreak{}external\_\allowbreak{}message\_\allowbreak{}id duy nhất; payload\_\allowbreak{}hash phân biệt gửi lại cùng nội dung và xung đột.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} resource\_\allowbreak{}id là tham chiếu nghiệp vụ theo loại thông điệp, không phải một khóa ngoại chung tới mọi bảng.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{integration\_\allowbreak{}systems}
+Nguồn LIS/\allowbreak{}Device thử nghiệm được cấp quyền.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng integration\_\allowbreak{}systems}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+code * & varchar(40) & - & Mã nghiệp vụ/\allowbreak{}danh mục.\allowbreak{}\\[1pt]
+type * & varchar(20) & - & type:\allowbreak{} xem mô tả và kiểm tra tại module sở hữu.\allowbreak{}\\[1pt]
+branch\_\allowbreak{}id * & bigint unsigned & FK & Cơ sở của dữ liệu.\allowbreak{}\\[1pt]
+token\_\allowbreak{}hash * & varchar(64) & - & Hash token nguồn tích hợp.\allowbreak{}\\[1pt]
+is\_\allowbreak{}active * & tinyint(1) & mặc định '1' & Cờ hoạt động của danh mục/\allowbreak{}hồ sơ.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} branch\_\allowbreak{}id → branches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (code) UNIQUE; (branch\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} code duy nhất; token\_\allowbreak{}hash SHA-256, branch\_\allowbreak{}id và type giới hạn nguồn.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Token rõ chỉ có lúc cấu hình; không đưa khóa thực vào báo cáo hay sơ đồ.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{invoice\_\allowbreak{}items}
+Dòng hóa đơn có nguồn và giá đã chốt.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng invoice\_\allowbreak{}items}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+invoice\_\allowbreak{}id * & bigint unsigned & FK & Hóa đơn liên quan.\allowbreak{}\\[1pt]
+service\_\allowbreak{}id & bigint unsigned & FK & Dịch vụ trong danh mục.\allowbreak{}\\[1pt]
+description * & varchar(255) & - & Mô tả danh mục hoặc dòng.\allowbreak{}\\[1pt]
+quantity * & smallint unsigned & mặc định '1' & Số lượng theo đơn vị danh mục.\allowbreak{}\\[1pt]
+unit\_\allowbreak{}price * & decimal(12,2) & - & Đơn giá chụp của dòng.\allowbreak{}\\[1pt]
+amount * & decimal(12,2) & - & Số tiền của dòng/\allowbreak{}chứng từ.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+source\_\allowbreak{}type & varchar(30) & - & source type:\allowbreak{} xem mô tả và kiểm tra tại module sở hữu.\allowbreak{}\\[1pt]
+source\_\allowbreak{}id & bigint unsigned & - & Tham chiếu source.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} invoice\_\allowbreak{}id → invoices.\allowbreak{}id (xóa:\allowbreak{} CASCADE); service\_\allowbreak{}id → services.\allowbreak{}id (xóa:\allowbreak{} SET NULL).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (invoice\_\allowbreak{}id, source\_\allowbreak{}type, source\_\allowbreak{}id) UNIQUE; (service\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} source\_\allowbreak{}type/\allowbreak{}source\_\allowbreak{}id chỉ ra phí khám, dịch vụ hoặc thuốc; description/\allowbreak{}unit\_\allowbreak{}price/\allowbreak{}amount được chụp khi phát hành.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} service\_\allowbreak{}id có thể rỗng đối với dòng phí khám/\allowbreak{}thuốc; không phải mọi dòng đều thuộc danh mục dịch vụ.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{invoices}
+Hóa đơn chính của lượt khám.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng invoices}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+appointment\_\allowbreak{}id & bigint unsigned & FK, mặc định NULL & Lịch hẹn liên quan.\allowbreak{}\\[1pt]
+issued\_\allowbreak{}by & bigint unsigned & FK, mặc định NULL & Người phát hành hóa đơn.\allowbreak{}\\[1pt]
+invoice\_\allowbreak{}code * & varchar(24) & - & Mã hóa đơn.\allowbreak{}\\[1pt]
+subtotal * & decimal(12,2) & mặc định '0' & Tạm tính trước giảm giá.\allowbreak{}\\[1pt]
+discount * & decimal(12,2) & mặc định '0' & Số tiền giảm giá.\allowbreak{}\\[1pt]
+total * & decimal(12,2) & mặc định '0' & Tổng phải thu.\allowbreak{}\\[1pt]
+status * & varchar(20) & mặc định 'UNPAID' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+issued\_\allowbreak{}at & timestamp & mặc định NULL & Thời điểm phát hành.\allowbreak{}\\[1pt]
+paid\_\allowbreak{}at & timestamp & mặc định NULL & Thời điểm ghi nhận thanh toán.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & mặc định NULL & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & mặc định NULL & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+visit\_\allowbreak{}id & bigint unsigned & FK & Lượt khám liên quan.\allowbreak{}\\[1pt]
+branch\_\allowbreak{}id * & bigint unsigned & FK, mặc định '1' & Cơ sở của dữ liệu.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} appointment\_\allowbreak{}id → appointments.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); branch\_\allowbreak{}id → branches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); issued\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} SET NULL); visit\_\allowbreak{}id → visits.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (invoice\_\allowbreak{}code) UNIQUE; (appointment\_\allowbreak{}id) UNIQUE; (visit\_\allowbreak{}id) UNIQUE; (issued\_\allowbreak{}by); (branch\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} visit\_\allowbreak{}id duy nhất; invoice\_\allowbreak{}code duy nhất; status ISSUED/\allowbreak{}VOID tách khỏi mức thanh toán tính từ giao dịch.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} subtotal, discount và total là snapshot; không xóa khi hoàn tiền.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{medical\_\allowbreak{}record\_\allowbreak{}revisions}
+Ảnh chụp các lần điều chỉnh hồ sơ đã ký.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng medical\_\allowbreak{}record\_\allowbreak{}revisions}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+medical\_\allowbreak{}record\_\allowbreak{}id * & bigint unsigned & FK & Hồ sơ khám liên quan.\allowbreak{}\\[1pt]
+version * & int unsigned & - & Phiên bản chống ghi đè dữ liệu cũ.\allowbreak{}\\[1pt]
+snapshot * & json & - & Nội dung trước thay đổi.\allowbreak{}\\[1pt]
+reason * & varchar(255) & - & Lý do nghiệp vụ.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}by * & bigint unsigned & FK & Người cập nhật.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} medical\_\allowbreak{}record\_\allowbreak{}id → medical\_\allowbreak{}records.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); updated\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} NO ACTION).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (medical\_\allowbreak{}record\_\allowbreak{}id, version) UNIQUE; (updated\_\allowbreak{}by).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Lưu version trước, snapshot, reason và updated\_\allowbreak{}by.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Không dùng revision để tự ghi đè bản hiện tại; mọi điều chỉnh mới phải kiểm version và quyền.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{medical\_\allowbreak{}records}
+Hồ sơ khám hiện hành của một Visit.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng medical\_\allowbreak{}records}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+appointment\_\allowbreak{}id & bigint unsigned & FK, mặc định NULL & Lịch hẹn liên quan.\allowbreak{}\\[1pt]
+doctor\_\allowbreak{}id * & bigint unsigned & FK & Bác sĩ phụ trách.\allowbreak{}\\[1pt]
+symptoms & text & mặc định NULL & Triệu chứng người bệnh.\allowbreak{}\\[1pt]
+diagnosis * & text & - & Chẩn đoán do bác sĩ nhập.\allowbreak{}\\[1pt]
+conclusion & text & mặc định NULL & Kết luận khám.\allowbreak{}\\[1pt]
+prescription & text & mặc định NULL & Nội dung đơn kiểu cũ còn giữ.\allowbreak{}\\[1pt]
+notes & text & mặc định NULL & Ghi chú chuyên môn.\allowbreak{}\\[1pt]
+published\_\allowbreak{}at & timestamp & mặc định NULL & Thời điểm công bố/\allowbreak{}chốt.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & mặc định NULL & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & mặc định NULL & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+visit\_\allowbreak{}id & bigint unsigned & FK & Lượt khám liên quan.\allowbreak{}\\[1pt]
+findings & text & - & Kết quả khám thực thể.\allowbreak{}\\[1pt]
+status * & varchar(20) & mặc định 'DRAFT' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+version * & int unsigned & mặc định '1' & Phiên bản chống ghi đè dữ liệu cũ.\allowbreak{}\\[1pt]
+signed\_\allowbreak{}at & timestamp & - & Thời điểm ký nghiệp vụ.\allowbreak{}\\[1pt]
+signed\_\allowbreak{}by & bigint unsigned & FK & Người ký nghiệp vụ.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} appointment\_\allowbreak{}id → appointments.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); doctor\_\allowbreak{}id → doctors.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); signed\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} NO ACTION); visit\_\allowbreak{}id → visits.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (appointment\_\allowbreak{}id) UNIQUE; (visit\_\allowbreak{}id) UNIQUE; (doctor\_\allowbreak{}id); (signed\_\allowbreak{}by).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} visit\_\allowbreak{}id duy nhất; version kiểm ghi đè; signed\_\allowbreak{}by/\allowbreak{}signed\_\allowbreak{}at/\allowbreak{}published\_\allowbreak{}at thể hiện bước ký/\allowbreak{}công bố.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Cột prescription dạng text cũ còn để tương thích; đơn thuốc có cấu trúc hiện nằm ở prescriptions/\allowbreak{}items.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{medicine\_\allowbreak{}batches}
+Tồn khả dụng của một lô tại một cơ sở.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng medicine\_\allowbreak{}batches}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+branch\_\allowbreak{}id * & bigint unsigned & FK & Cơ sở của dữ liệu.\allowbreak{}\\[1pt]
+medicine\_\allowbreak{}id * & bigint unsigned & FK & Thuốc trong danh mục.\allowbreak{}\\[1pt]
+lot\_\allowbreak{}number * & varchar(60) & - & Số lô thuốc.\allowbreak{}\\[1pt]
+expiry\_\allowbreak{}date * & date & - & Ngày hết hạn dùng.\allowbreak{}\\[1pt]
+available\_\allowbreak{}qty * & int unsigned & mặc định '0' & Số lượng khả dụng của lô.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} branch\_\allowbreak{}id → branches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); medicine\_\allowbreak{}id → medicines.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (branch\_\allowbreak{}id, medicine\_\allowbreak{}id, lot\_\allowbreak{}number, expiry\_\allowbreak{}date) UNIQUE; (medicine\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Cơ sở, thuốc, số lô và hạn dùng xác định nguồn tồn.\allowbreak{} available\_\allowbreak{}qty cập nhật qua chứng từ.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} FEFO sắp expiry\_\allowbreak{}date rồi id, chỉ chọn lô còn hạn; giảm tồn có điều kiện chống âm.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{medicines}
+Danh mục thuốc và đơn vị cấp phát.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng medicines}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+code * & varchar(30) & - & Mã nghiệp vụ/\allowbreak{}danh mục.\allowbreak{}\\[1pt]
+name * & varchar(255) & - & Tên hiển thị.\allowbreak{}\\[1pt]
+unit * & varchar(30) & - & Đơn vị ghi nhận/\allowbreak{}cấp phát.\allowbreak{}\\[1pt]
+strength & varchar(255) & - & Hàm lượng trong danh mục.\allowbreak{}\\[1pt]
+price * & decimal(12,2) & mặc định '0' & Giá danh mục hiện hành.\allowbreak{}\\[1pt]
+is\_\allowbreak{}active * & tinyint(1) & mặc định '1' & Cờ hoạt động của danh mục/\allowbreak{}hồ sơ.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Chỉ mục:\allowbreak{} (code) UNIQUE.\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} code duy nhất; strength mô tả hàm lượng, price là giá danh mục hiện hành.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Ngừng hoạt động vẫn giữ lịch sử đơn/\allowbreak{}lô.\allowbreak{} Ba tên sản phẩm trong bộ dữ liệu có nguồn tra cứu, tồn và giá dùng cho học tập.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{notification\_\allowbreak{}jobs}
+Transactional outbox cho thư và nhắc hẹn.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng notification\_\allowbreak{}jobs}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+appointment\_\allowbreak{}id & bigint unsigned & FK & Lịch hẹn liên quan.\allowbreak{}\\[1pt]
+event\_\allowbreak{}key * & varchar(150) & - & Định danh sự kiện chống tạo job trùng.\allowbreak{}\\[1pt]
+recipient * & varchar(255) & - & Địa chỉ nhận thư.\allowbreak{}\\[1pt]
+template * & varchar(60) & - & Mã mẫu/\allowbreak{}sự kiện thông báo.\allowbreak{}\\[1pt]
+body * & text & - & Nội dung thư đã chuẩn bị.\allowbreak{}\\[1pt]
+status * & varchar(20) & mặc định 'PENDING' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+retry\_\allowbreak{}count * & smallint unsigned & mặc định '0' & Số lần lỗi đã thử lại.\allowbreak{}\\[1pt]
+scheduled\_\allowbreak{}at * & timestamp & - & Lịch thực hiện job.\allowbreak{}\\[1pt]
+sent\_\allowbreak{}at & timestamp & - & Thời điểm ghi gửi thành công.\allowbreak{}\\[1pt]
+error\_\allowbreak{}code & varchar(60) & - & Mã lỗi xử lý.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} appointment\_\allowbreak{}id → appointments.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (event\_\allowbreak{}key) UNIQUE; (appointment\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} event\_\allowbreak{}key duy nhất, scheduled\_\allowbreak{}at, retry\_\allowbreak{}count, sent\_\allowbreak{}at và error\_\allowbreak{}code cho vòng đời worker.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Không mặc định dùng bảng jobs của Laravel để suy ra hàng đợi thư; luồng clinic dùng chính bảng này.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{patients}
+Hồ sơ bệnh nhân độc lập với việc có tài khoản.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng patients}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+user\_\allowbreak{}id & bigint unsigned & FK & Tài khoản liên quan.\allowbreak{}\\[1pt]
+patient\_\allowbreak{}code * & varchar(20) & - & Mã hồ sơ bệnh nhân.\allowbreak{}\\[1pt]
+full\_\allowbreak{}name * & varchar(255) & - & Họ tên trên hồ sơ.\allowbreak{}\\[1pt]
+birth\_\allowbreak{}date & date & - & Ngày sinh.\allowbreak{}\\[1pt]
+gender & varchar(20) & - & Giới tính ghi trên hồ sơ.\allowbreak{}\\[1pt]
+phone & varchar(20) & - & Số điện thoại.\allowbreak{}\\[1pt]
+email & varchar(255) & - & Địa chỉ email.\allowbreak{}\\[1pt]
+address & varchar(255) & - & Địa chỉ liên hệ.\allowbreak{}\\[1pt]
+blood\_\allowbreak{}type & varchar(5) & - & Nhóm máu ghi nhận.\allowbreak{}\\[1pt]
+insurance\_\allowbreak{}number & varchar(30) & - & Mã thẻ bảo hiểm lưu tham khảo.\allowbreak{}\\[1pt]
+allergies & text & - & Thông tin dị ứng.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+registered\_\allowbreak{}branch\_\allowbreak{}id & bigint unsigned & FK & Cơ sở tạo hồ sơ ban đầu.\allowbreak{}\\[1pt]
+medical\_\allowbreak{}history & text & - & Tiền sử bệnh.\allowbreak{}\\[1pt]
+emergency\_\allowbreak{}contact & varchar(255) & - & Liên hệ khẩn cấp.\allowbreak{}\\[1pt]
+is\_\allowbreak{}active * & tinyint(1) & mặc định '1' & Cờ hoạt động của danh mục/\allowbreak{}hồ sơ.\allowbreak{}\\[1pt]
+email\_\allowbreak{}enabled * & tinyint(1) & mặc định '1' & Cho phép nhận thư thông báo.\allowbreak{}\\[1pt]
+auto\_\allowbreak{}booking\_\allowbreak{}consented\_\allowbreak{}at & timestamp & - & Lúc cấp consent tự đặt tái khám.\allowbreak{}\\[1pt]
+auto\_\allowbreak{}booking\_\allowbreak{}expires\_\allowbreak{}at & timestamp & - & Hết hạn consent tự đặt.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} registered\_\allowbreak{}branch\_\allowbreak{}id → branches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); user\_\allowbreak{}id → users.\allowbreak{}id (xóa:\allowbreak{} SET NULL).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (patient\_\allowbreak{}code) UNIQUE; (user\_\allowbreak{}id) UNIQUE; (insurance\_\allowbreak{}number) UNIQUE; (phone); (email); (registered\_\allowbreak{}branch\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} user\_\allowbreak{}id tùy chọn và duy nhất; patient\_\allowbreak{}code là định danh hồ sơ.\allowbreak{} registered\_\allowbreak{}branch\_\allowbreak{}id ghi nơi tạo, không nhân bản hồ sơ theo từng cơ sở.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Dữ liệu dị ứng/\allowbreak{}tiền sử nhạy cảm; consent tự đặt có mốc cấp và hết hạn riêng.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{payments}
+Khoản thu tiền thành công theo hóa đơn.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng payments}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+invoice\_\allowbreak{}id * & bigint unsigned & FK & Hóa đơn liên quan.\allowbreak{}\\[1pt]
+received\_\allowbreak{}by & bigint unsigned & FK & Người ghi nhận thu tiền.\allowbreak{}\\[1pt]
+amount * & decimal(12,2) & - & Số tiền của dòng/\allowbreak{}chứng từ.\allowbreak{}\\[1pt]
+method * & varchar(20) & - & Phương thức CASH/\allowbreak{}TRANSFER.\allowbreak{}\\[1pt]
+reference & varchar(80) & - & Mã đối chiếu chứng từ.\allowbreak{}\\[1pt]
+paid\_\allowbreak{}at * & timestamp & - & Thời điểm ghi nhận thanh toán.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+status * & varchar(20) & mặc định 'SUCCEEDED' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+idempotency\_\allowbreak{}key & varchar(100) & - & Khóa chống tác động lặp.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} invoice\_\allowbreak{}id → invoices.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); received\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} SET NULL).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (idempotency\_\allowbreak{}key) UNIQUE; (invoice\_\allowbreak{}id); (received\_\allowbreak{}by).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} idempotency\_\allowbreak{}key duy nhất; method CASH/\allowbreak{}TRANSFER; reference là mã đối chiếu.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Không dùng một Payment cho nhiều hóa đơn; hoàn tiền là dòng refunds riêng.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{payroll\_\allowbreak{}entries}
+Bảng lương tháng có snapshot nguồn và số tiền.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng payroll\_\allowbreak{}entries}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+user\_\allowbreak{}id * & bigint unsigned & FK & Tài khoản liên quan.\allowbreak{}\\[1pt]
+pay\_\allowbreak{}month * & date & - & Tháng lương, biểu diễn ngày đầu tháng.\allowbreak{}\\[1pt]
+employee\_\allowbreak{}name * & varchar(255) & - & Tên nhân sự chụp khi lập bảng.\allowbreak{}\\[1pt]
+role\_\allowbreak{}name * & varchar(255) & - & Tên vai trò chụp khi lập bảng.\allowbreak{}\\[1pt]
+pay\_\allowbreak{}basis * & varchar(10) & - & Cách tính HOUR hoặc SHIFT.\allowbreak{}\\[1pt]
+unit\_\allowbreak{}rate * & decimal(16,0) & - & Đơn giá nguyên VND theo giờ/\allowbreak{}ca.\allowbreak{}\\[1pt]
+worked\_\allowbreak{}minutes * & int unsigned & mặc định '0' & Tổng phút làm dùng để tính bảng.\allowbreak{}\\[1pt]
+worked\_\allowbreak{}shifts * & int unsigned & mặc định '0' & Số ca dùng để tính bảng.\allowbreak{}\\[1pt]
+base\_\allowbreak{}amount * & decimal(16,0) & - & Tiền lương cơ sở.\allowbreak{}\\[1pt]
+allowance * & decimal(16,0) & mặc định '0' & Phụ cấp nguyên VND.\allowbreak{}\\[1pt]
+bonus * & decimal(16,0) & mặc định '0' & Thưởng nguyên VND.\allowbreak{}\\[1pt]
+deduction * & decimal(16,0) & mặc định '0' & Khấu trừ nguyên VND.\allowbreak{}\\[1pt]
+net\_\allowbreak{}amount * & decimal(16,0) & - & Thực nhận sau cộng/\allowbreak{}trừ.\allowbreak{}\\[1pt]
+source\_\allowbreak{}shifts * & json & - & Snapshot nguồn giờ/\allowbreak{}ca.\allowbreak{}\\[1pt]
+calculated\_\allowbreak{}at * & timestamp & - & Thời điểm tính bảng lương.\allowbreak{}\\[1pt]
+adjustment\_\allowbreak{}reason & varchar(1000) & - & Lý do đối chiếu/\allowbreak{}sửa số công.\allowbreak{}\\[1pt]
+note & varchar(1000) & - & Ghi chú.\allowbreak{}\\[1pt]
+status * & varchar(10) & mặc định 'UNPAID' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+paid\_\allowbreak{}by & bigint unsigned & FK & Người ghi nhận chi trả.\allowbreak{}\\[1pt]
+paid\_\allowbreak{}at & timestamp & - & Thời điểm ghi nhận thanh toán.\allowbreak{}\\[1pt]
+payment\_\allowbreak{}reference & varchar(200) & - & Tham chiếu chi trả ngoài hệ thống.\allowbreak{}\\[1pt]
+version * & int unsigned & mặc định '1' & Phiên bản chống ghi đè dữ liệu cũ.\allowbreak{}\\[1pt]
+created\_\allowbreak{}by * & bigint unsigned & FK & Người tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}by * & bigint unsigned & FK & Người cập nhật.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} created\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); paid\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); updated\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); user\_\allowbreak{}id → users.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (user\_\allowbreak{}id, pay\_\allowbreak{}month) UNIQUE; (paid\_\allowbreak{}by); (created\_\allowbreak{}by); (updated\_\allowbreak{}by); (pay\_\allowbreak{}month, status).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Cặp user\_\allowbreak{}id/\allowbreak{}pay\_\allowbreak{}month duy nhất; source\_\allowbreak{}shifts giữ nguồn, version bảo vệ cập nhật đồng thời.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} PAID khóa số tiền; chỉnh số công cần lý do, đây không phải dữ liệu chấm công tự động hoặc lệnh chi ngân hàng.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{prescription\_\allowbreak{}items}
+Dòng thuốc và hướng dẫn do bác sĩ nhập.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng prescription\_\allowbreak{}items}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+prescription\_\allowbreak{}id * & bigint unsigned & FK & Đơn thuốc gốc.\allowbreak{}\\[1pt]
+medicine\_\allowbreak{}id * & bigint unsigned & FK & Thuốc trong danh mục.\allowbreak{}\\[1pt]
+dosage * & varchar(255) & - & Liều do bác sĩ ghi.\allowbreak{}\\[1pt]
+route * & varchar(100) & - & Đường dùng thuốc.\allowbreak{}\\[1pt]
+frequency * & varchar(100) & - & Tần suất dùng.\allowbreak{}\\[1pt]
+duration\_\allowbreak{}days * & smallint unsigned & - & Số ngày theo đơn.\allowbreak{}\\[1pt]
+quantity * & int unsigned & - & Số lượng theo đơn vị danh mục.\allowbreak{}\\[1pt]
+instructions * & varchar(255) & - & Hướng dẫn bổ sung.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} medicine\_\allowbreak{}id → medicines.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); prescription\_\allowbreak{}id → prescriptions.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (prescription\_\allowbreak{}id); (medicine\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} medicine\_\allowbreak{}id, quantity, dosage, route, frequency, duration\_\allowbreak{}days và instructions mô tả đơn.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Số lượng nguyên theo đơn vị danh mục; báo cáo không đưa phác đồ hay khuyến cáo điều trị tự tạo.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{prescriptions}
+Phần đầu đơn thuốc có cấu trúc.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng prescriptions}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+visit\_\allowbreak{}id * & bigint unsigned & FK & Lượt khám liên quan.\allowbreak{}\\[1pt]
+doctor\_\allowbreak{}id * & bigint unsigned & FK & Bác sĩ phụ trách.\allowbreak{}\\[1pt]
+status * & varchar(20) & mặc định 'DRAFT' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+bill\_\allowbreak{}at\_\allowbreak{}clinic * & tinyint(1) & mặc định '0' & Đánh dấu thuốc bán được tính vào invoice.\allowbreak{}\\[1pt]
+signed\_\allowbreak{}at & timestamp & - & Thời điểm ký nghiệp vụ.\allowbreak{}\\[1pt]
+signed\_\allowbreak{}by & bigint unsigned & FK & Người ký nghiệp vụ.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} doctor\_\allowbreak{}id → doctors.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); signed\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} NO ACTION); visit\_\allowbreak{}id → visits.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (visit\_\allowbreak{}id); (doctor\_\allowbreak{}id); (signed\_\allowbreak{}by).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Gắn Visit và bác sĩ; status DRAFT/\allowbreak{}SIGNED; bill\_\allowbreak{}at\_\allowbreak{}clinic quyết định thuốc bán tính vào invoice.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} signed\_\allowbreak{}by/\allowbreak{}signed\_\allowbreak{}at chỉ được tạo khi đơn có dòng và lượt vẫn cho phép kê.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{refunds}
+Chứng từ hoàn một phần/\allowbreak{}toàn phần khoản thu.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng refunds}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+payment\_\allowbreak{}id * & bigint unsigned & FK & Khoản thu gốc.\allowbreak{}\\[1pt]
+amount * & decimal(12,2) & - & Số tiền của dòng/\allowbreak{}chứng từ.\allowbreak{}\\[1pt]
+reason * & varchar(255) & - & Lý do nghiệp vụ.\allowbreak{}\\[1pt]
+idempotency\_\allowbreak{}key * & varchar(100) & - & Khóa chống tác động lặp.\allowbreak{}\\[1pt]
+approved\_\allowbreak{}by * & bigint unsigned & FK & Người duyệt hoàn tiền.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} approved\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} NO ACTION); payment\_\allowbreak{}id → payments.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (idempotency\_\allowbreak{}key) UNIQUE; (payment\_\allowbreak{}id); (approved\_\allowbreak{}by).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} payment\_\allowbreak{}id giữ nguồn thu, amount dương và không vượt phần chưa hoàn; khóa gửi lặp duy nhất.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} reason và approved\_\allowbreak{}by phục vụ kiểm toán; tổng hoàn được trừ khi tính doanh thu ròng.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{roles}
+Danh mục patient, receptionist, doctor, cashier và admin.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng roles}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+code * & varchar(30) & - & Mã nghiệp vụ/\allowbreak{}danh mục.\allowbreak{}\\[1pt]
+name * & varchar(80) & - & Tên hiển thị.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Chỉ mục:\allowbreak{} (code) UNIQUE.\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Quyền mặc định theo mã role nằm trong config/\allowbreak{}clinic.\allowbreak{}php, không phải bảng role\_\allowbreak{}permissions động.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Role được dùng làm khóa điều phối ngắn trong luồng lịch nhân viên.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{salary\_\allowbreak{}profiles}
+Đơn giá lương riêng đang áp dụng cho nhân sự.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng salary\_\allowbreak{}profiles}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+user\_\allowbreak{}id * & bigint unsigned & FK & Tài khoản liên quan.\allowbreak{}\\[1pt]
+pay\_\allowbreak{}basis * & varchar(10) & - & Cách tính HOUR hoặc SHIFT.\allowbreak{}\\[1pt]
+unit\_\allowbreak{}rate * & decimal(16,0) & - & Đơn giá nguyên VND theo giờ/\allowbreak{}ca.\allowbreak{}\\[1pt]
+version * & int unsigned & mặc định '1' & Phiên bản chống ghi đè dữ liệu cũ.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}by * & bigint unsigned & FK & Người cập nhật.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} updated\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); user\_\allowbreak{}id → users.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (user\_\allowbreak{}id) UNIQUE; (updated\_\allowbreak{}by).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} user\_\allowbreak{}id duy nhất; HOUR/\allowbreak{}SHIFT và unit\_\allowbreak{}rate nguyên VND; version tăng khi đổi.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Đơn giá thay đổi chỉ ảnh hưởng bảng lập sau, không tự tái định giá bảng tháng cũ.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{service\_\allowbreak{}order\_\allowbreak{}items}
+Dòng dịch vụ và mã ánh xạ tích hợp.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng service\_\allowbreak{}order\_\allowbreak{}items}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+service\_\allowbreak{}order\_\allowbreak{}id * & bigint unsigned & FK & Phiếu chỉ định gốc.\allowbreak{}\\[1pt]
+service\_\allowbreak{}id * & bigint unsigned & FK & Dịch vụ trong danh mục.\allowbreak{}\\[1pt]
+external\_\allowbreak{}order\_\allowbreak{}code * & varchar(60) & - & Mã dòng chỉ định để ánh xạ.\allowbreak{}\\[1pt]
+status * & varchar(25) & mặc định 'ORDERED' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} service\_\allowbreak{}id → services.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); service\_\allowbreak{}order\_\allowbreak{}id → service\_\allowbreak{}orders.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (external\_\allowbreak{}order\_\allowbreak{}code) UNIQUE; (service\_\allowbreak{}order\_\allowbreak{}id); (service\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} external\_\allowbreak{}order\_\allowbreak{}code duy nhất được đưa cho nguồn LIS thử nghiệm để đối chiếu.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} service\_\allowbreak{}id trỏ danh mục; trạng thái RESULT\_\allowbreak{}PENDING chưa đồng nghĩa kết quả đã duyệt.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{service\_\allowbreak{}orders}
+Phiếu chỉ định của bác sĩ cho một Visit.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng service\_\allowbreak{}orders}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+visit\_\allowbreak{}id * & bigint unsigned & FK & Lượt khám liên quan.\allowbreak{}\\[1pt]
+doctor\_\allowbreak{}id * & bigint unsigned & FK & Bác sĩ phụ trách.\allowbreak{}\\[1pt]
+status * & varchar(25) & mặc định 'ORDERED' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} doctor\_\allowbreak{}id → doctors.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); visit\_\allowbreak{}id → visits.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (visit\_\allowbreak{}id); (doctor\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Nhiều dòng con có trạng thái riêng; phiếu chỉ COMPLETED khi các dòng không còn mở.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Một Visit có thể có nhiều phiếu; không được tạo sau khi hóa đơn đã chốt qua luồng hiện hành.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{services}
+Danh mục dịch vụ và giá hiện hành.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng services}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+code * & varchar(20) & - & Mã nghiệp vụ/\allowbreak{}danh mục.\allowbreak{}\\[1pt]
+name * & varchar(255) & - & Tên hiển thị.\allowbreak{}\\[1pt]
+description & text & - & Mô tả danh mục hoặc dòng.\allowbreak{}\\[1pt]
+price * & decimal(12,2) & - & Giá danh mục hiện hành.\allowbreak{}\\[1pt]
+is\_\allowbreak{}active * & tinyint(1) & mặc định '1' & Cờ hoạt động của danh mục/\allowbreak{}hồ sơ.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Chỉ mục:\allowbreak{} (code) UNIQUE; (name) UNIQUE.\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} code duy nhất và is\_\allowbreak{}active; price dùng cho hóa đơn mới.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Giá đã phát hành nằm tại invoice\_\allowbreak{}items, không truy ngược giá danh mục để sửa hóa đơn cũ.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{shift\_\allowbreak{}transfer\_\allowbreak{}requests}
+Yêu cầu chuyển ca bác sĩ giữa người gửi và người nhận.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng shift\_\allowbreak{}transfer\_\allowbreak{}requests}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+doctor\_\allowbreak{}schedule\_\allowbreak{}id * & bigint unsigned & FK & Ca khám của bác sĩ.\allowbreak{}\\[1pt]
+sender\_\allowbreak{}doctor\_\allowbreak{}id * & bigint unsigned & FK & Bác sĩ gửi chuyển ca.\allowbreak{}\\[1pt]
+receiver\_\allowbreak{}doctor\_\allowbreak{}id * & bigint unsigned & FK & Bác sĩ nhận chuyển ca.\allowbreak{}\\[1pt]
+branch\_\allowbreak{}id * & bigint unsigned & FK & Cơ sở của dữ liệu.\allowbreak{}\\[1pt]
+work\_\allowbreak{}date * & date & - & Ngày ca làm.\allowbreak{}\\[1pt]
+start\_\allowbreak{}time * & time & - & Giờ bắt đầu trong ngày.\allowbreak{}\\[1pt]
+end\_\allowbreak{}time * & time & - & Giờ kết thúc trong ngày.\allowbreak{}\\[1pt]
+status * & varchar(20) & mặc định 'PENDING' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+pending\_\allowbreak{}key & bigint unsigned & - & Khóa giới hạn yêu cầu chuyển ca đang chờ.\allowbreak{}\\[1pt]
+note * & varchar(1000) & - & Ghi chú.\allowbreak{}\\[1pt]
+responded\_\allowbreak{}at & timestamp & - & Thời điểm phản hồi chuyển ca.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} branch\_\allowbreak{}id → branches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); doctor\_\allowbreak{}schedule\_\allowbreak{}id → doctor\_\allowbreak{}schedules.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); receiver\_\allowbreak{}doctor\_\allowbreak{}id → doctors.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); sender\_\allowbreak{}doctor\_\allowbreak{}id → doctors.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (pending\_\allowbreak{}key) UNIQUE; (doctor\_\allowbreak{}schedule\_\allowbreak{}id); (branch\_\allowbreak{}id); (receiver\_\allowbreak{}doctor\_\allowbreak{}id, status); (sender\_\allowbreak{}doctor\_\allowbreak{}id, created\_\allowbreak{}at).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Chụp thời gian ca, cơ sở và hai bác sĩ; pending\_\allowbreak{}key giới hạn yêu cầu chờ cho ca.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Chấp nhận phải đọc lại điều kiện, không tin trạng thái rảnh tại lúc tạo yêu cầu.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{specialties}
+Danh mục chuyên khoa được công bố.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng specialties}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+code * & varchar(20) & - & Mã nghiệp vụ/\allowbreak{}danh mục.\allowbreak{}\\[1pt]
+name * & varchar(255) & - & Tên hiển thị.\allowbreak{}\\[1pt]
+description & text & - & Mô tả danh mục hoặc dòng.\allowbreak{}\\[1pt]
+is\_\allowbreak{}active * & tinyint(1) & mặc định '1' & Cờ hoạt động của danh mục/\allowbreak{}hồ sơ.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Chỉ mục:\allowbreak{} (code) UNIQUE; (name) UNIQUE.\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Mã và tên là duy nhất; is\_\allowbreak{}active giúp ngừng dùng mà không xóa liên kết lịch sử.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Chuyên khoa chính ở doctors.\allowbreak{}specialty\_\allowbreak{}id và các chuyên khoa bổ sung ở doctor\_\allowbreak{}specialty.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{staff\_\allowbreak{}schedule\_\allowbreak{}requests}
+Nguyện vọng làm việc của lễ tân/\allowbreak{}thu ngân.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng staff\_\allowbreak{}schedule\_\allowbreak{}requests}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+user\_\allowbreak{}id * & bigint unsigned & FK & Tài khoản liên quan.\allowbreak{}\\[1pt]
+branch\_\allowbreak{}id * & bigint unsigned & FK & Cơ sở của dữ liệu.\allowbreak{}\\[1pt]
+role\_\allowbreak{}code * & varchar(30) & - & Mã vai trò tại lúc đăng ký.\allowbreak{}\\[1pt]
+work\_\allowbreak{}date * & date & - & Ngày ca làm.\allowbreak{}\\[1pt]
+start\_\allowbreak{}time * & time & - & Giờ bắt đầu trong ngày.\allowbreak{}\\[1pt]
+end\_\allowbreak{}time * & time & - & Giờ kết thúc trong ngày.\allowbreak{}\\[1pt]
+status * & varchar(20) & mặc định 'WAITING' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+active\_\allowbreak{}key & char(64) & - & Khóa duy nhất khi yêu cầu còn hiệu lực.\allowbreak{}\\[1pt]
+note & varchar(1000) & - & Ghi chú.\allowbreak{}\\[1pt]
+decision\_\allowbreak{}note & varchar(1000) & - & Ghi chú quyết định admin.\allowbreak{}\\[1pt]
+processed\_\allowbreak{}by & bigint unsigned & FK & Admin xử lý nguyện vọng.\allowbreak{}\\[1pt]
+processed\_\allowbreak{}at & timestamp & - & Thời điểm xử lý nguyện vọng.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} branch\_\allowbreak{}id → branches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); processed\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); user\_\allowbreak{}id → users.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (active\_\allowbreak{}key) UNIQUE; (processed\_\allowbreak{}by); (branch\_\allowbreak{}id, work\_\allowbreak{}date, status); (user\_\allowbreak{}id, work\_\allowbreak{}date).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} role\_\allowbreak{}code lấy từ tài khoản; active\_\allowbreak{}key duy nhất khi còn hiệu lực; quyết định có người và thời điểm.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} WAITING/\allowbreak{}ARRANGED là chưa chính thức; CONFIRMED mới tương ứng ca đã công bố.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{staff\_\allowbreak{}work\_\allowbreak{}shifts}
+Ca nhân viên dự kiến hoặc chính thức.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng staff\_\allowbreak{}work\_\allowbreak{}shifts}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+request\_\allowbreak{}id * & bigint unsigned & FK & Mã tương quan yêu cầu.\allowbreak{}\\[1pt]
+user\_\allowbreak{}id * & bigint unsigned & FK & Tài khoản liên quan.\allowbreak{}\\[1pt]
+branch\_\allowbreak{}id * & bigint unsigned & FK & Cơ sở của dữ liệu.\allowbreak{}\\[1pt]
+role\_\allowbreak{}code * & varchar(30) & - & Mã vai trò tại lúc đăng ký.\allowbreak{}\\[1pt]
+work\_\allowbreak{}date * & date & - & Ngày ca làm.\allowbreak{}\\[1pt]
+start\_\allowbreak{}time * & time & - & Giờ bắt đầu trong ngày.\allowbreak{}\\[1pt]
+end\_\allowbreak{}time * & time & - & Giờ kết thúc trong ngày.\allowbreak{}\\[1pt]
+status * & varchar(20) & mặc định 'DRAFT' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+note & varchar(1000) & - & Ghi chú.\allowbreak{}\\[1pt]
+created\_\allowbreak{}by * & bigint unsigned & FK & Người tạo bản ghi.\allowbreak{}\\[1pt]
+published\_\allowbreak{}by & bigint unsigned & FK & Admin chốt lịch.\allowbreak{}\\[1pt]
+published\_\allowbreak{}at & timestamp & - & Thời điểm công bố/\allowbreak{}chốt.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} branch\_\allowbreak{}id → branches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); created\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); published\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); request\_\allowbreak{}id → staff\_\allowbreak{}schedule\_\allowbreak{}requests.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); user\_\allowbreak{}id → users.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (request\_\allowbreak{}id) UNIQUE; (created\_\allowbreak{}by); (published\_\allowbreak{}by); (branch\_\allowbreak{}id, work\_\allowbreak{}date, status); (user\_\allowbreak{}id, work\_\allowbreak{}date).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} request\_\allowbreak{}id duy nhất; giữ giờ/\allowbreak{}cơ sở được xếp thực tế, có thể khác nguyện vọng ban đầu.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Trạng thái DRAFT, CONFIRMED hoặc CANCELLED; lưu người và thời điểm chốt.\allowbreak{} Phiên bản giao diện tính từ nội dung, bảng này không có cột version.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{stock\_\allowbreak{}movements}
+Sổ biến động tồn theo lô.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng stock\_\allowbreak{}movements}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+batch\_\allowbreak{}id * & bigint unsigned & FK & Lô thuốc nguồn.\allowbreak{}\\[1pt]
+quantity\_\allowbreak{}delta * & int & - & Biến động có dấu theo lô.\allowbreak{}\\[1pt]
+type * & varchar(30) & - & type:\allowbreak{} xem mô tả và kiểm tra tại module sở hữu.\allowbreak{}\\[1pt]
+reference\_\allowbreak{}type * & varchar(40) & - & Loại nguồn biến động.\allowbreak{}\\[1pt]
+reference\_\allowbreak{}id * & bigint unsigned & - & ID nguồn biến động.\allowbreak{}\\[1pt]
+reason & varchar(255) & - & Lý do nghiệp vụ.\allowbreak{}\\[1pt]
+actor\_\allowbreak{}id * & bigint unsigned & FK & Người thực hiện biến động.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} actor\_\allowbreak{}id → users.\allowbreak{}id (xóa:\allowbreak{} NO ACTION); batch\_\allowbreak{}id → medicine\_\allowbreak{}batches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (batch\_\allowbreak{}id); (actor\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} quantity\_\allowbreak{}delta có dấu; type và reference\_\allowbreak{}type/\allowbreak{}reference\_\allowbreak{}id truy nguồn chứng từ.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} actor\_\allowbreak{}id và reason giúp đối soát điều chỉnh; tồn hiện hành và sổ biến động phải được kiểm tra đồng thời khi kiểm kê.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{user\_\allowbreak{}permissions}
+Quyền nghiệp vụ bổ sung cho người dùng tại cơ sở.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng user\_\allowbreak{}permissions}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+user\_\allowbreak{}id * & bigint unsigned & FK & Tài khoản liên quan.\allowbreak{}\\[1pt]
+branch\_\allowbreak{}id * & bigint unsigned & FK & Cơ sở của dữ liệu.\allowbreak{}\\[1pt]
+permission\_\allowbreak{}code * & varchar(60) & - & permission code:\allowbreak{} xem mô tả và kiểm tra tại module sở hữu.\allowbreak{}\\[1pt]
+granted\_\allowbreak{}by & bigint unsigned & FK & Người thực hiện granted.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} branch\_\allowbreak{}id → branches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); granted\_\allowbreak{}by → users.\allowbreak{}id (xóa:\allowbreak{} SET NULL); user\_\allowbreak{}id → users.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (user\_\allowbreak{}id, branch\_\allowbreak{}id, permission\_\allowbreak{}code) UNIQUE; (branch\_\allowbreak{}id); (granted\_\allowbreak{}by).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} permission\_\allowbreak{}code lưu quyền kết quả/\allowbreak{}kho bổ sung; granted\_\allowbreak{}by lưu người cấp.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Không dùng quyền này để bỏ qua ràng buộc bác sĩ phụ trách trong Clinic\allowbreak{}Access:\allowbreak{}:\allowbreak{}treat.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{users}
+Tài khoản xác thực dùng chung cho năm vai trò.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng users}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+role\_\allowbreak{}id * & bigint unsigned & FK & Vai trò chính của tài khoản.\allowbreak{}\\[1pt]
+name * & varchar(255) & - & Tên hiển thị.\allowbreak{}\\[1pt]
+email * & varchar(255) & - & Địa chỉ email.\allowbreak{}\\[1pt]
+phone & varchar(20) & - & Số điện thoại.\allowbreak{}\\[1pt]
+email\_\allowbreak{}verified\_\allowbreak{}at & timestamp & - & Mốc xác minh email nếu có.\allowbreak{}\\[1pt]
+password * & varchar(255) & - & Giá trị băm mật khẩu, không phải mật khẩu rõ.\allowbreak{}\\[1pt]
+is\_\allowbreak{}active * & tinyint(1) & mặc định '1' & Cờ hoạt động của danh mục/\allowbreak{}hồ sơ.\allowbreak{}\\[1pt]
+remember\_\allowbreak{}token & varchar(100) & - & Thông tin ghi nhớ phiên; dữ liệu bí mật.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+status * & varchar(20) & mặc định 'ACTIVE' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} role\_\allowbreak{}id → roles.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (email) UNIQUE; (phone) UNIQUE; (role\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Email duy nhất; role\_\allowbreak{}id chọn vai trò chính.\allowbreak{} Trạng thái hoạt động/\allowbreak{}khóa được kiểm tra cả khi đã có phiên.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} password và remember\_\allowbreak{}token là dữ liệu bí mật, không đưa vào log hay báo cáo danh sách.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{visit\_\allowbreak{}services}
+Dòng dịch vụ của phiên bản ứng dụng trước.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng visit\_\allowbreak{}services}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+medical\_\allowbreak{}record\_\allowbreak{}id * & bigint unsigned & FK & Hồ sơ khám liên quan.\allowbreak{}\\[1pt]
+service\_\allowbreak{}id * & bigint unsigned & FK & Dịch vụ trong danh mục.\allowbreak{}\\[1pt]
+quantity * & smallint unsigned & mặc định '1' & Số lượng theo đơn vị danh mục.\allowbreak{}\\[1pt]
+unit\_\allowbreak{}price * & decimal(12,2) & - & Đơn giá chụp của dòng.\allowbreak{}\\[1pt]
+note & text & - & Ghi chú.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} medical\_\allowbreak{}record\_\allowbreak{}id → medical\_\allowbreak{}records.\allowbreak{}id (xóa:\allowbreak{} CASCADE); service\_\allowbreak{}id → services.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (medical\_\allowbreak{}record\_\allowbreak{}id, service\_\allowbreak{}id) UNIQUE; (service\_\allowbreak{}id).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} Liên kết medical\_\allowbreak{}record\_\allowbreak{}id và service\_\allowbreak{}id, giữ quantity và unit\_\allowbreak{}price.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} Billing\allowbreak{}Service còn đọc để chuyển tiếp dữ liệu cũ; luồng mới ưu tiên service\_\allowbreak{}orders/\allowbreak{}items.\allowbreak{}
+
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{visits}
+Lượt khám thực tế, có hoặc không có lịch hẹn.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-4.86pt\relax} L{\dimexpr 0.22\textwidth-3.96pt\relax} L{\dimexpr 0.16\textwidth-2.88pt\relax} L{\dimexpr 0.35\textwidth-6.3pt\relax}@{}}
+\caption{Từ điển bảng visits}\\
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột (*:\allowbreak{} bắt buộc)} & \textbf{Kiểu My\allowbreak{}SQL /\allowbreak{} SQLite} & \textbf{Khóa /\allowbreak{} mặc định} & \textbf{Ý nghĩa}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id * & bigint unsigned & PK & Khóa định danh nội bộ.\allowbreak{}\\[1pt]
+visit\_\allowbreak{}code * & varchar(30) & - & visit code:\allowbreak{} xem mô tả và kiểm tra tại module sở hữu.\allowbreak{}\\[1pt]
+appointment\_\allowbreak{}id & bigint unsigned & FK & Lịch hẹn liên quan.\allowbreak{}\\[1pt]
+patient\_\allowbreak{}id * & bigint unsigned & FK & Hồ sơ bệnh nhân.\allowbreak{}\\[1pt]
+doctor\_\allowbreak{}id * & bigint unsigned & FK & Bác sĩ phụ trách.\allowbreak{}\\[1pt]
+branch\_\allowbreak{}id * & bigint unsigned & FK & Cơ sở của dữ liệu.\allowbreak{}\\[1pt]
+status * & varchar(25) & mặc định 'WAITING' & Trạng thái vòng đời; kiểm chuyển ở nghiệp vụ.\allowbreak{}\\[1pt]
+reason * & text & - & Lý do nghiệp vụ.\allowbreak{}\\[1pt]
+checked\_\allowbreak{}in\_\allowbreak{}at * & timestamp & - & Thời điểm tiếp nhận.\allowbreak{}\\[1pt]
+started\_\allowbreak{}at & timestamp & - & Lúc bắt đầu khám.\allowbreak{}\\[1pt]
+completed\_\allowbreak{}at & timestamp & - & Lúc hoàn tất khám.\allowbreak{}\\[1pt]
+created\_\allowbreak{}at & timestamp & - & Thời điểm tạo bản ghi.\allowbreak{}\\[1pt]
+updated\_\allowbreak{}at & timestamp & - & Thời điểm cập nhật bản ghi.\allowbreak{}\\[1pt]
+\end{longtable}}
+Liên kết khóa ngoại:\allowbreak{} appointment\_\allowbreak{}id → appointments.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); branch\_\allowbreak{}id → branches.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); doctor\_\allowbreak{}id → doctors.\allowbreak{}id (xóa:\allowbreak{} RESTRICT); patient\_\allowbreak{}id → patients.\allowbreak{}id (xóa:\allowbreak{} RESTRICT).\allowbreak{}
+
+Chỉ mục:\allowbreak{} (visit\_\allowbreak{}code) UNIQUE; (appointment\_\allowbreak{}id) UNIQUE; (patient\_\allowbreak{}id); (doctor\_\allowbreak{}id); (branch\_\allowbreak{}id, status, checked\_\allowbreak{}in\_\allowbreak{}at).\allowbreak{}
+
+Ràng buộc và cách dùng:\allowbreak{} appointment\_\allowbreak{}id tùy chọn/\allowbreak{}duy nhất; Visit giữ patient, doctor và branch riêng.\allowbreak{}
+
+Kiểm soát/\allowbreak{}giới hạn:\allowbreak{} WAITING khác PENDING của lịch hẹn; completed\_\allowbreak{}at không được suy ra đơn thuần từ ngày hẹn.\allowbreak{}
+
+\endgroup
+\clearpage
+
+\section{Các bảng nền tảng Laravel}
+
+\Needspace{6\baselineskip}\subsection{cache}
+Kho cache khi dùng database cache driver.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.44\textwidth-5.28pt\relax} L{\dimexpr 0.4\textwidth-4.8pt\relax} L{\dimexpr 0.16\textwidth-1.92pt\relax}@{}}
+\caption{Bảng framework cache}\\
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+key & varchar(255) & Không\\[1pt]
+value & mediumtext & Không\\[1pt]
+expiration & int & Không\\[1pt]
+\end{longtable}}
+{\small Đây là bảng framework, không phải nguồn sự thật cho tiền hay số lượng tồn.\allowbreak{}
+
+}
+
+\Needspace{6\baselineskip}\subsection{cache\_\allowbreak{}locks}
+Khóa cache có chủ sở hữu và thời hạn.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.44\textwidth-5.28pt\relax} L{\dimexpr 0.4\textwidth-4.8pt\relax} L{\dimexpr 0.16\textwidth-1.92pt\relax}@{}}
+\caption{Bảng framework cache\_\allowbreak{}locks}\\
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+key & varchar(255) & Không\\[1pt]
+owner & varchar(255) & Không\\[1pt]
+expiration & int & Không\\[1pt]
+\end{longtable}}
+{\small Khóa nghiệp vụ tài chính/\allowbreak{}lịch trong mã còn sử dụng transaction và khóa DB trực tiếp.\allowbreak{}
+
+}
+
+\Needspace{6\baselineskip}\subsection{failed\_\allowbreak{}jobs}
+Lưu lỗi công việc queue tổng quát nếu driver sử dụng.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.44\textwidth-5.28pt\relax} L{\dimexpr 0.4\textwidth-4.8pt\relax} L{\dimexpr 0.16\textwidth-1.92pt\relax}@{}}
+\caption{Bảng framework failed\_\allowbreak{}jobs}\\
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id & bigint unsigned & Không\\[1pt]
+uuid & varchar(255) & Không\\[1pt]
+connection & text & Không\\[1pt]
+queue & text & Không\\[1pt]
+payload & longtext & Không\\[1pt]
+exception & longtext & Không\\[1pt]
+failed\_\allowbreak{}at & timestamp & Không\\[1pt]
+\end{longtable}}
+{\small Không công bố payload/\allowbreak{}exception có dữ liệu nhạy cảm; đây không phải bảng retry email clinic.\allowbreak{}
+
+}
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{job\_\allowbreak{}batches}
+Theo dõi lô công việc tổng quát của framework.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.44\textwidth-5.28pt\relax} L{\dimexpr 0.4\textwidth-4.8pt\relax} L{\dimexpr 0.16\textwidth-1.92pt\relax}@{}}
+\caption{Bảng framework job\_\allowbreak{}batches}\\
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id & varchar(255) & Không\\[1pt]
+name & varchar(255) & Không\\[1pt]
+total\_\allowbreak{}jobs & int & Không\\[1pt]
+pending\_\allowbreak{}jobs & int & Không\\[1pt]
+failed\_\allowbreak{}jobs & int & Không\\[1pt]
+failed\_\allowbreak{}job\_\allowbreak{}ids & longtext & Không\\[1pt]
+options & mediumtext & Có\\[1pt]
+cancelled\_\allowbreak{}at & int & Có\\[1pt]
+created\_\allowbreak{}at & int & Không\\[1pt]
+finished\_\allowbreak{}at & int & Có\\[1pt]
+\end{longtable}}
+{\small Có sẵn cho framework; không có quy trình nghiệp vụ phòng khám bắt buộc dựa trên batch jobs này.\allowbreak{}
+
+}
+
+\Needspace{6\baselineskip}\subsection{jobs}
+Bảng hàng đợi tổng quát của Laravel.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.44\textwidth-5.28pt\relax} L{\dimexpr 0.4\textwidth-4.8pt\relax} L{\dimexpr 0.16\textwidth-1.92pt\relax}@{}}
+\caption{Bảng framework jobs}\\
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id & bigint unsigned & Không\\[1pt]
+queue & varchar(255) & Không\\[1pt]
+payload & longtext & Không\\[1pt]
+attempts & tinyint unsigned & Không\\[1pt]
+reserved\_\allowbreak{}at & int unsigned & Có\\[1pt]
+available\_\allowbreak{}at & int unsigned & Không\\[1pt]
+created\_\allowbreak{}at & int unsigned & Không\\[1pt]
+\end{longtable}}
+{\small Email clinic hiện dùng notification\_\allowbreak{}jobs; tránh nhầm hai cơ chế khi vận hành.\allowbreak{}
+
+}
+
+\Needspace{6\baselineskip}\subsection{migrations}
+Sổ phiên bản lược đồ của Laravel.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.44\textwidth-5.28pt\relax} L{\dimexpr 0.4\textwidth-4.8pt\relax} L{\dimexpr 0.16\textwidth-1.92pt\relax}@{}}
+\caption{Bảng framework migrations}\\
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id & int unsigned & Không\\[1pt]
+migration & varchar(255) & Không\\[1pt]
+batch & int & Không\\[1pt]
+\end{longtable}}
+{\small Chỉ phản ánh trạng thái lược đồ, không thay cho backup dữ liệu trước nâng cấp.\allowbreak{}
+
+}
+\clearpage
+
+\Needspace{6\baselineskip}\subsection{password\_\allowbreak{}reset\_\allowbreak{}tokens}
+Token đặt lại mật khẩu của Laravel.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.44\textwidth-5.28pt\relax} L{\dimexpr 0.4\textwidth-4.8pt\relax} L{\dimexpr 0.16\textwidth-1.92pt\relax}@{}}
+\caption{Bảng framework password\_\allowbreak{}reset\_\allowbreak{}tokens}\\
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+email & varchar(255) & Không\\[1pt]
+token & varchar(255) & Không\\[1pt]
+created\_\allowbreak{}at & timestamp & Có\\[1pt]
+\end{longtable}}
+{\small Không ghi token rõ vào báo cáo; link hết hạn hoặc dùng xong không còn đổi được mật khẩu.\allowbreak{}
+
+}
+
+\Needspace{6\baselineskip}\subsection{sessions}
+Phiên web khi chọn session driver database.\allowbreak{}
+
+
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.44\textwidth-5.28pt\relax} L{\dimexpr 0.4\textwidth-4.8pt\relax} L{\dimexpr 0.16\textwidth-1.92pt\relax}@{}}
+\caption{Bảng framework sessions}\\
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Cột} & \textbf{Kiểu} & \textbf{NULL}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+id & varchar(255) & Không\\[1pt]
+user\_\allowbreak{}id & bigint unsigned & Có\\[1pt]
+ip\_\allowbreak{}address & varchar(45) & Có\\[1pt]
+user\_\allowbreak{}agent & text & Có\\[1pt]
+payload & longtext & Không\\[1pt]
+last\_\allowbreak{}activity & int & Không\\[1pt]
+\end{longtable}}
+{\small Triển khai có thể dùng file session; sự tồn tại của bảng không có nghĩa database session đang được bật.\allowbreak{}
+
+}

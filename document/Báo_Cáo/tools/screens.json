@@ -1,0 +1,130 @@
+[
+  {
+    "key": "home",
+    "title": "Trang chủ và nhóm dịch vụ",
+    "role": "Công khai",
+    "url": "/",
+    "source": "resources/views/home.blade.php",
+    "note": "Bốn nhóm dịch vụ định hướng người dùng tới tra cứu bác sĩ và đặt lịch. Số lượng bác sĩ trên khối giới thiệu là danh sách giới hạn ở trang chủ, không phải lúc nào cũng là tổng lực lượng."
+  },
+  {
+    "key": "login",
+    "title": "Đăng nhập và hiện mật khẩu",
+    "role": "Công khai",
+    "url": "/dang-nhap",
+    "source": "resources/views/auth/login.blade.php; public/login.js",
+    "note": "Nút Hiện mật khẩu chỉ đổi cách hiển thị input ở trình duyệt. Thông tin mật khẩu vẫn được gửi qua cơ chế form và xác thực; báo cáo không hiển thị mật khẩu tài khoản trên ảnh."
+  },
+  {
+    "key": "doctors",
+    "title": "Danh sách bác sĩ theo cơ sở và chuyên khoa",
+    "role": "Công khai",
+    "url": "/bac-si",
+    "source": "resources/views/doctors/index.blade.php",
+    "note": "Bộ lọc và phân trang giúp giới hạn danh sách, mỗi thẻ dẫn tới thông tin chi tiết. Dữ liệu nhân sự trong ảnh là bộ học tập riêng."
+  },
+  {
+    "key": "forgot",
+    "title": "Khôi phục mật khẩu",
+    "role": "Công khai",
+    "url": "/quen-mat-khau",
+    "source": "resources/views/auth/forgot.blade.php",
+    "note": "Giới hạn tần suất giữ biểu mẫu và thời gian chờ; phản hồi gửi liên kết không tiết lộ email đã đăng ký. Ảnh không minh chứng email đã được giao tới SMTP thật."
+  },
+  {
+    "key": "booking",
+    "title": "Đặt lịch theo ca và giờ trống",
+    "role": "Bệnh nhân",
+    "url": "/lich-kham/dat-lich",
+    "source": "resources/views/appointments/create.blade.php; appointments/slot-script.blade.php",
+    "note": "Chi nhánh, chuyên khoa, bác sĩ và ngày điều khiển truy vấn giờ khả dụng. Giờ trên giao diện chỉ là gợi ý; service khóa và kiểm lại khi xác nhận đặt."
+  },
+  {
+    "key": "appointments",
+    "title": "Lịch hẹn của bệnh nhân",
+    "role": "Bệnh nhân",
+    "url": "/lich-kham",
+    "source": "resources/views/appointments/index.blade.php",
+    "note": "PENDING là Chờ xác nhận. Hạn đổi/hủy lấy từ giờ đã đăng ký trừ ngưỡng cấu hình. Lịch bị chặn vẫn được giữ và phản hồi bằng thông báo nghiệp vụ."
+  },
+  {
+    "key": "doctor-calendar",
+    "title": "Lịch của tôi và đăng ký ca bác sĩ",
+    "role": "Bác sĩ",
+    "url": "/nhan-vien/lich-hen",
+    "source": "resources/views/staff/appointments.blade.php",
+    "note": "Lịch tuần chỉ có ca của bác sĩ hiện tại. Nhấn ca mới tải bệnh nhân; phần đăng ký ca ở cùng mục, không tạo một menu điều hướng mới."
+  },
+  {
+    "key": "visits",
+    "title": "Danh sách lượt khám được giao",
+    "role": "Bác sĩ",
+    "url": "/luot-kham",
+    "source": "resources/views/visits/index.blade.php",
+    "note": "Màn hình lọc theo người được giao và quyền cơ sở. Trong bộ minh họa chưa tiếp nhận lượt nên trạng thái rỗng là hợp lệ, không phải lỗi tải dữ liệu."
+  },
+  {
+    "key": "my-payroll",
+    "title": "Lương cá nhân chỉ đọc",
+    "role": "Bác sĩ",
+    "url": "/luong-cua-toi",
+    "source": "resources/views/payroll/mine.blade.php",
+    "note": "Bác sĩ xem đúng bảng thuộc tài khoản mình; nguồn giờ và số tiền mẫu dùng để minh họa. Nhân viên không có form sửa đơn giá hoặc ghi thanh toán."
+  },
+  {
+    "key": "reception-dashboard",
+    "title": "Thông báo và thao tác xác nhận của lễ tân",
+    "role": "Lễ tân",
+    "url": "/bang-dieu-khien",
+    "source": "resources/views/dashboard.blade.php; components/reception-appointment-actions.blade.php",
+    "note": "Nút xác nhận/tiếp nhận phụ thuộc trạng thái và ngày khám. Thông tin tài khoản nằm ở cuối thanh bên; nhấn tên mới mở các hành động tài khoản."
+  },
+  {
+    "key": "employee-roster",
+    "title": "Nguyện vọng lịch làm nhân viên",
+    "role": "Lễ tân",
+    "url": "/nhan-vien/lich-lam-viec",
+    "source": "resources/views/staff-roster/employee.blade.php",
+    "note": "WAITING nghĩa là chờ xếp, ARRANGED là có phương án dự kiến. Chỉ ca đã chốt được xem như lịch chính thức; ảnh có đăng ký mẫu riêng."
+  },
+  {
+    "key": "admin-roster",
+    "title": "Xếp lịch nhân viên chia bảng theo cơ sở",
+    "role": "Quản trị viên",
+    "url": "/quan-tri/lich-nhan-vien",
+    "source": "resources/views/staff-roster/admin.blade.php",
+    "note": "Nút cơ sở và các bảng giúp rà soát người làm theo địa điểm. Xếp tự động chỉ tạo dự kiến; admin cần xem phạm vi tuần/cơ sở trước khi chốt."
+  },
+  {
+    "key": "admin-payroll",
+    "title": "Quản trị bảng lương và đơn giá",
+    "role": "Quản trị viên",
+    "url": "/quan-tri/bang-luong",
+    "source": "resources/views/payroll/admin.blade.php",
+    "note": "Bộ lọc tháng/cơ sở/vai trò và trạng thái hỗ trợ tìm bảng. Mũi tên đơn giá tăng giảm bước 1.000 VND, đơn giá của từng người lưu riêng."
+  },
+  {
+    "key": "inventory",
+    "title": "Tồn thuốc theo cơ sở và lô",
+    "role": "Quản trị viên",
+    "url": "/kho",
+    "source": "resources/views/inventory/index.blade.php",
+    "note": "Tồn và hạn dùng trong ảnh thuộc bộ dữ liệu học tập, không phải dữ liệu kiểm kê của nhà thuốc thật. Điều chỉnh cần chứng từ/lý do; cấp phát kiểm quyền chuyên biệt."
+  },
+  {
+    "key": "settings",
+    "title": "Cấu hình cơ sở, nhân sự và tích hợp",
+    "role": "Quản trị viên",
+    "url": "/quan-tri/cau-hinh",
+    "source": "resources/views/admin/settings.blade.php",
+    "note": "Phân công cơ sở và quyền bổ sung ảnh hưởng trực tiếp phạm vi dữ liệu. Khối LIS/Device là đăng ký nguồn thử nghiệm; outbox hiển thị trạng thái gửi nền."
+  },
+  {
+    "key": "reports",
+    "title": "Báo cáo nghiệp vụ theo quyền",
+    "role": "Quản trị viên",
+    "url": "/bao-cao",
+    "source": "resources/views/reports/index.blade.php",
+    "note": "Doanh thu thu thực tế trừ hoàn tiền khác tổng giá trị hóa đơn phát hành. Dữ liệu rỗng hoặc nhỏ trong ảnh là dữ liệu demo, không được dùng đánh giá hiệu quả vận hành."
+  }
+]

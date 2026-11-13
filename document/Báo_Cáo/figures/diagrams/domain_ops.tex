@@ -1,0 +1,27 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\node[ent,text width=3.4cm] (HoaDon) at (0,0) {\textbf{Hoa\allowbreak{}Don}\par\smallskip\hrule\smallskip Giá chụp khi phát hành};
+\node[ent,text width=3.4cm] (KhoanThu) at (5,0) {\textbf{Khoan\allowbreak{}Thu}\par\smallskip\hrule\smallskip Tiền mặt/chuyển khoản};
+\node[ent,text width=3.4cm] (HoanTien) at (10,0) {\textbf{Hoan\allowbreak{}Tien}\par\smallskip\hrule\smallskip Số tiền, lý do};
+\node[ent,text width=3.4cm] (DonThuoc) at (0,-3) {\textbf{Don\allowbreak{}Thuoc}\par\smallskip\hrule\smallskip Số lượng đã ký};
+\node[ent,text width=3.4cm] (DotCap) at (5,-3) {\textbf{Dot\allowbreak{}Cap}\par\smallskip\hrule\smallskip Lượng giao, người cấp};
+\node[ent,text width=3.4cm] (LoThuoc) at (10,-3) {\textbf{Lo\allowbreak{}Thuoc}\par\smallskip\hrule\smallskip Cơ sở, hạn, tồn};
+\node[ent,text width=3.4cm] (NhanSu) at (0,-6) {\textbf{Nhan\allowbreak{}Su}\par\smallskip\hrule\smallskip Vai trò, phân công};
+\node[ent,text width=3.4cm] (CaNhanVien) at (5,-6) {\textbf{Ca\allowbreak{}Nhan\allowbreak{}Vien}\par\smallskip\hrule\smallskip Dự kiến/đã chốt};
+\node[ent,text width=3.4cm] (BangLuong) at (10,-6) {\textbf{Bang\allowbreak{}Luong}\par\smallskip\hrule\smallskip Đơn giá, nguồn, trạng thái};
+\draw[arr] (KhoanThu) -- node[lab] {0..* / 1} (HoaDon);
+\draw[arr] (HoanTien) -- node[lab] {0..* / 1} (KhoanThu);
+\draw[arr] (DotCap) -- node[lab] {0..* / 1} (DonThuoc);
+\draw[arr] (DotCap.east) -- (LoThuoc.west);\node[lab,anchor=south] at (7.5,-2.15) {phân bổ lô};
+\draw[arr] (CaNhanVien) -- node[lab] {0..* / 1} (NhanSu);
+\draw[arr] (BangLuong.south) -- (10,-8.3) -- node[lab] {0..* / 1} (0,-8.3) -- (NhanSu.south);
+\end{tikzpicture}
+\endgroup

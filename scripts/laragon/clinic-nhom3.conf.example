@@ -1,0 +1,21 @@
+# Replace __PROJECT_ROOT__ with a forward-slash absolute path before installation.
+# Install as <Laragon>/etc/apache2/sites-enabled/clinic-nhom3.conf.
+<Directory "__PROJECT_ROOT__">
+    AllowOverride None
+    Require all denied
+</Directory>
+<Directory "__PROJECT_ROOT__/public">
+    AllowOverride All
+    Options -Indexes +FollowSymLinks
+    Require local
+</Directory>
+Listen 127.0.0.1:8000
+<VirtualHost 127.0.0.1:8000>
+    ServerName 127.0.0.1
+    DocumentRoot "__PROJECT_ROOT__/public"
+    <Directory "__PROJECT_ROOT__/public">
+        AllowOverride All
+        Options -Indexes +FollowSymLinks
+        Require local
+    </Directory>
+</VirtualHost>

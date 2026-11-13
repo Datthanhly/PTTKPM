@@ -1,0 +1,27 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\node[state,text width=3.5cm] (q0) at (0,0.0) {WAITING};
+\node[state,text width=3.5cm] (q1) at (7,0.0) {ARRANGED};
+\node[state,text width=3.5cm] (q2) at (14,0.0) {CONFIRMED};
+\node[state,text width=3.5cm] (q3) at (0,-4.4) {REJECTED};
+\node[state,text width=3.5cm] (q4) at (7,-4.4) {CANCELLED};
+\fill (-2.8,1.4) circle (.08); \draw[arr] (-2.8,1.4) -- (q0.north west);
+\draw[arr] (q0) -- node[lab,above,sloped,text width=3cm] {xếp DRAFT} (q1);
+\draw[arr] (q1.north west) .. controls ($(q1.north west)+(-.6,1.7)$) and ($(q1.north east)+(.6,1.7)$) .. (q1.north east);
+\node[lab,anchor=south,text width=3.5cm] at ($(q1.north)+(0,1.25)$) {sửa phương án};
+\draw[arr] (q1) -- node[lab,above,sloped,text width=3cm] {chốt toàn tập} (q2);
+\draw[arr] (q2.south) to[out=220,in=320] node[lab,below,text width=3cm] {mở chốt có lý do} (q1.south);
+\draw[arr] (q0) -- node[lab,above,sloped,text width=3cm] {admin từ chối} (q3);
+\draw[arr] (q1) -- node[lab,above,sloped,text width=3cm] {admin từ chối} (q3);
+\draw[arr] (q0.west) -- (-3,0) -- (-3,-6.5) -- node[lab,below] {nhân viên rút} (7,-6.5) -- (q4.south);
+\draw[arr] (q1) -- node[lab,above,sloped,text width=3cm] {nhân viên rút} (q4);
+\end{tikzpicture}
+\endgroup

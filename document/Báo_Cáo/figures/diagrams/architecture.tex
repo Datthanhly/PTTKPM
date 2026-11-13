@@ -1,0 +1,27 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\node[ent,text width=3.4cm] (Browser) at (0,0) {\textbf{Browser}\par\smallskip\hrule\smallskip Blade HTML; CSS; Java\allowbreak{}Script};
+\node[ent,text width=3.4cm] (HTTP) at (6,0) {\textbf{HTTP}\par\smallskip\hrule\smallskip Apache → public/index.php};
+\node[ent,text width=3.4cm] (Controllers) at (12,-3) {\textbf{Controllers}\par\smallskip\hrule\smallskip Kiểm dữ liệu; phản hồi};
+\node[ent,text width=3.4cm] (Middleware) at (6,-3) {\textbf{Middleware}\par\smallskip\hrule\smallskip auth; role; CSRF; throttle};
+\node[ent,text width=3.4cm] (Services) at (12,-6) {\textbf{Services}\par\smallskip\hrule\smallskip Nghiệp vụ; giao dịch};
+\node[ent,text width=3.4cm] (Models_DB) at (6,-9) {\textbf{Models\_\allowbreak{}DB}\par\smallskip\hrule\smallskip Eloquent; My\allowbreak{}SQL/SQLite};
+\node[ent,text width=3.4cm] (PrivateFiles) at (0,-6) {\textbf{Private\allowbreak{}Files}\par\smallskip\hrule\smallskip Kết quả; PDF; sao lưu};
+\node[ent,text width=3.4cm] (Worker) at (0,-9) {\textbf{Worker}\par\smallskip\hrule\smallskip clinic:work; scheduler};
+\draw[arr] (Browser) -- node[lab,above,sloped] {HTTP/form/JSON} (HTTP);
+\draw[arr] (HTTP) -- node[lab,above,sloped] {pipeline} (Middleware);
+\draw[arr] (Middleware) -- node[lab,above,sloped] {đủ điều kiện} (Controllers);
+\draw[arr] (Controllers) -- node[lab,above,sloped] {gọi nghiệp vụ} (Services);
+\draw[arr] (Services) -- node[lab,above,sloped] {đọc/ghi/khóa} (Models_DB);
+\draw[arr] (Controllers.south) -- (12,-4.5) -- node[lab,above] {qua kiểm quyền} (0,-4.5) -- (PrivateFiles.north);
+\draw[arr] (Worker) -- node[lab,above,sloped] {outbox và tác vụ} (Models_DB);
+\end{tikzpicture}
+\endgroup

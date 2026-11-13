@@ -1,0 +1,19 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\node[ent,text width=3.4cm] (StaffRosterService) at (0,0) {\textbf{Staff\allowbreak{}Roster\allowbreak{}Service}\par\smallskip\hrule\smallskip +submit(); arrange()\\+auto\allowbreak{}Arrange(); publish()\\+withdraw(); reopen()};
+\node[ent,text width=3.4cm] (StaffWorkShift) at (7.3,0) {\textbf{Staff\allowbreak{}Work\allowbreak{}Shift}\par\smallskip\hrule\smallskip +minutes(); version()\\+user(); branch()};
+\node[ent,text width=3.4cm] (PayrollService) at (0,-4) {\textbf{Payroll\allowbreak{}Service}\par\smallskip\hrule\smallskip +save\allowbreak{}Profile(); generate()\\+update(); recalculate()\\+payment()};
+\node[ent,text width=3.4cm] (PayrollEntry) at (7.3,-4) {\textbf{Payroll\allowbreak{}Entry}\par\smallskip\hrule\smallskip source\_\allowbreak{}shifts; version\\UNPAID / PAID\\+user()};
+\draw[arr] (StaffRosterService) -- node[lab] {tạo/chốt} (StaffWorkShift);
+\draw[arr] (PayrollService) -- node[lab] {đọc ca đã kết thúc} (StaffWorkShift);
+\draw[arr] (PayrollService) -- node[lab] {snapshot} (PayrollEntry);
+\end{tikzpicture}
+\endgroup

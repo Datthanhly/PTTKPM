@@ -1,0 +1,52 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\draw[rounded corners,draw=black!65] (3,1.5) rectangle (13,-11.9);
+\node[font=\bfseries] at (8,1) {Lịch hẹn và tiếp nhận};
+\draw (0.5,-1.2) circle (.15);
+\draw (0.5,-1.35) -- (0.5,-1.85);
+\draw (0.2,-1.5) -- (0.8,-1.5);
+\draw (0.5,-1.85) -- (0.25,-2.2);
+\draw (0.5,-1.85) -- (0.75,-2.2);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (actor0) at (0.5,-2.55) {Bệnh nhân};
+\coordinate (actor0-east) at (0.8,-1.5);
+\coordinate (actor0-west) at (0.2,-1.5);
+\coordinate (actor0-out-east) at (2.05,-1.5);
+\coordinate (actor0-out-west) at (-1.05,-1.5);
+\draw (15.5,-9.6) circle (.15);
+\draw (15.5,-9.75) -- (15.5,-10.25);
+\draw (15.2,-9.9) -- (15.8,-9.9);
+\draw (15.5,-10.25) -- (15.25,-10.6);
+\draw (15.5,-10.25) -- (15.75,-10.6);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (actor1) at (15.5,-10.950000000000001) {Lễ tân};
+\coordinate (actor1-east) at (15.8,-9.9);
+\coordinate (actor1-west) at (15.2,-9.9);
+\coordinate (actor1-out-east) at (17.05,-9.9);
+\coordinate (actor1-out-west) at (13.95,-9.9);
+\node[uc,text width=5.5cm] (u6) at (8,-0.25) {UC-06. Tra cứu giờ khám khả dụng};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u6.west);
+\draw[assoc] (actor1-west) -- (actor1-out-west) -- (u6.east);
+\node[uc,text width=5.5cm] (u7) at (8,-2.05) {UC-07. Đặt lịch khám cho bản thân hoặc đặt hộ};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u7.west);
+\draw[assoc] (actor1-west) -- (actor1-out-west) -- (u7.east);
+\node[uc,text width=5.5cm] (u8) at (8,-3.85) {UC-08. Đổi lịch khám trước hạn};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u8.west);
+\draw[assoc] (actor1-west) -- (actor1-out-west) -- (u8.east);
+\node[uc,text width=5.5cm] (u9) at (8,-5.65) {UC-09. Hủy lịch khám trước hạn};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u9.west);
+\draw[assoc] (actor1-west) -- (actor1-out-west) -- (u9.east);
+\node[uc,text width=5.5cm] (u10) at (8,-7.45) {UC-10. Xác nhận lịch hẹn};
+\draw[assoc] (actor1-west) -- (actor1-out-west) -- (u10.east);
+\node[uc,text width=5.5cm] (u11) at (8,-9.25) {UC-11. Tiếp nhận bệnh nhân có lịch};
+\draw[assoc] (actor1-west) -- (actor1-out-west) -- (u11.east);
+\node[uc,text width=5.5cm] (u12) at (8,-11.05) {UC-12. Tiếp nhận khách vãng lai};
+\draw[assoc] (actor1-west) -- (actor1-out-west) -- (u12.east);
+\end{tikzpicture}
+\endgroup

@@ -1,0 +1,18 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\node[ent,text width=3.4cm] (BillingService) at (0,0) {\textbf{Billing\allowbreak{}Service}\par\smallskip\hrule\smallskip +issue(); pay()\\+refund()};
+\node[ent,text width=3.4cm] (Money) at (7.3,0) {\textbf{Money}\par\smallskip\hrule\smallskip +cents()\\+decimal()};
+\node[ent,text width=3.4cm] (InventoryService) at (0,-4) {\textbf{Inventory\allowbreak{}Service}\par\smallskip\hrule\smallskip +receive(); dispense()\\+adjust()};
+\node[ent,text width=3.4cm] (ReportService) at (7.3,-4) {\textbf{Report\allowbreak{}Service}\par\smallskip\hrule\smallskip Tổng hợp theo phạm vi\\Thu ròng và dư nợ};
+\draw[arr] (BillingService) -- node[lab] {tính chính xác} (Money);
+\draw[arr] (ReportService) -- node[lab] {chuẩn hóa tiền} (Money);
+\end{tikzpicture}
+\endgroup

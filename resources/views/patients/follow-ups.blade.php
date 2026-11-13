@@ -1,0 +1,6 @@
+@extends('layouts.app')
+@section('content')
+<h1>Đề xuất tái khám</h1><p>Chọn giờ trong ca làm của bác sĩ; xem giờ còn trống tại <a href="{{ route('appointments.create') }}">trang đặt lịch</a> trước khi xác nhận đề xuất.</p>
+@forelse($plans as $p)<section class="panel"><h2>{{ $p->visit->doctor->user->name }} · {{ $p->visit->branch->name }}</h2><p>{{ $p->suggested_from->format('d/m/Y') }}–{{ $p->suggested_to->format('d/m/Y') }} · {{ $p->reason }} · <strong>{{ $p->status }}</strong></p>
+@if($p->status==='PROPOSED')<form class="form-grid" method="post" action="{{ route('follow-ups.respond',$p) }}">@csrf<label>Ngày tái khám<input type="date" name="date" min="{{ $p->suggested_from->format('Y-m-d') }}" max="{{ $p->suggested_to->format('Y-m-d') }}"></label><label>Giờ<input type="time" name="start_time"></label><button name="action" value="accept">Chọn và đặt lịch này</button><button name="action" value="decline" class="danger">Từ chối</button></form>@elseif($p->appointment)<p>Đã tạo {{ $p->appointment->appointment_code }} · {{ $p->appointment->appointment_date->format('d/m/Y') }} {{ substr($p->appointment->start_time,0,5) }}</p>@endif</section>@empty<p>Chưa có đề xuất.</p>@endforelse{{ $plans->links() }}
+@endsection

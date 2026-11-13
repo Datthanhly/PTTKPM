@@ -1,0 +1,65 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\draw[rounded corners,draw=black!65] (3,1.5) rectangle (13,-8.3);
+\node[font=\bfseries] at (8,1) {Quản trị và xử lý nền};
+\draw (0.5,-1.2) circle (.15);
+\draw (0.5,-1.35) -- (0.5,-1.85);
+\draw (0.2,-1.5) -- (0.8,-1.5);
+\draw (0.5,-1.85) -- (0.25,-2.2);
+\draw (0.5,-1.85) -- (0.75,-2.2);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (actor0) at (0.5,-2.55) {Admin};
+\coordinate (actor0-east) at (0.8,-1.5);
+\coordinate (actor0-west) at (0.2,-1.5);
+\coordinate (actor0-out-east) at (2.05,-1.5);
+\coordinate (actor0-out-west) at (-1.05,-1.5);
+\draw (15.5,-2.5) circle (.15);
+\draw (15.5,-2.65) -- (15.5,-3.15);
+\draw (15.2,-2.8) -- (15.8,-2.8);
+\draw (15.5,-3.15) -- (15.25,-3.5);
+\draw (15.5,-3.15) -- (15.75,-3.5);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (actor1) at (15.5,-3.8499999999999996) {Worker};
+\coordinate (actor1-east) at (15.8,-2.8);
+\coordinate (actor1-west) at (15.2,-2.8);
+\coordinate (actor1-out-east) at (17.05,-2.8);
+\coordinate (actor1-out-west) at (13.95,-2.8);
+\draw (0.5,-5.5) circle (.15);
+\draw (0.5,-5.6499999999999995) -- (0.5,-6.1499999999999995);
+\draw (0.2,-5.8) -- (0.8,-5.8);
+\draw (0.5,-6.1499999999999995) -- (0.25,-6.5);
+\draw (0.5,-6.1499999999999995) -- (0.75,-6.5);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (actor2) at (0.5,-6.85) {Thu ngân};
+\coordinate (actor2-east) at (0.8,-5.8);
+\coordinate (actor2-west) at (0.2,-5.8);
+\coordinate (actor2-out-east) at (2.05,-5.8);
+\coordinate (actor2-out-west) at (-1.05,-5.8);
+\draw (15.5,-6.2) circle (.15);
+\draw (15.5,-6.35) -- (15.5,-6.85);
+\draw (15.2,-6.5) -- (15.8,-6.5);
+\draw (15.5,-6.85) -- (15.25,-7.2);
+\draw (15.5,-6.85) -- (15.75,-7.2);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (actor3) at (15.5,-7.55) {LIS/Device};
+\coordinate (actor3-east) at (15.8,-6.5);
+\coordinate (actor3-west) at (15.2,-6.5);
+\coordinate (actor3-out-east) at (17.05,-6.5);
+\coordinate (actor3-out-west) at (13.95,-6.5);
+\node[uc,text width=5.5cm] (u36) at (8,-0.25) {UC-36. Quản lý cơ sở, tài khoản và quyền bổ sung};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u36.west);
+\node[uc,text width=5.5cm] (u37) at (8,-2.05) {UC-37. Xem và xuất báo cáo nghiệp vụ};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u37.west);
+\draw[assoc] (actor2-east) -- (actor2-out-east) -- (u37.west);
+\node[uc,text width=5.5cm] (u38) at (8,-3.85) {UC-38. Gửi thông báo và nhắc lịch qua outbox};
+\draw[assoc] (actor1-west) -- (actor1-out-west) -- (u38.east);
+\node[uc,text width=5.5cm] (u39) at (8,-5.65) {UC-39. Nhận kết quả LIS và số đo thiết bị};
+\draw[assoc] (actor3-west) -- (actor3-out-west) -- (u39.east);
+\node[uc,text width=5.5cm] (u40) at (8,-7.45) {UC-40. Sao lưu và kiểm tra khôi phục};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u40.west);
+\end{tikzpicture}
+\endgroup

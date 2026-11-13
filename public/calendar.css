@@ -1,0 +1,74 @@
+.calendar-page-head { margin-bottom: 24px; }
+.calendar-filters { padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: #fff; gap: 16px; }
+.calendar-filters label { margin: 0; flex: 1 1 190px; }
+.calendar-filters button { flex-shrink: 0; }
+.weekly-calendar { border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: var(--shadow); overflow: hidden; }
+.calendar-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding: 20px; border-bottom: 1px solid var(--line); }
+.calendar-toolbar h2 { margin: 0; font: 600 19px 'Be Vietnam Pro', sans-serif; }
+.calendar-week-nav, .calendar-legend { display: flex; align-items: center; gap: 10px; }
+.calendar-week-nav .button { padding: 7px 12px; }
+.calendar-legend { font-size: 12px; color: var(--muted); }
+.calendar-legend > span:last-child { margin-left: 8px; padding-left: 12px; border-left: 1px solid var(--line); }
+.legend-dot { width: 9px; height: 9px; border-radius: 50%; }
+.legend-dot.morning { background: #315a91; }
+.legend-dot.afternoon { background: #b75c28; }
+.calendar-empty-note { margin: 0; padding: 16px 20px; background: #fff8e7; color: #7d5c00; }
+.calendar-scroll-hint { display: none; }
+.calendar-scroll { overflow: auto; }
+.calendar-grid { display: grid; grid-template-columns: 64px repeat(7, minmax(138px, 1fr)); min-width: 1030px; }
+.calendar-corner, .calendar-day-heading { min-height: 92px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom: 1px solid var(--line); background: #fbfcfa; }
+.calendar-corner { font-size: 11px; color: var(--muted); }
+.calendar-corner, .calendar-time-axis { position: sticky; left: 0; z-index: 2; border-right: 1px solid var(--line); }
+.calendar-day-heading { border-left: 1px solid var(--line); gap: 2px; }
+.calendar-day-heading > span { font-size: 11px; color: var(--muted); }
+.calendar-day-heading strong { display: grid; place-items: center; width: 32px; height: 32px; font-size: 20px; font-weight: 500; border-radius: 50%; }
+.calendar-day-heading small { font-size: 10px; color: var(--muted); }
+.calendar-day-heading.is-today strong { background: var(--primary); color: #fff; }
+.calendar-time-axis { background: #fbfcfa; }
+.calendar-time-axis > span { position: absolute; left: 0; right: 0; text-align: center; padding-top: 5px; font-size: 11px; font-weight: 600; color: var(--muted); }
+.calendar-day-column { position: relative; border-left: 1px solid var(--line); background-image: linear-gradient(#dce5df 1px, transparent 1px), linear-gradient(#eff3f1 1px, transparent 1px); background-size: 100% 60px, 100% 30px; }
+.calendar-day-column.is-today { background-color: #f4faf7; }
+.shift-card { --shift-accent: #315a91; --shift-tint: #f4f7fd; position: absolute; left: 4px; right: 4px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid #cbd8e9; border-radius: 9px; color: var(--ink); background: var(--shift-tint); box-shadow: 0 2px 5px #173b3714; transition: box-shadow .15s; }
+.shift-card.afternoon { --shift-accent: #b75c28; --shift-tint: #fff8f1; border-color: #ead7c8; }
+.shift-card.is-closed { --shift-accent: #697875; --shift-tint: #f1f3f2; border-color: #ccd4d1; }
+.shift-card:hover { box-shadow: 0 0 0 2px var(--shift-accent); }
+.shift-card-heading { display: flex; flex-direction: column; gap: 3px; padding: 10px 9px; background: var(--shift-accent); color: #fff; }
+.shift-card-heading strong { font-size: 13px; }
+.shift-card-heading > span { font-size: 11px; }
+.shift-card-body { display: flex; flex-direction: column; gap: 7px; padding: 10px 9px; font-size: 11px; line-height: 1.5; }
+.shift-card-body small { font-size: 10px; color: var(--muted); }
+.shift-count { align-self: flex-start; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px solid #dde4df; font-weight: 600; }
+.shift-card.is-short .shift-card-heading { flex-direction: row; align-items: center; justify-content: space-between; gap: 3px; padding: 1px 5px; min-height: 0; flex: 1; }
+.shift-card.is-short .shift-card-heading strong, .shift-card.is-short .shift-card-heading > span { font-size: 10px; }
+.shift-card.is-short .shift-card-body { display: none; }
+.shift-dialog { width: min(1100px, calc(100vw - 32px)); max-height: 88vh; padding: 0; border: 1px solid var(--line); border-radius: 16px; color: var(--ink); background: #fff; box-shadow: 0 24px 100px #102e2a40; }
+.shift-dialog[open] { display: flex; flex-direction: column; }
+.shift-dialog::backdrop { background: #0f282666; }
+.shift-dialog-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px; border-bottom: 1px solid var(--line); }
+.shift-dialog-heading h2 { margin: 0; font: 600 18px 'Be Vietnam Pro', sans-serif; }
+.shift-dialog-heading button { flex-shrink: 0; }
+.shift-dialog-body { overflow: auto; min-height: 160px; padding: 24px; }
+.shift-summary { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+.shift-summary h3 { margin: 0; font-size: 20px; }
+.shift-summary p { margin: 8px 0; }
+.shift-summary small { color: var(--muted); }
+.shift-summary .badge { white-space: nowrap; }
+.shift-filters { padding: 16px; background: #f5f8f6; border-radius: 10px; gap: 12px; }
+.shift-filters label { margin: 0; flex: 1 1 170px; }
+.shift-appointments-table { min-width: 750px; }
+.shift-appointments-table td { font-size: 12px; }
+.shift-appointments-table th { white-space: nowrap; }
+.shift-appointments-table .table-actions { min-width: 120px; }
+.shift-appointments-table .table-actions input { margin-bottom: 6px; }
+.shift-pagination { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 20px; }
+.shift-loading, .shift-load-error { padding: 24px; text-align: center; }
+@media (max-width: 800px) {
+    .calendar-toolbar { padding: 16px; }
+    .calendar-toolbar h2 { font-size: 16px; }
+    .calendar-scroll-hint { display: block; margin: 0; padding: 10px 16px; font-size: 11px; background: #f5f8f6; }
+    .calendar-filters { padding: 16px; }
+    .calendar-filters button { width: 100%; }
+    .shift-dialog-heading, .shift-dialog-body { padding: 16px; }
+    .shift-dialog-heading h2 { font-size: 15px; }
+    .shift-summary { flex-direction: column; }
+}

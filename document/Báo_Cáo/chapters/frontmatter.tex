@@ -1,0 +1,87 @@
+\begin{titlepage}\thispagestyle{empty}\centering
+\begin{tikzpicture}[remember picture,overlay]
+\draw[line width=1pt] ([xshift=2.1cm,yshift=-1.4cm]current page.north west) rectangle ([xshift=-1.4cm,yshift=1.4cm]current page.south east);
+\draw[line width=.4pt] ([xshift=2.25cm,yshift=-1.55cm]current page.north west) rectangle ([xshift=-1.55cm,yshift=1.55cm]current page.south east);
+\end{tikzpicture}
+{\large\bfseries ĐẠI HỌC PHENIKAA\par TRƯỜNG CÔNG NGHỆ THÔNG TIN PHENIKAA\par}
+\vspace{.6cm}\includegraphics[width=3.6cm]{figures/logo/logo_truong.png}\par
+\vspace{.8cm}{\large\bfseries HỌC PHẦN\par PHÂN TÍCH VÀ THIẾT KẾ PHẦN MỀM\par}
+\vspace{.6cm}{\fontsize{21}{27}\selectfont\bfseries BÁO CÁO HỌC PHẦN\par}
+\vspace{.8cm}{\large\bfseries ĐỀ TÀI\par}
+\vspace{.25cm}{\fontsize{20}{27}\selectfont\bfseries PHÂN TÍCH VÀ THIẾT KẾ\par HỆ THỐNG QUẢN LÝ PHÒNG KHÁM\par ĐA CƠ SỞ AN TÂM\par}
+\vspace{.8cm}
+\begin{tabular}{@{}ll@{}}
+\textbf{Nhóm thực hiện} & Nhóm 3 - Lớp N01\\[6pt]
+\textbf{Thành viên} & Lý Thành Đạt - 23010879\\[4pt]
+& Nguyễn Văn Nam - 22011663\\[6pt]
+\textbf{Giảng viên giảng dạy} & TS. Mai Thúy Nga\\
+\end{tabular}
+\vfill Hà Nội, tháng 11 năm 2026\par\vspace{.3cm}
+\end{titlepage}
+\chapter*{LỜI MỞ ĐẦU}\addcontentsline{toc}{chapter}{LỜI MỞ ĐẦU}
+Số hóa hoạt động phòng khám không chỉ là đưa biểu mẫu lên web.\allowbreak{} Thách thức nằm ở việc nhiều vai trò cùng thao tác trên lịch, hồ sơ, chứng từ và nguồn lực, trong khi thông tin phải được bảo toàn và chỉ công bố đúng người.\allowbreak{} Đề tài lựa chọn phòng khám đa cơ sở An Tâm để vận dụng phương pháp phân tích, mô hình hóa và thiết kế phần mềm vào một chuỗi nghiệp vụ có nhiều ràng buộc liên quan nhau.\allowbreak{}
+
+Báo cáo trình bày yêu cầu, mô hình phân tích, thiết kế hệ thống và kết quả kiểm thử.\allowbreak{} Trọng tâm gồm đặt lịch theo ca, tiếp nhận và khám, kết quả cận lâm sàng, đơn thuốc và kho, hóa đơn và thanh toán, điều phối nhân sự và tiền lương.\allowbreak{} Các mô hình làm rõ quan hệ dữ liệu, trách nhiệm của từng thành phần và điều kiện chuyển trạng thái trong chuỗi nghiệp vụ.\allowbreak{}
+
+Nhóm xin cảm ơn giảng viên TS.\allowbreak{} Mai Thúy Nga đã hướng dẫn học phần.\allowbreak{} Đề tài được thực hiện trong phạm vi học tập, nhằm vận dụng kiến thức phân tích yêu cầu, mô hình hóa hướng đối tượng và thiết kế cơ sở dữ liệu.\allowbreak{} Các hạn chế và hướng phát triển được tổng hợp ở phần kết luận.\allowbreak{}
+
+\clearpage
+\chapter*{THÔNG TIN BÁO CÁO}\addcontentsline{toc}{chapter}{THÔNG TIN BÁO CÁO}
+
+{\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.25\textwidth-1.5pt\relax} L{\dimexpr 0.75\textwidth-4.5pt\relax}@{}}
+\toprule
+\textbf{Nội dung} & \textbf{Thông tin}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Nội dung} & \textbf{Thông tin}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+Đề tài & Phân tích và thiết kế hệ thống quản lý phòng khám đa cơ sở An Tâm\\[3pt]
+Học phần & Phân tích và thiết kế phần mềm\\[3pt]
+Nhóm /\allowbreak{} lớp & Nhóm 3 /\allowbreak{} N01\\[3pt]
+Thành viên & Lý Thành Đạt - 23010879; Nguyễn Văn Nam - 22011663\\[3pt]
+Giảng viên & TS.\allowbreak{} Mai Thúy Nga\\[3pt]
+Thời gian & Tháng 11 năm 2026\\[3pt]
+Phạm vi & Phòng khám ngoại trú đa cơ sở; năm vai trò chính\\[3pt]
+Nền tảng & Laravel 10; PHP 8.\allowbreak{}1; Blade; Laragon 6; My\allowbreak{}SQL\\[3pt]
+Môi trường kiểm thử & SQLite cô lập; 109 lần thực thi, 2.\allowbreak{}807 phép xác nhận\\[3pt]
+Dữ liệu minh họa & Dữ liệu học tập dùng riêng cho trình bày giao diện\\[3pt]
+\end{longtable}}
+Báo cáo tổ chức theo bốn chương:\allowbreak{} đặc tả yêu cầu, phân tích hệ thống, thiết kế hệ thống, hiện thực hóa và kiểm thử.\allowbreak{} Phụ lục cung cấp từ điển dữ liệu, danh mục kiểm thử và ma trận liên kết yêu cầu với phân hệ và tiêu chí kiểm tra.\allowbreak{}
+
+Phạm vi tập trung vào quy trình ngoại trú, quản lý nguồn lực và bảo vệ dữ liệu theo vai trò.\allowbreak{} Những nội dung ngoài phạm vi được nêu ở phần giới hạn và hướng phát triển.\allowbreak{} Số ca, nhân sự và chứng từ minh họa phục vụ đánh giá chức năng trong môi trường học tập.\allowbreak{}
+
+\clearpage
+\chapter*{ĐỊNH HƯỚNG PHÂN CÔNG VÀ KIỂM SOÁT CHẤT LƯỢNG}\addcontentsline{toc}{chapter}{ĐỊNH HƯỚNG PHÂN CÔNG}
+Bảng dưới là đề xuất phân công để hai thành viên rà soát và hoàn thiện sản phẩm học phần.\allowbreak{} Bộ tài liệu được cung cấp chưa có nhật ký công việc cá nhân hoặc tỷ lệ đóng góp đã xác nhận, vì vậy báo cáo không tự điền phần trăm hoặc tuyên bố từng người đã hoàn thành các nhiệm vụ này.\allowbreak{}
+
+
+{\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.27\textwidth-1.62pt\relax} L{\dimexpr 0.73\textwidth-4.38pt\relax}@{}}
+\toprule
+\textbf{Thành viên} & \textbf{Phần việc đề xuất rà soát}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Thành viên} & \textbf{Phần việc đề xuất rà soát}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+Lý Thành Đạt & Yêu cầu, ma trận quyền, use case; kiểm luồng đặt/\allowbreak{}đổi/\allowbreak{}hủy và khám; tổng hợp nội dung báo cáo.\allowbreak{}\\[3pt]
+Nguyễn Văn Nam & Mô hình dữ liệu, thiết kế lớp/\allowbreak{}triển khai; kiểm lịch nhân viên, lương, kho và chứng từ.\allowbreak{}\\[3pt]
+Cả hai thành viên & Rà soát tính nhất quán của các mô hình, thực hiện kịch bản theo vai trò và xác nhận nội dung báo cáo.\allowbreak{}\\[3pt]
+\end{longtable}}
+Kiểm soát chất lượng tài liệu tập trung vào tính đầy đủ của yêu cầu, tính nhất quán giữa các mô hình và khả năng kiểm tra từng quy tắc nghiệp vụ.\allowbreak{} Kiểm thử được thực hiện trên dữ liệu riêng.\allowbreak{} Sơ đồ dùng định dạng vector; bảng, mục lục, số hình và tiếng Việt được kiểm tra sau khi xuất PDF.\allowbreak{}
+
+Phân công thực tế và biên bản nghiệm thu cần được các thành viên xác nhận trước khi nộp.\allowbreak{} Việc rà soát chung ưu tiên các ràng buộc liên phân hệ như thời gian khám, hoàn tất hồ sơ, số dư thanh toán, tồn kho và nguồn tính lương.\allowbreak{}
+
+\clearpage
+\chapter*{TÓM TẮT}\addcontentsline{toc}{chapter}{TÓM TẮT}
+Đề tài phân tích và thiết kế hệ thống quản lý phòng khám đa cơ sở An Tâm với năm vai trò chính.\allowbreak{} Báo cáo đặc tả 40 use case và 42 quy tắc nghiệp vụ, xây dựng 43 sơ đồ gồm use case, lĩnh vực, hoạt động, tuần tự, trạng thái, kiến trúc, lớp, ERD và triển khai.\allowbreak{} Thiết kế dữ liệu gồm 52 bảng nghiệp vụ và nền tảng.\allowbreak{}
+
+Giải pháp hiện thực bằng Laravel/\allowbreak{}Blade trên Laragon 6.\allowbreak{} Các điểm thiết kế trọng tâm là tách Appointment khỏi Visit; kiểm khả dụng theo ca/\allowbreak{}sức chứa/\allowbreak{}lịch nghỉ; dùng transaction, khóa và idempotency tại ranh giới thay đổi; giữ revision của hồ sơ đã ký, snapshot hóa đơn và bảng lương; quản lý phân bổ thuốc theo FEFO; tách nguyện vọng nhân viên khỏi ca đã chốt.\allowbreak{}
+
+Bằng chứng kiểm thử lần biên soạn gồm 109 test thực thi và 2.\allowbreak{}807 assertion đạt trên SQLite cô lập.\allowbreak{} Các kiểm thử tập trung vào luồng xuyên vai trò, quyền theo cơ sở, mốc 24 giờ, trạng thái, gửi lặp, rollback và riêng tư lương.\allowbreak{} Bộ test không chứng minh khả năng chịu tải, tuân thủ pháp lý y tế hoặc kết nối thiết bị ngoài thực tế.\allowbreak{}
+
+Kết quả là bộ đặc tả yêu cầu và mô hình thiết kế liên kết từ quy trình nghiệp vụ đến cấu trúc dữ liệu và kiểm thử.\allowbreak{} Hệ thống cần tiếp tục hoàn thiện chấm công, cấu hình hạ tầng, đánh giá bảo mật và thử tải; đồng thời cần xác nhận chuyên môn trước khi triển khai tại cơ sở khám thực tế.\allowbreak{}
+
+\clearpage\begingroup\small\tableofcontents\endgroup\clearpage\phantomsection\addcontentsline{toc}{chapter}{DANH MỤC HÌNH}\begingroup\small\listoffigures\endgroup\clearpage\phantomsection\addcontentsline{toc}{chapter}{DANH MỤC BẢNG}\begingroup\small\listoftables\endgroup\clearpage

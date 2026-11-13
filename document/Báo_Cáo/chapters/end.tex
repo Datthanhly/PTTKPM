@@ -1,0 +1,20 @@
+\chapter*{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}\addcontentsline{toc}{chapter}{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}
+Báo cáo đã hình thành bộ mô hình nhất quán cho hệ thống phòng khám đa cơ sở An Tâm, từ mục tiêu của năm vai trò đến thiết kế dữ liệu và các điểm bảo vệ nghiệp vụ.\allowbreak{} Khác biệt cốt lõi của mô hình là tách lịch hẹn khỏi lần khám, tách kê đơn khỏi cấp thuốc, tách phát hành hóa đơn khỏi thu tiền và tách đăng ký nhân viên khỏi lịch chính thức.\allowbreak{}
+
+Phần hiện thực có transaction, khóa, idempotency, version/\allowbreak{}fingerprint và snapshot tại các điểm có nguy cơ thay đổi đồng thời hoặc mất lịch sử.\allowbreak{} Các module lịch, khám, kết quả, kho, tài chính và lương liên kết trên cơ sở dữ liệu chung nhưng giữ quyền và vòng đời riêng.\allowbreak{} Lương theo giờ/\allowbreak{}ca có đơn giá cá nhân và trạng thái chi trả do admin quản lý; nhân viên chỉ xem phần của mình.\allowbreak{}
+
+Lần kiểm thử mới đạt 109 test và 2.\allowbreak{}807 assertion trên SQLite cô lập.\allowbreak{} Sơ đồ, từ điển 52 bảng, ảnh giao diện và ma trận truy vết cho phép tiếp tục kiểm tra từng kết luận.\allowbreak{} Tuy nhiên, các test chức năng không thay thế xác nhận chuyên môn, kiểm thử tải, đánh giá an ninh độc lập hoặc nghiệm thu production.\allowbreak{}
+
+Ưu tiên tiếp theo là đối chiếu quy trình với cơ sở khám thật; hoàn thiện chấm công và đối soát lương; kiểm thử đồng thời trên My\allowbreak{}SQL ở hạ tầng mục tiêu; cấu hình HTTPS/\allowbreak{}SMTP/\allowbreak{}backup có mã hóa và giám sát; đánh giá cách quản lý chữ ký, lịch sử hồ sơ và thời hạn lưu trữ.\allowbreak{} Chỉ tích hợp LIS/\allowbreak{}Device hoặc ngân hàng khi có hợp đồng, quyền truy cập và tiêu chí kiểm chứng thực tế.\allowbreak{}
+
+\clearpage
+\chapter*{TÀI LIỆU THAM KHẢO}\addcontentsline{toc}{chapter}{TÀI LIỆU THAM KHẢO}
+\noindent\textbf{[S1]} Nhóm 3, Clinic\_\allowbreak{}Management\_\allowbreak{}System\_\allowbreak{}Full\_\allowbreak{}Specification.\allowbreak{}md, tài liệu đặc tả nội bộ của dự án.\allowbreak{}\par
+\noindent\textbf{[S2]} Nhóm 3, Hệ thống quản lý phòng khám đa cơ sở An Tâm, sản phẩm phần mềm học phần, tháng 11/\allowbreak{}2026.\allowbreak{}\par
+\noindent\textbf{[S3]} Uni\allowbreak{}Cateen\_\allowbreak{}Bao\allowbreak{}Cao\_\allowbreak{}v5, tài liệu tham khảo về bố cục báo cáo phân tích và thiết kế hệ thống.\allowbreak{}\par
+\noindent\textbf{[S4]} Tài liệu nội bộ:\allowbreak{} Implementation\_\allowbreak{}Laragon.\allowbreak{}md; Staff\_\allowbreak{}Roster\_\allowbreak{}Workflow.\allowbreak{}md; Payroll\_\allowbreak{}Workflow.\allowbreak{}md; Doctor\_\allowbreak{}Coverage\_\allowbreak{}Report.\allowbreak{}md; API\_\allowbreak{}Laragon.\allowbreak{}md; Laragon\_\allowbreak{}Troubleshooting.\allowbreak{}md.\allowbreak{}\par
+\noindent\textbf{[S5]} Bằng chứng kiểm thử lần biên soạn:\allowbreak{} tools/\allowbreak{}tests.\allowbreak{}xml và tools/\allowbreak{}test-run.\allowbreak{}txt; 109 tests, 2.\allowbreak{}807 assertions.\allowbreak{}\par
+\noindent\textbf{[S6]} OMG, Unified Modeling Language, Version 2.\allowbreak{}5.\allowbreak{}1.\allowbreak{} Dùng tham khảo ký hiệu UML.\allowbreak{} \url{https://www.omg.org/spec/UML/2.5.1}. Truy cập 14/11/2026.\par
+\noindent\textbf{[S7]} Laravel, Database:\allowbreak{} Getting Started, tài liệu phiên bản 10.\allowbreak{}x.\allowbreak{} Tham khảo transaction và kết nối DB.\allowbreak{} \url{https://laravel.com/docs/10.x/database}. Truy cập 14/11/2026.\par
+\noindent\textbf{[S8]} Laravel, Authorization, tài liệu phiên bản 10.\allowbreak{}x.\allowbreak{} Tham khảo nguyên tắc cấp quyền; dự án dùng Clinic\allowbreak{}Access riêng.\allowbreak{} \url{https://laravel.com/docs/10.x/authorization}. Truy cập 14/11/2026.\par
+\noindent\textbf{[S9]} PHP Manual, Password Hashing.\allowbreak{} Tham khảo cơ chế băm/\allowbreak{}kiểm mật khẩu, không phải mã hóa để giải ngược.\allowbreak{} \url{https://www.php.net/manual/en/book.password.php}. Truy cập 14/11/2026.\par

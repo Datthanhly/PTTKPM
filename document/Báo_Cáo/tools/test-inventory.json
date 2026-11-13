@@ -1,0 +1,1508 @@
+[
+  {
+    "id": "TC-001",
+    "class": "AppointmentBookingTest",
+    "method": "test_booking_rejects_an_overlapping_active_appointment",
+    "source": "tests/Feature/AppointmentBookingTest.php",
+    "line": 20,
+    "routes": [],
+    "assertions": []
+  },
+  {
+    "id": "TC-002",
+    "class": "AppointmentBookingTest",
+    "method": "test_booking_must_follow_the_schedule_slot_step",
+    "source": "tests/Feature/AppointmentBookingTest.php",
+    "line": 42,
+    "routes": [],
+    "assertions": [
+      "assertSame"
+    ]
+  },
+  {
+    "id": "TC-003",
+    "class": "AppointmentCutoffTest",
+    "method": "test_patient_cutoff_redirects_with_a_message_and_preserves_blocked_appointments",
+    "source": "tests/Feature/AppointmentCutoffTest.php",
+    "line": 47,
+    "routes": [
+      "appointments.index",
+      "appointments."
+    ],
+    "assertions": [
+      "assertRedirect",
+      "assertSessionHasNoErrors",
+      "assertSessionHas",
+      "assertSame",
+      "assertDatabaseHas",
+      "assertSessionHasErrors",
+      "assertSessionMissing",
+      "assertOk",
+      "assertSee",
+      "assertDatabaseCount"
+    ]
+  },
+  {
+    "id": "TC-004",
+    "class": "AppointmentCutoffTest",
+    "method": "test_expired_reschedule_page_and_json_requests_show_a_business_message",
+    "source": "tests/Feature/AppointmentCutoffTest.php",
+    "line": 78,
+    "routes": [
+      "appointments.edit",
+      "appointments.cancel",
+      "appointments.reschedule"
+    ],
+    "assertions": [
+      "assertOk",
+      "assertSee",
+      "assertDontSee",
+      "assertUnprocessable",
+      "assertJsonValidationErrors",
+      "assertSame"
+    ]
+  },
+  {
+    "id": "TC-005",
+    "class": "AuthenticationTest",
+    "method": "test_patient_can_register_and_get_a_patient_profile",
+    "source": "tests/Feature/AuthenticationTest.php",
+    "line": 17,
+    "routes": [],
+    "assertions": [
+      "assertRedirect",
+      "assertAuthenticated",
+      "assertDatabaseHas"
+    ]
+  },
+  {
+    "id": "TC-006",
+    "class": "AuthenticationTest",
+    "method": "test_existing_bcrypt_login_upgrades_hash_and_locked_login_stays_generic",
+    "source": "tests/Feature/AuthenticationTest.php",
+    "line": 32,
+    "routes": [],
+    "assertions": [
+      "assertRedirect",
+      "assertAuthenticated",
+      "assertSame",
+      "assertGuest",
+      "assertSessionHasErrors"
+    ]
+  },
+  {
+    "id": "TC-007",
+    "class": "AuthenticationTest",
+    "method": "test_password_reset_token_is_single_use",
+    "source": "tests/Feature/AuthenticationTest.php",
+    "line": 46,
+    "routes": [],
+    "assertions": [
+      "assertRedirect",
+      "assertTrue",
+      "assertFalse",
+      "assertSessionHasErrors"
+    ]
+  },
+  {
+    "id": "TC-008",
+    "class": "ClinicMedicineTest",
+    "method": "test_three_products_have_separate_traceable_stock_at_each_branch_and_reruns_do_not_replenish",
+    "source": "tests/Feature/ClinicMedicineTest.php",
+    "line": 38,
+    "routes": [],
+    "assertions": [
+      "assertSame",
+      "assertFalse",
+      "assertCount",
+      "assertDatabaseHas"
+    ]
+  },
+  {
+    "id": "TC-009",
+    "class": "ClinicMedicineTest",
+    "method": "test_default_inventory_hides_archived_products_and_branch_permissions_remain_enforced",
+    "source": "tests/Feature/ClinicMedicineTest.php",
+    "line": 85,
+    "routes": [],
+    "assertions": [
+      "assertSuccessful",
+      "assertOk",
+      "assertSee",
+      "assertDontSee",
+      "assertViewHas",
+      "assertForbidden"
+    ]
+  },
+  {
+    "id": "TC-010",
+    "class": "ClinicMedicineTest",
+    "method": "test_reused_codes_and_existing_stock_are_preserved_without_creating_misidentified_lots",
+    "source": "tests/Feature/ClinicMedicineTest.php",
+    "line": 100,
+    "routes": [],
+    "assertions": [
+      "assertSame",
+      "assertCount",
+      "assertFalse"
+    ]
+  },
+  {
+    "id": "TC-011",
+    "class": "ClinicSchedulesTest",
+    "method": "test_both_sessions_produce_bookable_slots_and_repeating_keeps_existing_shifts",
+    "source": "tests/Feature/ClinicSchedulesTest.php",
+    "line": 31,
+    "routes": [],
+    "assertions": [
+      "assertSuccessful",
+      "assertCount",
+      "assertSame"
+    ]
+  },
+  {
+    "id": "TC-012",
+    "class": "ClinicSchedulesTest",
+    "method": "test_existing_closed_shift_at_another_branch_is_preserved_and_blocks_overlap",
+    "source": "tests/Feature/ClinicSchedulesTest.php",
+    "line": 52,
+    "routes": [],
+    "assertions": [
+      "assertSuccessful",
+      "assertSame",
+      "assertFalse",
+      "assertDatabaseHas",
+      "assertFailed"
+    ]
+  },
+  {
+    "id": "TC-013",
+    "class": "ClinicSpecialtyUpdateTest",
+    "method": "test_specialty_update_preserves_existing_data_when_repeated",
+    "source": "tests/Feature/ClinicSpecialtyUpdateTest.php",
+    "line": 18,
+    "routes": [],
+    "assertions": [
+      "assertSame",
+      "assertFalse",
+      "assertOk",
+      "assertSee",
+      "assertDontSee"
+    ]
+  },
+  {
+    "id": "TC-014",
+    "class": "ClinicWorkforceTest",
+    "method": "test_missing_workforce_is_balanced_and_bookable_without_changing_existing_data_or_repeating",
+    "source": "tests/Feature/ClinicWorkforceTest.php",
+    "line": 43,
+    "routes": [],
+    "assertions": [
+      "assertCount",
+      "assertSame",
+      "assertTrue",
+      "assertDatabaseMissing",
+      "assertEquals"
+    ]
+  },
+  {
+    "id": "TC-015",
+    "class": "ClinicWorkforceTest",
+    "method": "test_email_collision_does_not_claim_an_existing_patient_and_console_command_is_available",
+    "source": "tests/Feature/ClinicWorkforceTest.php",
+    "line": 89,
+    "routes": [
+      "admin.settings"
+    ],
+    "assertions": [
+      "assertSuccessful",
+      "assertTrue",
+      "assertSame",
+      "assertForbidden"
+    ]
+  },
+  {
+    "id": "TC-016",
+    "class": "DoctorCoverageTest",
+    "method": "test_two_doctors_per_specialty_per_branch_cover_every_period_and_existing_patient_data_and_payroll_are_unchanged",
+    "source": "tests/Feature/DoctorCoverageTest.php",
+    "line": 83,
+    "routes": [],
+    "assertions": [
+      "assertCount",
+      "assertSame",
+      "assertGreaterThan",
+      "assertCoverage",
+      "assertEquals",
+      "assertFalse",
+      "assertNotEmpty"
+    ]
+  },
+  {
+    "id": "TC-017",
+    "class": "DoctorCoverageTest",
+    "method": "test_preview_rolls_back_new_accounts_salaries_and_shifts_and_invalid_dates_do_not_write",
+    "source": "tests/Feature/DoctorCoverageTest.php",
+    "line": 127,
+    "routes": [],
+    "assertions": [
+      "assertSuccessful",
+      "assertSame",
+      "assertFailed"
+    ]
+  },
+  {
+    "id": "TC-018",
+    "class": "DoctorCoverageTest",
+    "method": "test_leave_closed_custom_and_transfer_linked_shifts_are_respected",
+    "source": "tests/Feature/DoctorCoverageTest.php",
+    "line": 138,
+    "routes": [],
+    "assertions": [
+      "assertSame",
+      "assertCoverage",
+      "assertFalse"
+    ]
+  },
+  {
+    "id": "TC-019",
+    "class": "DoctorCoverageTest",
+    "method": "test_impossible_coverage_rolls_back_the_whole_batch_and_does_not_reactivate_locked_doctors",
+    "source": "tests/Feature/DoctorCoverageTest.php",
+    "line": 156,
+    "routes": [],
+    "assertions": [
+      "assertStringContainsString",
+      "assertSame",
+      "assertCount",
+      "assertFalse",
+      "assertCoverage"
+    ]
+  },
+  {
+    "id": "TC-020",
+    "class": "DoctorScheduleRegistrationTest",
+    "method": "test_doctor_registers_own_morning_and_afternoon_with_weekly_repeat_without_admin_privileges",
+    "source": "tests/Feature/DoctorScheduleRegistrationTest.php",
+    "line": 50,
+    "routes": [
+      "doctor-schedules.create",
+      "staff.appointments",
+      "doctor-schedules.store",
+      "appointments.availability"
+    ],
+    "assertions": [
+      "assertRedirect",
+      "assertOk",
+      "assertSee",
+      "assertSame",
+      "assertSessionHasNoErrors",
+      "assertCount",
+      "assertTrue",
+      "assertDatabaseHas",
+      "assertFalse",
+      "assertViewHas",
+      "assertJsonCount"
+    ]
+  },
+  {
+    "id": "TC-021",
+    "class": "DoctorScheduleRegistrationTest",
+    "method": "test_custom_hours_become_available_with_the_selected_duration_and_capacity",
+    "source": "tests/Feature/DoctorScheduleRegistrationTest.php",
+    "line": 76,
+    "routes": [
+      "doctor-schedules.store"
+    ],
+    "assertions": [
+      "assertRedirect",
+      "assertSessionHasNoErrors",
+      "assertCount",
+      "assertSame"
+    ]
+  },
+  {
+    "id": "TC-022",
+    "class": "DoctorScheduleRegistrationTest",
+    "method": "test_overlapping_closed_shift_at_another_branch_is_rejected",
+    "source": "tests/Feature/DoctorScheduleRegistrationTest.php",
+    "line": 88,
+    "routes": [
+      "doctor-schedules.store"
+    ],
+    "assertions": [
+      "assertUnprocessable",
+      "assertJsonValidationErrors",
+      "assertDatabaseCount"
+    ]
+  },
+  {
+    "id": "TC-023",
+    "class": "DoctorScheduleRegistrationTest",
+    "method": "test_unassigned_branch_is_rejected",
+    "source": "tests/Feature/DoctorScheduleRegistrationTest.php",
+    "line": 99,
+    "routes": [
+      "doctor-schedules.store"
+    ],
+    "assertions": [
+      "assertUnprocessable",
+      "assertJsonValidationErrors"
+    ]
+  },
+  {
+    "id": "TC-024",
+    "class": "DoctorScheduleRegistrationTest",
+    "method": "test_leave_overlap_is_rejected_but_a_different_session_is_allowed",
+    "source": "tests/Feature/DoctorScheduleRegistrationTest.php",
+    "line": 105,
+    "routes": [
+      "doctor-schedules.store"
+    ],
+    "assertions": [
+      "assertUnprocessable",
+      "assertJsonValidationErrors",
+      "assertRedirect",
+      "assertSessionHasNoErrors"
+    ]
+  },
+  {
+    "id": "TC-025",
+    "class": "DoctorScheduleRegistrationTest",
+    "method": "test_later_repeat_conflict_rolls_back_the_whole_registration",
+    "source": "tests/Feature/DoctorScheduleRegistrationTest.php",
+    "line": 115,
+    "routes": [
+      "doctor-schedules.store"
+    ],
+    "assertions": [
+      "assertUnprocessable",
+      "assertJsonValidationErrors",
+      "assertDatabaseCount",
+      "assertSame",
+      "assertDatabaseMissing"
+    ]
+  },
+  {
+    "id": "TC-026",
+    "class": "DoctorScheduleRegistrationTest",
+    "method": "test_invalid_registration_does_not_create_shifts",
+    "source": "tests/Feature/DoctorScheduleRegistrationTest.php",
+    "line": 137,
+    "routes": [
+      "doctor-schedules.store"
+    ],
+    "assertions": [
+      "assertUnprocessable",
+      "assertJsonValidationErrors",
+      "assertDatabaseCount"
+    ]
+  },
+  {
+    "id": "TC-027",
+    "class": "DoctorScheduleRegistrationTest",
+    "method": "test_other_roles_cannot_register_doctor_shifts",
+    "source": "tests/Feature/DoctorScheduleRegistrationTest.php",
+    "line": 144,
+    "routes": [
+      "doctor-schedules.create",
+      "doctor-schedules.store"
+    ],
+    "assertions": [
+      "assertForbidden"
+    ]
+  },
+  {
+    "id": "TC-028",
+    "class": "DoctorScheduleRegistrationTest",
+    "method": "test_rejected_registration_reopens_the_form_inside_my_calendar",
+    "source": "tests/Feature/DoctorScheduleRegistrationTest.php",
+    "line": 153,
+    "routes": [
+      "staff.appointments",
+      "doctor-schedules.store"
+    ],
+    "assertions": [
+      "assertRedirect",
+      "assertSessionHasErrors",
+      "assertOk",
+      "assertSee",
+      "assertSame"
+    ]
+  },
+  {
+    "id": "TC-029",
+    "class": "ExpiredLoginTest",
+    "method": "test_stale_login_returns_a_fresh_form_without_replaying_or_storing_the_password",
+    "source": "tests/Feature/ExpiredLoginTest.php",
+    "line": 28,
+    "routes": [
+      "login",
+      "dashboard"
+    ],
+    "assertions": [
+      "assertStatus",
+      "assertRedirect",
+      "assertSessionHasInput",
+      "assertSessionMissing",
+      "assertGuest",
+      "assertDatabaseMissing",
+      "assertOk",
+      "assertSee",
+      "assertDontSee",
+      "assertStringContainsString",
+      "assertAuthenticated"
+    ]
+  },
+  {
+    "id": "TC-030",
+    "class": "ExpiredLoginTest",
+    "method": "test_json_login_with_an_invalid_token_still_returns_419",
+    "source": "tests/Feature/ExpiredLoginTest.php",
+    "line": 48,
+    "routes": [],
+    "assertions": [
+      "assertStatus",
+      "assertJsonStructure",
+      "assertGuest"
+    ]
+  },
+  {
+    "id": "TC-031",
+    "class": "ExpiredLoginTest",
+    "method": "test_other_forms_with_an_invalid_token_still_reject_the_operation",
+    "source": "tests/Feature/ExpiredLoginTest.php",
+    "line": 56,
+    "routes": [],
+    "assertions": [
+      "assertStatus",
+      "assertSee",
+      "assertDatabaseCount"
+    ]
+  },
+  {
+    "id": "TC-032",
+    "class": "LocalAccountSessionTest",
+    "method": "test_separate_login_creates_unique_local_hosts_without_touching_the_current_session",
+    "source": "tests/Feature/LocalAccountSessionTest.php",
+    "line": 9,
+    "routes": [],
+    "assertions": [
+      "assertStatus",
+      "assertSessionHas",
+      "assertMatchesRegularExpression",
+      "assertNotSame"
+    ]
+  },
+  {
+    "id": "TC-033",
+    "class": "LocalAccountSessionTest",
+    "method": "test_separate_login_can_open_another_workspace_from_an_existing_workspace",
+    "source": "tests/Feature/LocalAccountSessionTest.php",
+    "line": 19,
+    "routes": [],
+    "assertions": [
+      "assertStatus",
+      "assertNotSame",
+      "assertSame"
+    ]
+  },
+  {
+    "id": "TC-034",
+    "class": "LocalAccountSessionTest",
+    "method": "test_separate_login_is_disabled_for_external_hosts_and_production",
+    "source": "tests/Feature/LocalAccountSessionTest.php",
+    "line": 27,
+    "routes": [],
+    "assertions": [
+      "assertNotFound"
+    ]
+  },
+  {
+    "id": "TC-035",
+    "class": "LocalAccountSessionTest",
+    "method": "test_separate_login_requires_host_only_cookies",
+    "source": "tests/Feature/LocalAccountSessionTest.php",
+    "line": 34,
+    "routes": [],
+    "assertions": [
+      "assertNotFound"
+    ]
+  },
+  {
+    "id": "TC-036",
+    "class": "PasswordRecoveryTest",
+    "method": "test_other_authentication_forms_do_not_consume_password_recovery_attempts",
+    "source": "tests/Feature/PasswordRecoveryTest.php",
+    "line": 18,
+    "routes": [
+      "password.request"
+    ],
+    "assertions": [
+      "assertSessionHasErrors",
+      "assertRedirect",
+      "assertSessionHasNoErrors"
+    ]
+  },
+  {
+    "id": "TC-037",
+    "class": "PasswordRecoveryTest",
+    "method": "test_recovery_limit_keeps_the_form_and_retry_header_and_unlocks_after_a_minute",
+    "source": "tests/Feature/PasswordRecoveryTest.php",
+    "line": 28,
+    "routes": [],
+    "assertions": [
+      "assertRedirect",
+      "assertStatus",
+      "assertSee",
+      "assertDontSee",
+      "assertGreaterThan",
+      "assertLessThanOrEqual",
+      "assertStringContainsString",
+      "assertOk"
+    ]
+  },
+  {
+    "id": "TC-038",
+    "class": "PasswordRecoveryTest",
+    "method": "test_json_clients_still_receive_429_and_retry_seconds",
+    "source": "tests/Feature/PasswordRecoveryTest.php",
+    "line": 45,
+    "routes": [],
+    "assertions": [
+      "assertRedirect",
+      "assertStatus",
+      "assertJsonStructure",
+      "assertSame"
+    ]
+  },
+  {
+    "id": "TC-039",
+    "class": "PasswordRecoveryTest",
+    "method": "test_known_unknown_and_repeated_emails_show_the_same_confirmation_and_cooldown",
+    "source": "tests/Feature/PasswordRecoveryTest.php",
+    "line": 55,
+    "routes": [
+      "password.request"
+    ],
+    "assertions": [
+      "assertRedirect",
+      "assertOk",
+      "assertSee",
+      "assertSessionHas",
+      "assertSentToTimes",
+      "assertDatabaseCount"
+    ]
+  },
+  {
+    "id": "TC-040",
+    "class": "PasswordRecoveryTest",
+    "method": "test_sent_link_can_reset_password_once_and_log_in_using_the_new_password",
+    "source": "tests/Feature/PasswordRecoveryTest.php",
+    "line": 70,
+    "routes": [
+      "login",
+      "dashboard"
+    ],
+    "assertions": [
+      "assertRedirect",
+      "assertOk",
+      "assertSee",
+      "assertSessionHasNoErrors",
+      "assertTrue",
+      "assertDatabaseCount",
+      "assertSessionHasErrors",
+      "assertAuthenticatedAs"
+    ]
+  },
+  {
+    "id": "TC-041",
+    "class": "PasswordRecoveryTest",
+    "method": "test_reset_email_renders_through_the_mail_transport_without_an_external_delivery",
+    "source": "tests/Feature/PasswordRecoveryTest.php",
+    "line": 87,
+    "routes": [],
+    "assertions": [
+      "assertRedirect",
+      "assertSessionHasNoErrors",
+      "assertCount",
+      "assertSame",
+      "assertStringContainsString"
+    ]
+  },
+  {
+    "id": "TC-042",
+    "class": "PasswordRecoveryTest",
+    "method": "test_expired_reset_link_does_not_change_the_password",
+    "source": "tests/Feature/PasswordRecoveryTest.php",
+    "line": 98,
+    "routes": [],
+    "assertions": [
+      "assertRedirect",
+      "assertSessionHasErrors",
+      "assertTrue",
+      "assertGuest"
+    ]
+  },
+  {
+    "id": "TC-043",
+    "class": "PayrollTest",
+    "method": "test_doctor_hourly_pay_uses_only_ended_open_shifts_excludes_leave_and_rounds_to_vnd",
+    "source": "tests/Feature/PayrollTest.php",
+    "line": 89,
+    "routes": [
+      "admin.payroll.show"
+    ],
+    "assertions": [
+      "assertSame",
+      "assertCount",
+      "assertOk",
+      "assertSee"
+    ]
+  },
+  {
+    "id": "TC-044",
+    "class": "PayrollTest",
+    "method": "test_receptionist_and_cashier_have_individual_rates_and_only_confirmed_ended_staff_shifts_count",
+    "source": "tests/Feature/PayrollTest.php",
+    "line": 111,
+    "routes": [
+      "payroll.mine",
+      "admin.payroll.index"
+    ],
+    "assertions": [
+      "assertSame",
+      "assertOk",
+      "assertSee"
+    ]
+  },
+  {
+    "id": "TC-045",
+    "class": "PayrollTest",
+    "method": "test_salary_privacy_cannot_be_bypassed_by_ids_query_parameters_or_any_employee_write",
+    "source": "tests/Feature/PayrollTest.php",
+    "line": 132,
+    "routes": [
+      "payroll.mine",
+      "payroll.mine.show",
+      "admin.payroll.index",
+      "admin.payroll.show",
+      "admin.payroll.profile",
+      "admin.payroll.generate",
+      "admin.payroll.update",
+      "admin.payroll.recalculate",
+      "admin.payroll.payment",
+      "home"
+    ],
+    "assertions": [
+      "assertOk",
+      "assertDontSee",
+      "assertViewHas",
+      "assertForbidden",
+      "assertHeader",
+      "assertSee"
+    ]
+  },
+  {
+    "id": "TC-046",
+    "class": "PayrollTest",
+    "method": "test_profile_changes_do_not_reprice_old_months_and_duplicate_generation_never_overwrites",
+    "source": "tests/Feature/PayrollTest.php",
+    "line": 160,
+    "routes": [
+      "admin.payroll.profile",
+      "admin.payroll.generate"
+    ],
+    "assertions": [
+      "assertSessionHasNoErrors",
+      "assertSame",
+      "assertUnprocessable",
+      "assertJsonValidationErrors",
+      "assertDatabaseCount"
+    ]
+  },
+  {
+    "id": "TC-047",
+    "class": "PayrollTest",
+    "method": "test_admin_adjustment_recalculation_and_paid_lock_preserve_auditable_snapshots",
+    "source": "tests/Feature/PayrollTest.php",
+    "line": 177,
+    "routes": [
+      "admin.payroll.update",
+      "admin.payroll.recalculate",
+      "admin.payroll.payment",
+      "admin.payroll.show"
+    ],
+    "assertions": [
+      "assertRedirect",
+      "assertSessionHasNoErrors",
+      "assertSame",
+      "assertUnprocessable",
+      "assertNotNull",
+      "assertOk",
+      "assertDontSee",
+      "assertSee",
+      "assertNull"
+    ]
+  },
+  {
+    "id": "TC-048",
+    "class": "PayrollTest",
+    "method": "test_invalid_money_time_future_month_and_source_conflicts_do_not_save_partial_payroll",
+    "source": "tests/Feature/PayrollTest.php",
+    "line": 213,
+    "routes": [
+      "admin.payroll.profile",
+      "admin.payroll.generate",
+      "admin.payroll.update"
+    ],
+    "assertions": [
+      "assertUnprocessable",
+      "assertJsonValidationErrors",
+      "assertDatabaseCount",
+      "assertSame"
+    ]
+  },
+  {
+    "id": "TC-049",
+    "class": "PayrollTest",
+    "method": "test_payment_stale_versions_are_blocked_and_sidebar_keeps_each_role_routes",
+    "source": "tests/Feature/PayrollTest.php",
+    "line": 236,
+    "routes": [
+      "admin.payroll.update",
+      "admin.payroll.payment",
+      "home",
+      "payroll.mine"
+    ],
+    "assertions": [
+      "assertSessionHasNoErrors",
+      "assertUnprocessable",
+      "assertSame",
+      "assertOk",
+      "assertSee",
+      "assertViewHas",
+      "assertDontSee"
+    ]
+  },
+  {
+    "id": "TC-050",
+    "class": "ReceptionAppointmentActionsTest",
+    "method": "test_receptionist_can_confirm_and_check_in_from_dashboard_with_one_visit_only",
+    "source": "tests/Feature/ReceptionAppointmentActionsTest.php",
+    "line": 49,
+    "routes": [
+      "dashboard",
+      "staff.appointments.transition"
+    ],
+    "assertions": [
+      "assertOk",
+      "assertSee",
+      "assertRedirect",
+      "assertSessionHasNoErrors",
+      "assertSessionHas",
+      "assertSame",
+      "assertJson",
+      "assertConflict"
+    ]
+  },
+  {
+    "id": "TC-051",
+    "class": "ReceptionAppointmentActionsTest",
+    "method": "test_future_check_in_and_early_no_show_are_disabled_and_rejected_with_normal_web_feedback",
+    "source": "tests/Feature/ReceptionAppointmentActionsTest.php",
+    "line": 67,
+    "routes": [
+      "staff.appointments.transition",
+      "dashboard"
+    ],
+    "assertions": [
+      "assertOk",
+      "assertSee",
+      "assertSame",
+      "assertRedirect",
+      "assertSessionHasErrors",
+      "assertDatabaseCount",
+      "assertUnprocessable"
+    ]
+  },
+  {
+    "id": "TC-052",
+    "class": "ReceptionAppointmentActionsTest",
+    "method": "test_invalid_web_transition_returns_to_form_and_json_retains_conflict_response",
+    "source": "tests/Feature/ReceptionAppointmentActionsTest.php",
+    "line": 88,
+    "routes": [
+      "staff.appointments.transition",
+      "dashboard"
+    ],
+    "assertions": [
+      "assertOk",
+      "assertRedirect",
+      "assertSessionHasErrors",
+      "assertConflict",
+      "assertSame",
+      "assertDatabaseCount"
+    ]
+  },
+  {
+    "id": "TC-053",
+    "class": "ReceptionAppointmentActionsTest",
+    "method": "test_receptionist_actions_remain_scoped_to_branch_and_other_roles_cannot_confirm",
+    "source": "tests/Feature/ReceptionAppointmentActionsTest.php",
+    "line": 100,
+    "routes": [
+      "staff.appointments.transition",
+      "dashboard"
+    ],
+    "assertions": [
+      "assertForbidden",
+      "assertOk",
+      "assertDontSee",
+      "assertSame",
+      "assertDatabaseCount"
+    ]
+  },
+  {
+    "id": "TC-054",
+    "class": "ReceptionAppointmentActionsTest",
+    "method": "test_staff_account_options_are_grouped_at_sidebar_bottom_and_do_not_remove_patient_navigation",
+    "source": "tests/Feature/ReceptionAppointmentActionsTest.php",
+    "line": 112,
+    "routes": [
+      "home",
+      "password.change",
+      "logout"
+    ],
+    "assertions": [
+      "assertOk",
+      "assertDontSee",
+      "assertSame",
+      "assertStringContainsString",
+      "assertSee"
+    ]
+  },
+  {
+    "id": "TC-055",
+    "class": "RolePagesSmokeTest",
+    "method": "test_booking_navigation_matches_roles_and_keeps_writes_protected",
+    "source": "tests/Feature/RolePagesSmokeTest.php",
+    "line": 15,
+    "routes": [
+      "login",
+      "appointments.create",
+      "doctors.show",
+      "dashboard"
+    ],
+    "assertions": [
+      "assertRedirect",
+      "assertOk",
+      "assertDontSee",
+      "assertSessionHas",
+      "assertSee",
+      "assertForbidden"
+    ]
+  },
+  {
+    "id": "TC-056",
+    "class": "RolePagesSmokeTest",
+    "method": "test_public_and_role_pages_render_with_seed_data",
+    "source": "tests/Feature/RolePagesSmokeTest.php",
+    "line": 44,
+    "routes": [],
+    "assertions": [
+      "assertOk",
+      "assertSee"
+    ]
+  },
+  {
+    "id": "TC-057",
+    "class": "ShiftTransferTest",
+    "method": "test_eligible_doctor_receives_notification_and_acceptance_transfers_shift_and_appointments_once",
+    "source": "tests/Feature/ShiftTransferTest.php",
+    "line": 71,
+    "routes": [
+      "staff.shifts.show",
+      "dashboard",
+      "doctor-shifts.respond"
+    ],
+    "assertions": [
+      "assertOk",
+      "assertSee",
+      "assertSame",
+      "assertDontSee",
+      "assertRedirect",
+      "assertSessionHasNoErrors",
+      "assertNull",
+      "assertDatabaseHas",
+      "assertStringContainsString",
+      "assertUnprocessable",
+      "assertNotFound"
+    ]
+  },
+  {
+    "id": "TC-058",
+    "class": "ShiftTransferTest",
+    "method": "test_ownership_roles_and_notification_privacy_are_enforced",
+    "source": "tests/Feature/ShiftTransferTest.php",
+    "line": 95,
+    "routes": [
+      "doctor-shifts.respond",
+      "dashboard",
+      "doctor-shifts.transfer"
+    ],
+    "assertions": [
+      "assertForbidden",
+      "assertOk",
+      "assertDontSee"
+    ]
+  },
+  {
+    "id": "TC-059",
+    "class": "ShiftTransferTest",
+    "method": "test_unavailable_receivers_are_not_offered_and_cannot_be_requested",
+    "source": "tests/Feature/ShiftTransferTest.php",
+    "line": 115,
+    "routes": [
+      "staff.shifts.show",
+      "doctor-shifts.transfer"
+    ],
+    "assertions": [
+      "assertOk",
+      "assertDontSee",
+      "assertUnprocessable",
+      "assertJsonValidationErrors",
+      "assertDatabaseCount"
+    ]
+  },
+  {
+    "id": "TC-060",
+    "class": "ShiftTransferTest",
+    "method": "test_new_conflict_between_request_and_acceptance_is_rechecked_without_partial_updates",
+    "source": "tests/Feature/ShiftTransferTest.php",
+    "line": 138,
+    "routes": [
+      "doctor-shifts.respond"
+    ],
+    "assertions": [
+      "assertUnprocessable",
+      "assertJsonValidationErrors",
+      "assertSame",
+      "assertDatabaseCount"
+    ]
+  },
+  {
+    "id": "TC-061",
+    "class": "ShiftTransferTest",
+    "method": "test_checked_in_patient_prevents_acceptance_and_expired_requests_cannot_be_accepted",
+    "source": "tests/Feature/ShiftTransferTest.php",
+    "line": 150,
+    "routes": [
+      "doctor-shifts.respond"
+    ],
+    "assertions": [
+      "assertUnprocessable",
+      "assertSame"
+    ]
+  },
+  {
+    "id": "TC-062",
+    "class": "ShiftTransferTest",
+    "method": "test_pending_duplicates_are_rejected_and_rejection_or_withdrawal_keeps_appointments_unchanged",
+    "source": "tests/Feature/ShiftTransferTest.php",
+    "line": 162,
+    "routes": [
+      "doctor-shifts.transfer",
+      "doctor-shifts.respond"
+    ],
+    "assertions": [
+      "assertUnprocessable",
+      "assertRedirect",
+      "assertSame",
+      "assertDatabaseCount"
+    ]
+  },
+  {
+    "id": "TC-063",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_role_pages_and_operational_forms_render",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 79,
+    "routes": [],
+    "assertions": [
+      "assertOk",
+      "assertSee"
+    ]
+  },
+  {
+    "id": "TC-064",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_check_in_is_unique_and_creates_a_waiting_visit",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 94,
+    "routes": [],
+    "assertions": [
+      "assertRedirect",
+      "assertDatabaseHas",
+      "assertStatus",
+      "assertSame"
+    ]
+  },
+  {
+    "id": "TC-065",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_walk_in_has_no_fake_appointment_and_doctor_scope_is_enforced",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 105,
+    "routes": [],
+    "assertions": [
+      "assertNull",
+      "assertForbidden"
+    ]
+  },
+  {
+    "id": "TC-066",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_signed_record_requires_amendment_and_version_conflicts_are_rejected",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 116,
+    "routes": [],
+    "assertions": [
+      "assertRedirect",
+      "assertDatabaseHas",
+      "assertStatus"
+    ]
+  },
+  {
+    "id": "TC-067",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_prescription_signing_does_not_change_stock_and_reception_cannot_sign",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 128,
+    "routes": [],
+    "assertions": [
+      "assertForbidden",
+      "assertRedirect",
+      "assertSame",
+      "assertEquals"
+    ]
+  },
+  {
+    "id": "TC-068",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_dispensing_rolls_back_on_shortage_rejects_expired_lots_and_retries_once",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 141,
+    "routes": [],
+    "assertions": [
+      "assertStatus",
+      "assertEquals",
+      "assertDatabaseCount",
+      "assertRedirect",
+      "assertDatabaseHas"
+    ]
+  },
+  {
+    "id": "TC-069",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_service_result_is_pending_until_authorized_verification",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 165,
+    "routes": [],
+    "assertions": [
+      "assertRedirect",
+      "assertSame",
+      "assertDontSee",
+      "assertForbidden"
+    ]
+  },
+  {
+    "id": "TC-070",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_invoice_snapshot_partial_payment_refund_and_idempotency",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 183,
+    "routes": [],
+    "assertions": [
+      "assertRedirect",
+      "assertSame",
+      "assertEquals",
+      "assertStatus",
+      "assertDatabaseCount",
+      "assertOk",
+      "assertSee"
+    ]
+  },
+  {
+    "id": "TC-071",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_branch_scope_applies_to_billing_staff_patient_search_and_exports",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 209,
+    "routes": [],
+    "assertions": [
+      "assertForbidden",
+      "assertOk",
+      "assertDontSee",
+      "assertStringNotContainsString",
+      "assertNotFound"
+    ]
+  },
+  {
+    "id": "TC-072",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_schedule_overlap_leave_and_reschedule_history",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 230,
+    "routes": [],
+    "assertions": [
+      "assertStatus",
+      "assertRedirect",
+      "assertDatabaseHas",
+      "assertNotContains"
+    ]
+  },
+  {
+    "id": "TC-073",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_lis_de_duplication_bad_mapping_and_device_unit_validation",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 249,
+    "routes": [],
+    "assertions": [
+      "assertUnauthorized",
+      "assertCreated",
+      "assertOk",
+      "assertJson",
+      "assertDatabaseCount",
+      "assertStatus",
+      "assertDatabaseHas"
+    ]
+  },
+  {
+    "id": "TC-074",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_follow_up_never_auto_books_without_valid_consent_and_only_books_once",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 271,
+    "routes": [],
+    "assertions": [
+      "assertSame",
+      "assertRedirect",
+      "assertNull"
+    ]
+  },
+  {
+    "id": "TC-075",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_email_failure_preserves_booking_and_retries_with_backoff",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 288,
+    "routes": [],
+    "assertions": [
+      "assertSame",
+      "assertTrue",
+      "assertNotNull"
+    ]
+  },
+  {
+    "id": "TC-076",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_email_job_is_sent_once",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 301,
+    "routes": [],
+    "assertions": [
+      "assertDatabaseHas"
+    ]
+  },
+  {
+    "id": "TC-077",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_pdfs_use_vietnamese_font_and_enforce_ownership",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 312,
+    "routes": [],
+    "assertions": [
+      "assertOk",
+      "assertHeader",
+      "assertStringStartsWith",
+      "assertForbidden"
+    ]
+  },
+  {
+    "id": "TC-078",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_locked_account_is_denied_even_with_an_existing_session",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 341,
+    "routes": [],
+    "assertions": [
+      "assertForbidden",
+      "assertGuest"
+    ]
+  },
+  {
+    "id": "TC-079",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_five_role_end_to_end_booking_to_payment_dispensing_and_reports",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 349,
+    "routes": [],
+    "assertions": [
+      "assertOk",
+      "assertSee",
+      "assertRedirect",
+      "assertSame",
+      "assertEquals",
+      "assertDatabaseCount"
+    ]
+  },
+  {
+    "id": "TC-080",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_capacity_and_patient_double_booking_are_both_checked",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 402,
+    "routes": [],
+    "assertions": [
+      "assertNotContains"
+    ]
+  },
+  {
+    "id": "TC-081",
+    "class": "SpecificationWorkflowTest",
+    "method": "test_xlsx_treats_untrusted_strings_as_text",
+    "source": "tests/Feature/SpecificationWorkflowTest.php",
+    "line": 415,
+    "routes": [],
+    "assertions": [
+      "assertStringContainsString",
+      "assertStringNotContainsString",
+      "assertNotFalse"
+    ]
+  },
+  {
+    "id": "TC-082",
+    "class": "StaffCalendarTest",
+    "method": "test_doctor_calendar_contains_only_own_shifts_and_no_patient_details_before_a_shift_is_opened",
+    "source": "tests/Feature/StaffCalendarTest.php",
+    "line": 40,
+    "routes": [
+      "staff.appointments"
+    ],
+    "assertions": [
+      "assertOk",
+      "assertSee",
+      "assertDontSee",
+      "assertViewHas",
+      "assertSame",
+      "assertNotFound"
+    ]
+  },
+  {
+    "id": "TC-083",
+    "class": "StaffCalendarTest",
+    "method": "test_shift_details_load_only_appointments_in_the_selected_shift_and_support_search",
+    "source": "tests/Feature/StaffCalendarTest.php",
+    "line": 51,
+    "routes": [
+      "staff.shifts.show"
+    ],
+    "assertions": [
+      "assertOk",
+      "assertSee",
+      "assertDontSee",
+      "assertStringContainsString"
+    ]
+  },
+  {
+    "id": "TC-084",
+    "class": "StaffCalendarTest",
+    "method": "test_shift_authorization_enforces_doctor_and_branch_boundaries",
+    "source": "tests/Feature/StaffCalendarTest.php",
+    "line": 65,
+    "routes": [
+      "staff.shifts.show",
+      "staff.appointments"
+    ],
+    "assertions": [
+      "assertNotFound",
+      "assertOk",
+      "assertSee",
+      "assertForbidden"
+    ]
+  },
+  {
+    "id": "TC-085",
+    "class": "StaffCalendarTest",
+    "method": "test_week_includes_sunday_but_not_the_next_monday",
+    "source": "tests/Feature/StaffCalendarTest.php",
+    "line": 81,
+    "routes": [
+      "staff.appointments"
+    ],
+    "assertions": [
+      "assertOk",
+      "assertViewHas"
+    ]
+  },
+  {
+    "id": "TC-086",
+    "class": "StaffCalendarTest",
+    "method": "test_cashier_does_not_receive_medical_reason_in_shift_details_and_public_child_pages_highlight_parent_menu",
+    "source": "tests/Feature/StaffCalendarTest.php",
+    "line": 94,
+    "routes": [
+      "staff.shifts.show",
+      "doctors.show"
+    ],
+    "assertions": [
+      "assertOk",
+      "assertSee",
+      "assertDontSee",
+      "assertSame"
+    ]
+  },
+  {
+    "id": "TC-087",
+    "class": "StaffRosterTest",
+    "method": "test_registration_is_waiting_owned_by_the_employee_and_not_an_official_shift",
+    "source": "tests/Feature/StaffRosterTest.php",
+    "line": 71,
+    "routes": [
+      "employee-schedules.store",
+      "employee-schedules.index",
+      "employee-schedules.withdraw",
+      "admin.roster.auto",
+      "admin.roster.index"
+    ],
+    "assertions": [
+      "assertRedirect",
+      "assertSessionHas",
+      "assertDatabaseCount",
+      "assertTrue",
+      "assertOk",
+      "assertSee",
+      "assertViewHas",
+      "assertForbidden"
+    ]
+  },
+  {
+    "id": "TC-088",
+    "class": "StaffRosterTest",
+    "method": "test_registration_rejects_other_branches_past_times_and_rolls_back_a_partly_duplicated_batch",
+    "source": "tests/Feature/StaffRosterTest.php",
+    "line": 96,
+    "routes": [
+      "employee-schedules.store",
+      "employee-schedules.withdraw"
+    ],
+    "assertions": [
+      "assertUnprocessable",
+      "assertJsonValidationErrors",
+      "assertDatabaseCount",
+      "assertRedirect",
+      "assertNull",
+      "assertSame"
+    ]
+  },
+  {
+    "id": "TC-089",
+    "class": "StaffRosterTest",
+    "method": "test_auto_arrangement_balances_hours_preserves_clinical_schedules_and_publishes_only_after_review",
+    "source": "tests/Feature/StaffRosterTest.php",
+    "line": 117,
+    "routes": [
+      "admin.roster.auto",
+      "admin.roster.index",
+      "employee-schedules.index",
+      "admin.roster.publish",
+      "dashboard"
+    ],
+    "assertions": [
+      "assertRedirect",
+      "assertSessionHasNoErrors",
+      "assertSame",
+      "assertCount",
+      "assertDatabaseCount",
+      "assertOk",
+      "assertViewHas"
+    ]
+  },
+  {
+    "id": "TC-090",
+    "class": "StaffRosterTest",
+    "method": "test_manual_arrangement_blocks_overlap_across_branches_and_daily_hours_overflow",
+    "source": "tests/Feature/StaffRosterTest.php",
+    "line": 153,
+    "routes": [
+      "admin.roster.arrange",
+      "employee-schedules.store"
+    ],
+    "assertions": [
+      "assertSame",
+      "assertUnprocessable",
+      "assertJsonValidationErrors",
+      "assertDatabaseCount"
+    ]
+  },
+  {
+    "id": "TC-091",
+    "class": "StaffRosterTest",
+    "method": "test_stale_manual_and_publish_versions_are_rejected_and_confirmed_shifts_need_reopening",
+    "source": "tests/Feature/StaffRosterTest.php",
+    "line": 171,
+    "routes": [
+      "admin.roster.arrange",
+      "admin.roster.publish",
+      "admin.roster.reject",
+      "employee-schedules.withdraw",
+      "admin.roster.reopen"
+    ],
+    "assertions": [
+      "assertUnprocessable",
+      "assertJsonValidationErrors",
+      "assertSame",
+      "assertRedirect",
+      "assertSessionHasNoErrors",
+      "assertNull"
+    ]
+  },
+  {
+    "id": "TC-092",
+    "class": "StaffRosterTest",
+    "method": "test_publish_rechecks_staff_eligibility_and_rolls_back_every_shift_on_failure",
+    "source": "tests/Feature/StaffRosterTest.php",
+    "line": 195,
+    "routes": [
+      "admin.roster.publish"
+    ],
+    "assertions": [
+      "assertUnprocessable",
+      "assertSame",
+      "assertDatabaseMissing"
+    ]
+  },
+  {
+    "id": "TC-093",
+    "class": "StaffRosterTest",
+    "method": "test_withdrawal_cancels_the_unpublished_plan_and_guards_keep_confirmed_branch_assignments",
+    "source": "tests/Feature/StaffRosterTest.php",
+    "line": 210,
+    "routes": [
+      "employee-schedules.withdraw",
+      "admin.roster.publish",
+      "admin.staff.update",
+      "admin.branches.update",
+      "admin.roster.reopen"
+    ],
+    "assertions": [
+      "assertRedirect",
+      "assertSame",
+      "assertUnprocessable",
+      "assertJsonValidationErrors",
+      "assertTrue"
+    ]
+  }
+]

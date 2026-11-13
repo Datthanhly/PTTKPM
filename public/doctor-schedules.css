@@ -1,0 +1,30 @@
+.schedule-registration-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr); align-items: start; gap: 24px; }
+.schedule-registration-toggle { border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; margin-bottom: 24px; background: #fff; scroll-margin-top: 120px; }
+.schedule-registration-toggle > summary { color: var(--primary); }
+.schedule-registration-toggle > summary span { color: var(--muted); font-size: 12px; font-weight: 400; margin-left: 12px; }
+.schedule-registration-toggle[open] > summary { margin-bottom: 20px; }
+.schedule-registration-toggle form { margin-top: 0; }
+.schedule-registration-card { max-width: none; }
+.schedule-registration-card h2 { font-size: 24px; margin-bottom: 24px; }
+.schedule-period-fieldset { padding: 16px; margin-top: 4px; }
+.schedule-periods { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.schedule-period { display: flex; align-items: flex-start; gap: 10px; padding: 14px; border: 1px solid var(--line); border-radius: 10px; margin: 0; cursor: pointer; }
+.schedule-period:has(input:checked) { border-color: var(--primary); background: #edf7f3; }
+.schedule-period input { width: auto; margin: 5px 0 0; accent-color: var(--primary); flex-shrink: 0; }
+.schedule-period strong { display: block; font-size: 13px; }
+.schedule-period small { display: block; margin-top: 5px; font-size: 11px; font-weight: 400; line-height: 1.6; color: var(--muted); }
+.schedule-field-help { font-size: 12px; margin-top: -6px; }
+.schedule-registration-summary { padding: 14px 16px; border-radius: 9px; background: #edf7f3; color: var(--primary-dark); font-size: 13px; }
+.schedule-registration-help { margin: 0; }
+.schedule-registration-help h2 { margin-top: 12px; font-size: 24px; line-height: 1.4; }
+.schedule-registration-help li { margin: 12px 0; color: var(--muted); }
+.schedule-registration-help ul { padding-left: 20px; }
+#schedule-custom-times[hidden] { display: none; }
+@media (max-width: 800px) {
+    .schedule-registration-grid { grid-template-columns: 1fr; }
+    .schedule-registration-card { padding: 22px; }
+}
+@media (max-width: 480px) {
+    .schedule-periods { grid-template-columns: 1fr; }
+    .schedule-registration-grid { gap: 16px; }
+}

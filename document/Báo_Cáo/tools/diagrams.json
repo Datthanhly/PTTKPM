@@ -1,0 +1,303 @@
+[
+  {
+    "key": "uc_g1",
+    "title": "Use case nhóm 1: tài khoản và cổng bệnh nhân",
+    "ch": 1,
+    "explain": "Đường nối là quan hệ tham gia giữa tác nhân và mục tiêu sử dụng. Các quyền chi tiết vẫn cần kiểm theo cơ sở; một vai trò trong sơ đồ không được mặc định truy cập mọi tài nguyên. Các mã UC dẫn tới đặc tả chi tiết ở phần sau.",
+    "source": "routes/web.php; routes/api.php; config/clinic.php; các controller liên quan"
+  },
+  {
+    "key": "uc_g2",
+    "title": "Use case nhóm 2: lịch hẹn và tiếp nhận",
+    "ch": 1,
+    "explain": "Đường nối là quan hệ tham gia giữa tác nhân và mục tiêu sử dụng. Các quyền chi tiết vẫn cần kiểm theo cơ sở; một vai trò trong sơ đồ không được mặc định truy cập mọi tài nguyên. Các mã UC dẫn tới đặc tả chi tiết ở phần sau.",
+    "source": "routes/web.php; routes/api.php; config/clinic.php; các controller liên quan"
+  },
+  {
+    "key": "uc_g3",
+    "title": "Use case nhóm 3: khám và cận lâm sàng",
+    "ch": 1,
+    "explain": "Đường nối là quan hệ tham gia giữa tác nhân và mục tiêu sử dụng. Các quyền chi tiết vẫn cần kiểm theo cơ sở; một vai trò trong sơ đồ không được mặc định truy cập mọi tài nguyên. Các mã UC dẫn tới đặc tả chi tiết ở phần sau.",
+    "source": "routes/web.php; routes/api.php; config/clinic.php; các controller liên quan"
+  },
+  {
+    "key": "uc_g4",
+    "title": "Use case nhóm 4: tài chính và dược",
+    "ch": 1,
+    "explain": "Đường nối là quan hệ tham gia giữa tác nhân và mục tiêu sử dụng. Các quyền chi tiết vẫn cần kiểm theo cơ sở; một vai trò trong sơ đồ không được mặc định truy cập mọi tài nguyên. Các mã UC dẫn tới đặc tả chi tiết ở phần sau.",
+    "source": "routes/web.php; routes/api.php; config/clinic.php; các controller liên quan"
+  },
+  {
+    "key": "uc_g5",
+    "title": "Use case nhóm 5: ca khám và điều phối",
+    "ch": 1,
+    "explain": "Đường nối là quan hệ tham gia giữa tác nhân và mục tiêu sử dụng. Các quyền chi tiết vẫn cần kiểm theo cơ sở; một vai trò trong sơ đồ không được mặc định truy cập mọi tài nguyên. Các mã UC dẫn tới đặc tả chi tiết ở phần sau.",
+    "source": "routes/web.php; routes/api.php; config/clinic.php; các controller liên quan"
+  },
+  {
+    "key": "uc_g6",
+    "title": "Use case nhóm 6: lịch nhân viên và tiền lương",
+    "ch": 1,
+    "explain": "Đường nối là quan hệ tham gia giữa tác nhân và mục tiêu sử dụng. Các quyền chi tiết vẫn cần kiểm theo cơ sở; một vai trò trong sơ đồ không được mặc định truy cập mọi tài nguyên. Các mã UC dẫn tới đặc tả chi tiết ở phần sau.",
+    "source": "routes/web.php; routes/api.php; config/clinic.php; các controller liên quan"
+  },
+  {
+    "key": "uc_g7",
+    "title": "Use case nhóm 7: quản trị và xử lý nền",
+    "ch": 1,
+    "explain": "Đường nối là quan hệ tham gia giữa tác nhân và mục tiêu sử dụng. Các quyền chi tiết vẫn cần kiểm theo cơ sở; một vai trò trong sơ đồ không được mặc định truy cập mọi tài nguyên. Các mã UC dẫn tới đặc tả chi tiết ở phần sau.",
+    "source": "routes/web.php; routes/api.php; config/clinic.php; các controller liên quan"
+  },
+  {
+    "key": "uc_overview",
+    "title": "Use case tổng quan hệ thống An Tâm",
+    "ch": 1,
+    "explain": "Sơ đồ tổng quan gom mục tiêu theo phân hệ để giữ khả năng đọc. Bảy nhóm được phân rã thành các sơ đồ tiếp theo. Nhân sự có quyền nhập/duyệt kết quả hoặc cấp phát không phải role mới; họ xuất hiện ở sơ đồ chi tiết theo permission bổ sung.",
+    "source": "routes/web.php; config/clinic.php; app/Services/ClinicAccess.php"
+  },
+  {
+    "key": "domain_care",
+    "title": "Mô hình lĩnh vực: người bệnh và chăm sóc",
+    "ch": 2,
+    "explain": "Mô hình chọn các quan hệ trọng tâm; không phải ERD đầy đủ. Ký hiệu bội số ghi ở nhãn theo thứ tự nguồn/đích. Lượt vãng lai không bắt buộc có lịch hẹn, còn lịch chưa đến khám chưa có lượt. Hồ sơ và các chứng từ chuyên môn gắn lượt để tránh đồng nhất việc đặt với việc đã được phục vụ.",
+    "source": "app/Models/{Patient,Appointment,Visit,Doctor,MedicalRecord,Prescription,ServiceOrder}.php"
+  },
+  {
+    "key": "domain_ops",
+    "title": "Mô hình lĩnh vực: tài chính, dược và nhân sự",
+    "ch": 2,
+    "explain": "Khoản thu và hoàn tiền là các chứng từ bổ sung, không xóa hóa đơn. Quan hệ cấp phát-lô cần thực thể allocation để ghi nhiều lô cho một dòng đơn. Bảng lương lưu snapshot ca, không giữ một quan hệ trực tiếp bắt buộc tới từng ca nguồn trong khóa ngoại.",
+    "source": "BillingService; InventoryService; StaffRosterService; PayrollService"
+  },
+  {
+    "key": "seq_book",
+    "title": "Tuần tự thiết kế: đặt lịch",
+    "ch": 3,
+    "explain": "Giao dịch bao trùm kiểm tra cuối cùng và ghi dữ liệu. Nhánh cùng khóa trả lịch cũ khi thông tin khớp; khác nội dung là 409. Outbox trong sơ đồ là bảng cùng database, không phải dịch vụ email đang được gọi đồng bộ.",
+    "source": "AppointmentBookingService::book"
+  },
+  {
+    "key": "seq_cancel",
+    "title": "Tuần tự phân tích: hủy lịch có ngưỡng thời gian",
+    "ch": 2,
+    "explain": "Sơ đồ ở mức phân tích thể hiện quyết định nghiệp vụ, không phải hai nhánh cùng được chạy. Khi không đủ hạn, không cập nhật lịch, không tạo lịch sử hay job mới. Đúng 24 giờ thuộc nhánh cho phép.",
+    "source": "AppointmentBookingService::cancel; Appointment::patientCanChange"
+  },
+  {
+    "key": "seq_checkin",
+    "title": "Tuần tự thiết kế: tiếp nhận một lần",
+    "ch": 3,
+    "explain": "Visit được tạo cùng giao dịch đổi trạng thái lịch. Kiểm tra quyền được thực hiện theo cơ sở của bản lịch đã khóa. Việc bấm lặp không tạo lượt thứ hai; lỗi trạng thái web trở lại form còn JSON giữ mã lỗi phù hợp.",
+    "source": "VisitWorkflow::checkIn; ReceptionAppointmentActionsTest"
+  },
+  {
+    "key": "seq_record",
+    "title": "Tuần tự phân tích: điều chỉnh hồ sơ đã ký",
+    "ch": 2,
+    "explain": "Trường hợp version không khớp dừng trước snapshot và cập nhật. Chỉ bác sĩ phụ trách đủ quyền mới thực hiện được; lý do điều chỉnh là dữ liệu nghiệp vụ bắt buộc, không chỉ là ghi chú tùy chọn trên giao diện.",
+    "source": "VisitWorkflow::record"
+  },
+  {
+    "key": "seq_payment",
+    "title": "Tuần tự thiết kế: thu tiền chống lặp",
+    "ch": 3,
+    "explain": "Nếu khóa đã tồn tại, máy chủ so invoice/amount/method/reference trước khi trả lại. Nếu chưa có, số tiền phải dương và không vượt số dư sau khóa. TRANSFER cần xác nhận; đây chưa là xác minh tự động từ ngân hàng.",
+    "source": "BillingService::pay"
+  },
+  {
+    "key": "seq_fefo",
+    "title": "Tuần tự thiết kế: cấp thuốc theo lô",
+    "ch": 3,
+    "explain": "Vòng lặp các lô thực hiện theo hạn dùng rồi ID. Nếu một dòng không đủ tồn, transaction rollback cả allocation và các lần giảm trước đó. Đơn đã ký là điều kiện cần, nhưng không đủ để bỏ kiểm cơ sở hay lượng đã cấp.",
+    "source": "InventoryService::dispense"
+  },
+  {
+    "key": "seq_roster",
+    "title": "Tuần tự phân tích: xếp và chốt lịch nhân viên",
+    "ch": 2,
+    "explain": "Đăng ký và phương án có trạng thái riêng. Admin rà soát trước chốt. Nếu fingerprint cũ hoặc một nhân viên không còn đủ điều kiện, không công bố một phần; lịch lâm sàng bác sĩ được giữ tách khỏi staff roster.",
+    "source": "StaffRosterService::submit; arrange; publish"
+  },
+  {
+    "key": "seq_payroll",
+    "title": "Tuần tự thiết kế: lập bảng lương tháng",
+    "ch": 3,
+    "explain": "Nguồn ca là lịch đã kết thúc, chưa chứng minh chấm công. Bảng tháng ghi lại nguồn để admin đối chiếu. Chỉ admin được lập/chỉnh; nhân viên dùng đường đọc riêng được giới hạn sở hữu.",
+    "source": "PayrollService::source; generate"
+  },
+  {
+    "key": "seq_integration",
+    "title": "Tuần tự phân tích: nhận thông điệp tích hợp",
+    "ch": 2,
+    "explain": "Thông điệp trùng phải có cùng nội dung mới được trả tài nguyên cũ. Nguồn máy không tự đặt kết quả VERIFIED. Sơ đồ mô tả mô hình mock nhận dữ liệu; chưa có adapter gửi chỉ định ra LIS ngoài.",
+    "source": "IntegrationController::receive"
+  },
+  {
+    "key": "seq_transfer",
+    "title": "Tuần tự thiết kế: bác sĩ nhận chuyển ca",
+    "ch": 3,
+    "explain": "Người nhận có thể rảnh ở lúc gửi nhưng bận ở lúc chấp nhận; dịch vụ kiểm lại bên trong transaction. Ca và lịch còn hiệu lực phải đổi cùng nhau. Lịch hủy/vắng và dữ liệu khám lịch sử không được thay người phụ trách theo thao tác này.",
+    "source": "ShiftTransferService::respond"
+  },
+  {
+    "key": "act_care",
+    "title": "Hoạt động: từ đặt hẹn đến hoàn tất khám",
+    "ch": 2,
+    "explain": "Người bệnh vãng lai được tiếp nhận trực tiếp mà không cần đặt hẹn. Khi chưa đủ điều kiện hoàn tất, lượt khám tiếp tục ở trạng thái đang xử lý để bổ sung hồ sơ, đơn thuốc hoặc kết quả. Sau bước hoàn tất, thu ngân và nhân sự cấp phát thực hiện các nghiệp vụ tiếp theo trong phạm vi quyền được cấp.",
+    "source": "VisitWorkflow; AppointmentBookingService"
+  },
+  {
+    "key": "act_roster",
+    "title": "Hoạt động: đăng ký, xếp và chốt lịch nhân viên",
+    "ch": 2,
+    "explain": "Lưu nguyện vọng không có nghĩa ca chính thức. Nhánh lỗi khi chốt giữ nguyên các ca dự kiến; người quản trị phải tải lại hoặc sửa điều kiện trước khi chốt. Bảng theo cơ sở giúp nhìn thiếu nhân sự nhưng phạm vi thao tác vẫn kiểm tại server.",
+    "source": "StaffRosterService"
+  },
+  {
+    "key": "act_dispense",
+    "title": "Hoạt động: phân bổ FEFO và rollback",
+    "ch": 2,
+    "explain": "Các lần giảm ở trước điểm quyết định vẫn nằm trong transaction. Khi thiếu, nhánh lỗi rollback toàn bộ thay vì cấp một phần âm thầm. Nếu muốn cấp một phần, người dùng gửi lượng thực cấp nhỏ hơn phù hợp và hệ thống lưu rõ đợt đó.",
+    "source": "InventoryService::dispense"
+  },
+  {
+    "key": "act_payroll",
+    "title": "Hoạt động: đối chiếu và ghi nhận trả lương",
+    "ch": 2,
+    "explain": "Chứng từ PAID khóa sửa tiền. Nếu cần sửa sau trả, admin mở về UNPAID có lý do trước. Nguồn giờ là lịch, nên đối chiếu thực tế là bước nghiệp vụ bắt buộc trước khi coi số tiền là khoản cần chi.",
+    "source": "PayrollService"
+  },
+  {
+    "key": "st_appointment",
+    "title": "Trạng thái lịch hẹn hiện hành",
+    "ch": 2,
+    "explain": "PENDING là chờ xác nhận; CONFIRMED là đã xác nhận. CHECKED_IN đánh dấu đã tiếp nhận và tạo lượt khám. Quá trình khám được theo dõi riêng trên lượt khám. Đổi lịch hợp lệ giữ nguyên trạng thái PENDING hoặc CONFIRMED; hủy và vắng hẹn giải phóng chỗ đặt.",
+    "source": "Appointment; StaffAppointmentController; VisitWorkflow"
+  },
+  {
+    "key": "st_visit",
+    "title": "Trạng thái lượt khám",
+    "ch": 2,
+    "explain": "Điều kiện COMPLETED được kiểm ở service: hồ sơ đã ký, không đơn nháp, không chỉ định chưa hoàn tất/hủy. Mốc started_at chỉ ghi lần bắt đầu đầu tiên; completed_at ghi lúc hoàn tất. Đóng lượt không cho tự sửa tự do, chỉ điều chỉnh hồ sơ ký theo quy trình.",
+    "source": "VisitWorkflow::transition"
+  },
+  {
+    "key": "st_staff_request",
+    "title": "Trạng thái nguyện vọng nhân viên",
+    "ch": 2,
+    "explain": "Đây là trạng thái request, không phải của StaffWorkShift. Ca tương ứng dùng DRAFT/CONFIRMED/CANCELLED. Rút hoặc từ chối ca chưa chốt hủy phương án liên quan; ca đã chốt phải được admin mở chốt trước khi điều chỉnh.",
+    "source": "StaffRosterService; StaffScheduleRequest; StaffWorkShift"
+  },
+  {
+    "key": "st_transfer",
+    "title": "Trạng thái yêu cầu chuyển ca bác sĩ",
+    "ch": 2,
+    "explain": "Yêu cầu chỉ được phản hồi khi đang PENDING và ca chưa bắt đầu. Khi chấp nhận, hệ thống kiểm tra lại chuyên môn, cơ sở và thời gian rảnh của người nhận, rồi chuyển ca cùng các lịch hẹn còn hiệu lực trong một giao dịch. Từ chối hoặc rút yêu cầu giữ nguyên người phụ trách.",
+    "source": "ShiftTransferRequest::canRespond; ShiftTransferService"
+  },
+  {
+    "key": "st_payroll",
+    "title": "Trạng thái ghi nhận thanh toán lương",
+    "ch": 2,
+    "explain": "Quản trị viên ghi nhận PAID sau khi đối soát chi trả ngoài hệ thống. Bảng đã thanh toán khóa các khoản tiền. Khi cần sửa, quản trị viên chuyển về UNPAID kèm lý do; hệ thống lưu dấu vết thay đổi trước khi cho phép điều chỉnh và ghi nhận chi trả lại.",
+    "source": "PayrollService; PayrollEntry"
+  },
+  {
+    "key": "architecture",
+    "title": "Kiến trúc ứng dụng và phụ thuộc",
+    "ch": 3,
+    "explain": "Ứng dụng được tổ chức thành lớp giao diện, tiếp nhận yêu cầu, kiểm soát truy cập, xử lý nghiệp vụ và lưu trữ. Cơ sở dữ liệu lưu thông tin nghiệp vụ cùng hàng đợi thông báo. Tệp riêng được truy cập qua điểm tải có kiểm soát quyền. Các mũi tên thể hiện hướng xử lý và phụ thuộc chính giữa các thành phần.",
+    "source": "routes; app/Http; app/Services; app/Models"
+  },
+  {
+    "key": "deployment",
+    "title": "Triển khai bản Laragon trên Windows",
+    "ch": 3,
+    "explain": "Sơ đồ mô tả môi trường học tập hiện tại. Khi triển khai ngoài máy local cần HTTPS và cấu hình hạ tầng riêng; không dùng sơ đồ này để khẳng định có phân cụm, dự phòng hoặc mail production. SQLite test tách khỏi MySQL vận hành.",
+    "source": "README.md; scripts/php-runtime.ps1; document/Laragon_Troubleshooting.md"
+  },
+  {
+    "key": "erd_identity",
+    "title": "Lược đồ quan hệ: danh tính và phân công",
+    "ch": 3,
+    "explain": "Đường nối xuất phát ở dòng FK và đi tới khóa được tham chiếu. Hình chỉ chọn các cột và liên kết trong nhóm; khóa actor và liên kết ra nhóm khác được lược bớt. Bội số chính xác được suy từ nullable và chỉ mục UNIQUE trong từ điển dữ liệu. Mũi tên biểu thị tham chiếu dữ liệu, không phải kế thừa.",
+    "source": "database/migrations; tools/schema.json (sáu migration; FK/chỉ mục đối chiếu MySQL)"
+  },
+  {
+    "key": "erd_booking",
+    "title": "Lược đồ quan hệ: ca khám và lịch hẹn",
+    "ch": 3,
+    "explain": "Đường nối xuất phát ở dòng FK và đi tới khóa được tham chiếu. Hình chỉ chọn các cột và liên kết trong nhóm; khóa actor và liên kết ra nhóm khác được lược bớt. Bội số chính xác được suy từ nullable và chỉ mục UNIQUE trong từ điển dữ liệu. Mũi tên biểu thị tham chiếu dữ liệu, không phải kế thừa.",
+    "source": "database/migrations; tools/schema.json (sáu migration; FK/chỉ mục đối chiếu MySQL)"
+  },
+  {
+    "key": "erd_clinical",
+    "title": "Lược đồ quan hệ: hồ sơ và đơn thuốc",
+    "ch": 3,
+    "explain": "Đường nối xuất phát ở dòng FK và đi tới khóa được tham chiếu. Hình chỉ chọn các cột và liên kết trong nhóm; khóa actor và liên kết ra nhóm khác được lược bớt. Bội số chính xác được suy từ nullable và chỉ mục UNIQUE trong từ điển dữ liệu. Mũi tên biểu thị tham chiếu dữ liệu, không phải kế thừa.",
+    "source": "database/migrations; tools/schema.json (sáu migration; FK/chỉ mục đối chiếu MySQL)"
+  },
+  {
+    "key": "erd_diagnostic",
+    "title": "Lược đồ quan hệ: chỉ định, kết quả và tái khám",
+    "ch": 3,
+    "explain": "Đường nối xuất phát ở dòng FK và đi tới khóa được tham chiếu. Hình chỉ chọn các cột và liên kết trong nhóm; khóa actor và liên kết ra nhóm khác được lược bớt. Bội số chính xác được suy từ nullable và chỉ mục UNIQUE trong từ điển dữ liệu. Mũi tên biểu thị tham chiếu dữ liệu, không phải kế thừa.",
+    "source": "database/migrations; tools/schema.json (sáu migration; FK/chỉ mục đối chiếu MySQL)"
+  },
+  {
+    "key": "erd_finance",
+    "title": "Lược đồ quan hệ: hóa đơn và dòng tiền",
+    "ch": 3,
+    "explain": "Đường nối xuất phát ở dòng FK và đi tới khóa được tham chiếu. Hình chỉ chọn các cột và liên kết trong nhóm; khóa actor và liên kết ra nhóm khác được lược bớt. Bội số chính xác được suy từ nullable và chỉ mục UNIQUE trong từ điển dữ liệu. Mũi tên biểu thị tham chiếu dữ liệu, không phải kế thừa.",
+    "source": "database/migrations; tools/schema.json (sáu migration; FK/chỉ mục đối chiếu MySQL)"
+  },
+  {
+    "key": "erd_inventory",
+    "title": "Lược đồ quan hệ: kho và cấp phát theo lô",
+    "ch": 3,
+    "explain": "Đường nối xuất phát ở dòng FK và đi tới khóa được tham chiếu. Hình chỉ chọn các cột và liên kết trong nhóm; khóa actor và liên kết ra nhóm khác được lược bớt. Bội số chính xác được suy từ nullable và chỉ mục UNIQUE trong từ điển dữ liệu. Mũi tên biểu thị tham chiếu dữ liệu, không phải kế thừa.",
+    "source": "database/migrations; tools/schema.json (sáu migration; FK/chỉ mục đối chiếu MySQL)"
+  },
+  {
+    "key": "erd_workforce",
+    "title": "Lược đồ quan hệ: nhân viên và bảng lương",
+    "ch": 3,
+    "explain": "Đường nối xuất phát ở dòng FK và đi tới khóa được tham chiếu. Hình chỉ chọn các cột và liên kết trong nhóm; khóa actor và liên kết ra nhóm khác được lược bớt. Bội số chính xác được suy từ nullable và chỉ mục UNIQUE trong từ điển dữ liệu. Mũi tên biểu thị tham chiếu dữ liệu, không phải kế thừa.",
+    "source": "database/migrations; tools/schema.json (sáu migration; FK/chỉ mục đối chiếu MySQL)"
+  },
+  {
+    "key": "erd_integration",
+    "title": "Lược đồ quan hệ: tích hợp và thông báo",
+    "ch": 3,
+    "explain": "Đường nối xuất phát ở dòng FK và đi tới khóa được tham chiếu. Hình chỉ chọn các cột và liên kết trong nhóm; khóa actor và liên kết ra nhóm khác được lược bớt. Bội số chính xác được suy từ nullable và chỉ mục UNIQUE trong từ điển dữ liệu. Mũi tên biểu thị tham chiếu dữ liệu, không phải kế thừa.",
+    "source": "database/migrations; tools/schema.json (sáu migration; FK/chỉ mục đối chiếu MySQL)"
+  },
+  {
+    "key": "class_booking",
+    "title": "Lớp thiết kế phân hệ lịch",
+    "ch": 3,
+    "explain": "Sơ đồ mô tả các lớp trọng tâm, thao tác và trách nhiệm của phân hệ. Dấu + biểu thị thao tác công khai. Các mũi tên thể hiện hướng sử dụng hoặc phụ thuộc giữa các lớp; dữ liệu lưu trữ được trình bày riêng trong lược đồ quan hệ và từ điển dữ liệu.",
+    "source": "app/Services; app/Http/Controllers; app/Models"
+  },
+  {
+    "key": "class_care",
+    "title": "Lớp thiết kế khám và kết quả",
+    "ch": 3,
+    "explain": "Sơ đồ mô tả các lớp trọng tâm, thao tác và trách nhiệm của phân hệ. Dấu + biểu thị thao tác công khai. Các mũi tên thể hiện hướng sử dụng hoặc phụ thuộc giữa các lớp; dữ liệu lưu trữ được trình bày riêng trong lược đồ quan hệ và từ điển dữ liệu.",
+    "source": "app/Services; app/Http/Controllers; app/Models"
+  },
+  {
+    "key": "class_operations",
+    "title": "Lớp thiết kế tiền, kho và báo cáo",
+    "ch": 3,
+    "explain": "Sơ đồ mô tả các lớp trọng tâm, thao tác và trách nhiệm của phân hệ. Dấu + biểu thị thao tác công khai. Các mũi tên thể hiện hướng sử dụng hoặc phụ thuộc giữa các lớp; dữ liệu lưu trữ được trình bày riêng trong lược đồ quan hệ và từ điển dữ liệu.",
+    "source": "app/Services; app/Http/Controllers; app/Models"
+  },
+  {
+    "key": "class_hr",
+    "title": "Lớp thiết kế lịch nhân viên và lương",
+    "ch": 3,
+    "explain": "Sơ đồ mô tả các lớp trọng tâm, thao tác và trách nhiệm của phân hệ. Dấu + biểu thị thao tác công khai. Các mũi tên thể hiện hướng sử dụng hoặc phụ thuộc giữa các lớp; dữ liệu lưu trữ được trình bày riêng trong lược đồ quan hệ và từ điển dữ liệu.",
+    "source": "app/Services; app/Http/Controllers; app/Models"
+  }
+]

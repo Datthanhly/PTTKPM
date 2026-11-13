@@ -1,0 +1,27 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\node[ent,text width=3.4cm] (Client) at (0,0) {\textbf{Client}\par\smallskip\hrule\smallskip Trình duyệt; phiên host-only};
+\node[ent,text width=3.4cm] (Laragon_Apache) at (6,0) {\textbf{Laragon\_\allowbreak{}Apache}\par\smallskip\hrule\smallskip 127.0.0.1:8000; public};
+\node[ent,text width=3.4cm] (PHP) at (12,0) {\textbf{PHP}\par\smallskip\hrule\smallskip PHP 8.1.10; Laravel 10};
+\node[ent,text width=3.4cm] (MySQL) at (12,-3.5) {\textbf{My\allowbreak{}SQL}\par\smallskip\hrule\smallskip 127.0.0.1:3306; Inno\allowbreak{}DB};
+\node[ent,text width=3.4cm] (Storage) at (6,-3.5) {\textbf{Storage}\par\smallskip\hrule\smallskip storage/app; logs; backup};
+\node[ent,text width=3.4cm] (CLI) at (6,3.5) {\textbf{CLI}\par\smallskip\hrule\smallskip Power\allowbreak{}Shell; artisan};
+\node[ent,text width=3.4cm] (Mail) at (0,-3.5) {\textbf{Mail}\par\smallskip\hrule\smallskip Log / SMTP khi cấu hình};
+\node[ent,text width=3.4cm] (MockSource) at (12,3.5) {\textbf{Mock\allowbreak{}Source}\par\smallskip\hrule\smallskip API LIS/Device thử nghiệm};
+\draw[arr] (Client) -- node[lab,above,sloped] {HTTP local} (Laragon_Apache);
+\draw[arr] (Laragon_Apache) -- node[lab,above,sloped] {thực thi request} (PHP);
+\draw[arr] (PHP) -- node[lab,above,sloped] {PDO} (MySQL);
+\draw[arr] (PHP) -- node[lab,above,sloped] {file riêng} (Storage);
+\draw[arr] (CLI) -- node[lab,above,sloped] {worker; backup} (PHP);
+\draw[arr] (PHP) -- node[lab,above,sloped] {thư outbox} (Mail);
+\draw[arr] (MockSource) -- node[lab,above,sloped] {POST API + token} (PHP);
+\end{tikzpicture}
+\endgroup

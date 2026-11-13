@@ -1,0 +1,133 @@
+openapi: 3.0.3
+info:
+  title: Clinic Laragon - Mock Integration API
+  version: 1.0.0
+  description: Inbound demo APIs. Web form/session routes are documented in API_Laragon.md.
+servers:
+  - url: http://127.0.0.1:8000
+security:
+  - BearerToken: []
+    SystemCode: []
+paths:
+  /api/v1/integrations/lis/results:
+    post:
+      operationId: receiveLisResult
+      summary: Receive an unverified mock LIS result
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LisMessage'
+      responses:
+        '201':
+          $ref: '#/components/responses/Received'
+        '200':
+          $ref: '#/components/responses/Received'
+        '401':
+          description: Invalid source or bearer token
+        '409':
+          description: Message ID reused with a different payload
+        '422':
+          description: Invalid format, order, visit, patient or branch mapping
+        '429':
+          description: Rate limit exceeded
+  /api/v1/integrations/device/results:
+    post:
+      operationId: receiveDeviceMeasurement
+      summary: Receive an unverified mock device measurement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceMessage'
+      responses:
+        '201':
+          $ref: '#/components/responses/Received'
+        '200':
+          $ref: '#/components/responses/Received'
+        '401':
+          description: Invalid source or bearer token
+        '409':
+          description: Message ID reused with a different payload
+        '422':
+          description: Invalid format, measurement type/unit or visit mapping
+        '429':
+          description: Rate limit exceeded
+components:
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+    SystemCode:
+      type: apiKey
+      in: header
+      name: X-System-Code
+  responses:
+    Received:
+      description: Accepted, pending clinical verification; duplicate returns the same resource
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [status, resource_id, error_code, duplicate]
+            properties:
+              status:
+                type: string
+                enum: [PROCESSED, FAILED]
+              resource_id:
+                type: integer
+                nullable: true
+              error_code:
+                type: string
+                nullable: true
+              duplicate:
+                type: boolean
+  schemas:
+    LisMessage:
+      type: object
+      required: [external_message_id, external_order_code, patient_id, visit_id, value_text]
+      properties:
+        external_message_id:
+          type: string
+          maxLength: 100
+        external_order_code:
+          type: string
+          maxLength: 60
+        patient_id:
+          type: integer
+        visit_id:
+          type: integer
+        value_text:
+          type: string
+          maxLength: 10000
+        unit:
+          type: string
+          maxLength: 40
+          nullable: true
+    DeviceMessage:
+      type: object
+      required: [external_message_id, visit_id, device_code, measurement_type, value, unit, measured_at]
+      properties:
+        external_message_id:
+          type: string
+          maxLength: 100
+        visit_id:
+          type: integer
+        device_code:
+          type: string
+          maxLength: 60
+        measurement_type:
+          type: string
+          enum: [temperature, pulse, weight, systolic, diastolic]
+        value:
+          type: number
+          minimum: 0
+          maximum: 1000
+        unit:
+          type: string
+          enum: [Cel, /min, kg, mmHg]
+        measured_at:
+          type: string
+          format: date-time

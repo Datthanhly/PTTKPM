@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
     protected $fillable = ['code', 'name', 'description', 'price', 'is_active'];
+
     protected $casts = ['price' => 'decimal:2', 'is_active' => 'boolean'];
 }

@@ -1,0 +1,2 @@
+@extends('layouts.app')
+@section('content')<form class="form-card" method="post" action="{{ route('password.change.submit') }}">@csrf @method('PUT')<h1>Đổi mật khẩu</h1><label>Mật khẩu hiện tại<input type="password" name="current_password" autocomplete="current-password" required></label><label>Mật khẩu mới<input type="password" name="password" autocomplete="new-password" required minlength="8"></label><label>Nhập lại mật khẩu mới<input type="password" name="password_confirmation" autocomplete="new-password" required></label><button>Đổi mật khẩu</button></form>@endsection

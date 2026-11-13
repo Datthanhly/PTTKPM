@@ -1,0 +1,20 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\node[state,text width=3.5cm] (q0) at (0,0) {PENDING};
+\node[state,text width=3.5cm] (q1) at (8,3) {ACCEPTED};
+\node[state,text width=3.5cm] (q2) at (8,0) {REJECTED};
+\node[state,text width=3.5cm] (q3) at (8,-3) {CANCELLED};
+\fill (-2.8,0) circle (.08); \draw[arr] (-2.8,0) -- (q0);
+\draw[arr] (q0) -- node[lab,above,sloped,text width=3cm] {đồng ý; hợp lệ} (q1);
+\draw[arr] (q0) -- node[lab,above,sloped,text width=3cm] {người nhận từ chối} (q2);
+\draw[arr] (q0) -- node[lab,above,sloped,text width=3cm] {người gửi rút} (q3);
+\end{tikzpicture}
+\endgroup

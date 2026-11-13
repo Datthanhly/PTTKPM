@@ -1,0 +1,13 @@
+.transfer-panel { padding: 16px; margin: 0 0 24px; border: 1px solid var(--line); border-radius: 10px; background: #f4f9f6; }
+.transfer-panel summary { color: var(--primary); }
+.transfer-panel p { font-size: 13px; }
+.transfer-panel form { max-width: 640px; }
+.transfer-panel button:disabled { opacity: .65; cursor: not-allowed; }
+.transfer-message:not(:empty) { padding: 12px; margin: 12px 0; border-radius: 8px; background: #fff; }
+.transfer-notices { display: grid; gap: 14px; }
+.transfer-notice { border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
+.transfer-notice p { margin: 8px 0; overflow-wrap: anywhere; }
+.transfer-notice-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.transfer-notice-heading .badge { white-space: nowrap; }
+.transfer-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+@media(max-width: 600px) { .transfer-notice-heading { flex-direction: column; } .transfer-notice { padding: 14px; } }

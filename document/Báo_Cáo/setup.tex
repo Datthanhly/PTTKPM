@@ -1,0 +1,40 @@
+\usepackage{fix-cm}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}[Scale=.82]
+\usepackage[a4paper,left=3.5cm,right=2cm,top=3cm,bottom=2.7cm,headheight=15pt,headsep=.55cm]{geometry}
+\usepackage{graphicx,xcolor,tikz,array,booktabs,longtable,tabularx,enumitem,caption,fancyhdr,titlesec,xurl,pdflscape,amsmath,needspace}
+\usetikzlibrary{arrows.meta,shapes.geometric,positioning,calc}
+\usepackage[unicode,colorlinks=true,linkcolor=black,urlcolor=teal!60!black]{hyperref}
+\usepackage{tocloft}
+\makeatletter
+\renewcommand\normalsize{\@setfontsize\normalsize{13pt}{18pt}}
+\renewcommand\small{\@setfontsize\small{10.5pt}{13pt}}
+\renewcommand\footnotesize{\@setfontsize\footnotesize{9pt}{11pt}}
+\makeatother
+\normalsize
+\setlength{\parindent}{1cm}\setlength{\parskip}{3pt}
+\emergencystretch=2em\widowpenalty=10000\clubpenalty=10000\raggedbottom
+\setlist{itemsep=3pt,topsep=4pt,leftmargin=1.6em}
+\setlist[enumerate]{label=\arabic*.}
+\titleformat{\chapter}[block]{\normalfont\bfseries\fontsize{16}{21}\selectfont}{\thechapter.}{.5em}{}
+\titleformat{\section}{\normalfont\bfseries\fontsize{13}{17}\selectfont}{\thesection}{.6em}{}
+\titleformat{\subsection}{\normalfont\bfseries\fontsize{13}{17}\selectfont}{\thesubsection}{.6em}{}
+\titlespacing*{\chapter}{0pt}{0pt}{16pt}\titlespacing*{\section}{0pt}{13pt}{6pt}\titlespacing*{\subsection}{0pt}{10pt}{5pt}
+\setcounter{secnumdepth}{2}\setcounter{tocdepth}{1}
+\renewcommand{\contentsname}{MỤC LỤC}\renewcommand{\listfigurename}{DANH MỤC HÌNH}\renewcommand{\listtablename}{DANH MỤC BẢNG}
+\renewcommand{\figurename}{Hình}\renewcommand{\tablename}{Bảng}\renewcommand{\bibname}{TÀI LIỆU THAM KHẢO}
+\captionsetup{font=small,labelfont=bf,skip=7pt,hypcap=false}
+\captionsetup[table]{position=top,justification=raggedright,singlelinecheck=false}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\setlength{\LTpre}{7pt}\setlength{\LTpost}{7pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\footnotesize Báo cáo Phân tích và thiết kế phần mềm}
+\fancyhead[R]{\footnotesize Nhóm 3 - N01}
+\fancyfoot[L]{\footnotesize Hệ thống quản lý phòng khám đa cơ sở An Tâm}
+\fancyfoot[R]{\footnotesize\thepage}
+\renewcommand{\headrulewidth}{.6pt}\renewcommand{\footrulewidth}{.4pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyhead[L]{\footnotesize Báo cáo Phân tích và thiết kế phần mềm}\fancyhead[R]{\footnotesize Nhóm 3 - N01}\fancyfoot[L]{\footnotesize Hệ thống quản lý phòng khám đa cơ sở An Tâm}\fancyfoot[R]{\footnotesize\thepage}\renewcommand{\headrulewidth}{.6pt}\renewcommand{\footrulewidth}{.4pt}}
+\hypersetup{pdftitle={Phân tích và thiết kế hệ thống quản lý phòng khám đa cơ sở An Tâm},pdfauthor={Lý Thành Đạt; Nguyễn Văn Nam},pdfsubject={Báo cáo học phần - Nhóm 3, N01}}
+\newcommand{\fitdiagram}[1]{\begin{center}\includegraphics[width=\textwidth,height=.61\textheight,keepaspectratio]{#1}\end{center}}

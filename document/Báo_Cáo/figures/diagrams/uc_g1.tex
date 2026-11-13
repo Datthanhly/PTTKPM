@@ -1,0 +1,60 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\draw[rounded corners,draw=black!65] (3,1.5) rectangle (13,-11.9);
+\node[font=\bfseries] at (8,1) {Tài khoản và cổng bệnh nhân};
+\draw (0.5,-1.2) circle (.15);
+\draw (0.5,-1.35) -- (0.5,-1.85);
+\draw (0.2,-1.5) -- (0.8,-1.5);
+\draw (0.5,-1.85) -- (0.25,-2.2);
+\draw (0.5,-1.85) -- (0.75,-2.2);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (actor0) at (0.5,-2.55) {Khách};
+\coordinate (actor0-east) at (0.8,-1.5);
+\coordinate (actor0-west) at (0.2,-1.5);
+\coordinate (actor0-out-east) at (2.05,-1.5);
+\coordinate (actor0-out-west) at (-1.05,-1.5);
+\draw (15.5,-3.9000000000000004) circle (.15);
+\draw (15.5,-4.05) -- (15.5,-4.55);
+\draw (15.2,-4.2) -- (15.8,-4.2);
+\draw (15.5,-4.55) -- (15.25,-4.9);
+\draw (15.5,-4.55) -- (15.75,-4.9);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (actor1) at (15.5,-5.25) {Bệnh nhân};
+\coordinate (actor1-east) at (15.8,-4.2);
+\coordinate (actor1-west) at (15.2,-4.2);
+\coordinate (actor1-out-east) at (17.05,-4.2);
+\coordinate (actor1-out-west) at (13.95,-4.2);
+\draw (15.5,-10.6) circle (.15);
+\draw (15.5,-10.75) -- (15.5,-11.25);
+\draw (15.2,-10.9) -- (15.8,-10.9);
+\draw (15.5,-11.25) -- (15.25,-11.6);
+\draw (15.5,-11.25) -- (15.75,-11.6);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (actor2) at (15.5,-11.950000000000001) {Bác sĩ};
+\coordinate (actor2-east) at (15.8,-10.9);
+\coordinate (actor2-west) at (15.2,-10.9);
+\coordinate (actor2-out-east) at (17.05,-10.9);
+\coordinate (actor2-out-west) at (13.95,-10.9);
+\node[uc,text width=5.5cm] (u1) at (8,-0.25) {UC-01. Đăng ký tài khoản bệnh nhân};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u1.west);
+\node[uc,text width=5.5cm] (u2) at (8,-2.05) {UC-02. Đăng nhập và mở phiên độc lập};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u2.west);
+\node[uc,text width=5.5cm] (u3) at (8,-3.85) {UC-03. Khôi phục mật khẩu};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u3.west);
+\node[uc,text width=5.5cm] (u4) at (8,-5.65) {UC-04. Cập nhật hồ sơ cá nhân};
+\draw[assoc] (actor1-west) -- (actor1-out-west) -- (u4.east);
+\node[uc,text width=5.5cm] (u5) at (8,-7.45) {UC-05. Tra cứu bác sĩ theo cơ sở và chuyên khoa};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u5.west);
+\draw[assoc] (actor1-west) -- (actor1-out-west) -- (u5.east);
+\node[uc,text width=5.5cm] (u25) at (8,-9.25) {UC-25. Xem lịch sử khám và tải chứng từ};
+\draw[assoc] (actor1-west) -- (actor1-out-west) -- (u25.east);
+\node[uc,text width=5.5cm] (u26) at (8,-11.05) {UC-26. Đề xuất và phản hồi tái khám};
+\draw[assoc] (actor1-west) -- (actor1-out-west) -- (u26.east);
+\draw[assoc] (actor2-west) -- (actor2-out-west) -- (u26.east);
+\end{tikzpicture}
+\endgroup

@@ -1,0 +1,54 @@
+.roster-tabs { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 28px; border-bottom: 1px solid var(--line); }
+.roster-tabs a { padding: 10px 0; border-bottom: 3px solid transparent; font-weight: 600; }
+.roster-tabs a.is-active { border-bottom-color: var(--primary); }
+.roster-branch-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 10px; }
+.roster-branch-tabs a { padding: 9px 16px; border: 1px solid var(--line); border-radius: 8px; background: white; font-weight: 600; }
+.roster-branch-tabs a.is-active { background: var(--primary); color: white; border-color: var(--primary); }
+.roster-scope-summary { font-size: 12px; margin: 10px 0 18px; }
+.roster-branch-heading { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding: 22px 20px; border-bottom: 1px solid var(--line); background: #f4f9f6; }
+.roster-branch-heading h2 { margin: 8px 0 0; font-size: 22px; }
+.roster-filters { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 20px; gap: 16px; }
+.roster-filters label { flex: 1 1 210px; margin: 0; }
+.roster-filters button { flex-shrink: 0; }
+.roster-registration { margin-bottom: 24px; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: #f4f9f6; }
+.roster-registration summary { color: var(--primary); }
+.roster-registration summary small { display: block; color: var(--muted); font-weight: 400; margin-top: 5px; }
+.roster-registration form { max-width: 900px; }
+.roster-weekdays { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+.roster-weekdays label { margin: 0; }
+.roster-metrics { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+.roster-metrics > span { border: 1px solid var(--line); background: #fff; padding: 12px 18px; border-radius: 10px; }
+.roster-metrics strong { color: var(--primary); margin-right: 5px; }
+.roster-admin-actions { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }
+.roster-admin-actions .panel { margin: 0 0 20px; }
+.roster-admin-actions h2 { font-size: 24px; }
+.roster-admin-actions button:disabled { opacity: .55; cursor: not-allowed; }
+.roster-week.panel { padding: 0; }
+.roster-week-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding: 20px; border-bottom: 1px solid var(--line); }
+.roster-week-heading h2 { margin: 0; font: 600 19px 'Be Vietnam Pro', sans-serif; }
+.roster-week-heading > span { color: var(--muted); font-size: 12px; }
+.roster-week-nav { display: flex; gap: 8px; }
+.roster-table-wrap { overflow: auto; max-width: 100%; }
+.roster-grid { min-width: 1150px; table-layout: fixed; }
+.roster-grid th { text-transform: none; letter-spacing: 0; font-size: 13px; text-align: center; }
+.roster-grid th:first-child { position: sticky; left: 0; z-index: 1; width: 105px; background: #f7faf8; }
+.roster-grid th strong, .roster-grid th small { display: block; margin-top: 5px; }
+.roster-grid th small { font-size: 10px; font-weight: 400; }
+.roster-grid td { padding: 10px; height: 145px; border-left: 1px solid var(--line); }
+.roster-grid .is-today { background: #eff8f4; }
+.roster-shift { padding: 10px; margin-bottom: 10px; border: 1px solid #bad1e7; border-radius: 9px; background: #f1f7ff; font-size: 11px; overflow-wrap: anywhere; }
+.roster-shift.draft { background: #fff7e3; border: 1px dashed #c79837; }
+.roster-shift > strong, .roster-shift > span, .roster-shift small, .roster-shift a { display: block; margin-bottom: 6px; }
+.roster-shift .badge { display: inline-block; margin: 4px 0; }
+.roster-shift small { color: var(--muted); }
+.roster-no-shift { color: #84918d; font-size: 11px; }
+.roster-empty { padding: 0 20px; }
+.roster-scroll-hint { padding: 0 20px; font-size: 11px; }
+.roster-request-table { min-width: 700px; }
+.roster-request { scroll-margin-top: 120px; padding: 18px 0; }
+.roster-request summary { line-height: 1.8; }
+.roster-request .badge { margin-left: 8px; }
+.roster-manual-form { max-width: 850px; }
+.roster-reject-form { display: flex; gap: 12px; flex-wrap: wrap; align-items: end; padding-top: 16px; border-top: 1px solid var(--line); }
+.roster-reject-form label { flex: 1 1 240px; margin: 0; }
+@media(max-width: 850px) { .roster-admin-actions { grid-template-columns: 1fr; gap: 0; } .roster-filters { padding: 16px; } .roster-week-heading { align-items: flex-start; flex-direction: column; } }

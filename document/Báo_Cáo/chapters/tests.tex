@@ -1,0 +1,673 @@
+\chapter{DANH MỤC KIỂM THỬ VÀ TRUY VẾT}\label{app:tests}
+Danh mục tổ chức các trường hợp kiểm thử theo nhóm chức năng.\allowbreak{} Mỗi tình huống có mã TC, nội dung cần kiểm tra và kết quả tổng hợp của nhóm.\allowbreak{} Một tình huống có thể được thực thi nhiều lần với các bộ dữ liệu biên khác nhau.\allowbreak{} Các kết quả phản ánh kiểm thử chức năng trong môi trường cô lập.\allowbreak{}
+
+
+\section{Danh mục theo nhóm chức năng}
+\begingroup\fontsize{11.5}{14.5}\selectfont
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Đặt lịch và khoảng giờ}
+Chuẩn bị và thao tác:\allowbreak{} Tạo ca cùng các lịch hiệu lực; gửi yêu cầu có giờ giao hoặc lệch bước.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Ứng dụng phải chặn double booking và giờ không bắt đầu đúng slot.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 2 lần chạy, 3 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-001.} Từ chối đặt hẹn giao với lịch còn hiệu lực\par
+Nội dung xác nhận:\allowbreak{} kết quả xử lý và các điều kiện nghiệp vụ liên quan.\allowbreak{}
+
+\noindent\textbf{TC-002.} Chỉ chấp nhận giờ bắt đầu đúng bước khám của ca\par
+Nội dung xác nhận:\allowbreak{} kết quả xử lý và các điều kiện nghiệp vụ liên quan.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Biên 24 giờ đổi/\allowbreak{}hủy}
+Chuẩn bị và thao tác:\allowbreak{} Đóng băng thời gian trước/\allowbreak{}đúng/\allowbreak{}sau hạn; thử cả web và JSON.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Nhánh bị chặn giữ nguyên lịch, history và outbox; nhánh hợp lệ cập nhật đúng.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 9 lần chạy, 79 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-003.} Đổi và hủy theo biên 24 giờ, thông báo và giữ nguyên lịch khi bị chặn\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-004.} Biểu mẫu đổi lịch quá hạn và phản hồi JSON có thông báo nghiệp vụ\par
+Nội dung xác nhận:\allowbreak{} thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện, nội dung phản hồi JSON.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Tài khoản và token}
+Chuẩn bị và thao tác:\allowbreak{} Đăng ký, đăng nhập với hash cũ và đặt lại mật khẩu.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Hồ sơ patient được tạo; hash nâng cấp khi cần; token chỉ dùng một lần.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 3 lần chạy, 20 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-005.} Đăng ký bệnh nhân đồng thời tạo hồ sơ cá nhân\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-006.} Nâng cấp giá trị băm khi đăng nhập và phản hồi thống nhất cho tài khoản khóa\par
+Nội dung xác nhận:\allowbreak{} thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-007.} Mã đặt lại mật khẩu chỉ sử dụng được một lần\par
+Nội dung xác nhận:\allowbreak{} thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Dữ liệu thuốc và phân kho}
+Chuẩn bị và thao tác:\allowbreak{} Khởi tạo ba thuốc có nguồn tên sản phẩm tại các cơ sở; chạy seeder lặp.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Không tự nạp thêm tồn, không chiếm mã có sẵn và quyền kho vẫn theo branch.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 3 lần chạy, 64 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-008.} Ba thuốc có tồn riêng tại từng cơ sở; khởi tạo lại không tăng tồn\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác.\allowbreak{}
+
+\noindent\textbf{TC-009.} Ẩn thuốc ngừng hoạt động và giới hạn thao tác kho theo cơ sở\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-010.} Giữ mã thuốc và tồn sẵn có, không tạo lô gắn nhầm sản phẩm\par
+Nội dung xác nhận:\allowbreak{} kết quả xử lý và các điều kiện nghiệp vụ liên quan.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Sinh ca sáng/\allowbreak{}chiều}
+Chuẩn bị và thao tác:\allowbreak{} Tạo ca chuẩn, ca lặp và ca đóng ở cơ sở khác.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Slot dùng được và kiểm trùng liên cơ sở vẫn tôn trọng ca đã đóng.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 2 lần chạy, 17 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-011.} Tạo giờ khám cho cả ca sáng và chiều; giữ các ca đã tồn tại\par
+Nội dung xác nhận:\allowbreak{} kết quả xử lý và các điều kiện nghiệp vụ liên quan.\allowbreak{}
+
+\noindent\textbf{TC-012.} Giữ ca đóng tại cơ sở khác và ngăn trùng giờ\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Nâng cấp danh mục chuyên khoa}
+Chuẩn bị và thao tác:\allowbreak{} Chạy nâng cấp nhiều lần trên dữ liệu có sẵn.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Giữ dữ liệu cũ và không tạo trùng khi chạy lại.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 1 lần chạy, 12 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-013.} Cập nhật chuyên khoa nhiều lần vẫn bảo toàn dữ liệu\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Bổ sung lực lượng ban đầu}
+Chuẩn bị và thao tác:\allowbreak{} Tạo thiếu bác sĩ/\allowbreak{}nhân viên và email trùng bệnh nhân.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Phân bổ có thể đặt hẹn, chạy lại không phá dữ liệu và không chiếm tài khoản người khác.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 2 lần chạy, 67 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-014.} Bổ sung nhân sự cân bằng, có thể nhận hẹn và không thay đổi dữ liệu sẵn có\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác.\allowbreak{}
+
+\noindent\textbf{TC-015.} Không chiếm tài khoản bệnh nhân khi email trùng với nhân sự dự kiến\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Độ phủ ca theo cơ sở-khoa}
+Chuẩn bị và thao tác:\allowbreak{} Chuẩn bị ca, nghỉ, chuyển ca và dữ liệu cần giữ; chạy preview/\allowbreak{}apply.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Đủ độ phủ khi khả thi; rollback toàn đợt khi không thể; bảo toàn dữ liệu đang dùng.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 4 lần chạy, 1586 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-016.} Hai bác sĩ mỗi khoa tại mỗi cơ sở, đủ ca và giữ dữ liệu bệnh nhân, lương\par
+Nội dung xác nhận:\allowbreak{} kết quả xử lý và các điều kiện nghiệp vụ liên quan.\allowbreak{}
+
+\noindent\textbf{TC-017.} Xem trước không lưu tài khoản, đơn giá hoặc ca; từ chối khoảng ngày sai\par
+Nội dung xác nhận:\allowbreak{} kết quả xử lý và các điều kiện nghiệp vụ liên quan.\allowbreak{}
+
+\noindent\textbf{TC-018.} Điều phối tôn trọng lịch nghỉ, ca đóng, ca tùy chỉnh và ca có yêu cầu chuyển\par
+Nội dung xác nhận:\allowbreak{} kết quả xử lý và các điều kiện nghiệp vụ liên quan.\allowbreak{}
+
+\noindent\textbf{TC-019.} Độ phủ không khả thi thì hoàn tác toàn đợt, không mở lại bác sĩ bị khóa\par
+Nội dung xác nhận:\allowbreak{} kết quả xử lý và các điều kiện nghiệp vụ liên quan.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Bác sĩ tự đăng ký ca - phần 1}
+Chuẩn bị và thao tác:\allowbreak{} Đăng ký sáng/\allowbreak{}chiều/\allowbreak{}tùy chỉnh/\allowbreak{}lặp ở cơ sở được phân công.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Không nhận ca trùng, nghỉ hoặc dữ liệu sai; xung đột một lần lặp làm rollback cả đợt.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 5 lần chạy, 37 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-020.} Bác sĩ tự đăng ký sáng, chiều và lặp tuần tại Lịch của tôi\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, nội dung hoặc điều hướng trên giao diện, nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-021.} Ca tùy chỉnh cung cấp giờ trống đúng thời lượng và sức chứa\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-022.} Từ chối đăng ký trùng ca đóng tại cơ sở khác\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-023.} Từ chối đăng ký tại cơ sở chưa được phân công\par
+Nội dung xác nhận:\allowbreak{} thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-024.} Chặn ca giao lịch nghỉ và cho phép buổi không bị ảnh hưởng\par
+Nội dung xác nhận:\allowbreak{} thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện, nội dung phản hồi JSON.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Bác sĩ tự đăng ký ca - phần 2}
+Chuẩn bị và thao tác:\allowbreak{} Đăng ký sáng/\allowbreak{}chiều/\allowbreak{}tùy chỉnh/\allowbreak{}lặp ở cơ sở được phân công.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Không nhận ca trùng, nghỉ hoặc dữ liệu sai; xung đột một lần lặp làm rollback cả đợt.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 8 lần chạy, 41 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-025.} Xung đột ở một ca lặp làm hoàn tác cả đợt đăng ký\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-026.} Dữ liệu đăng ký không hợp lệ không tạo ca\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-027.} Vai trò khác không được đăng ký ca thay bác sĩ\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập.\allowbreak{}
+
+\noindent\textbf{TC-028.} Lỗi đăng ký được trả về biểu mẫu trong Lịch của tôi\par
+Nội dung xác nhận:\allowbreak{} thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Trang đăng nhập hết phiên}
+Chuẩn bị và thao tác:\allowbreak{} Gửi CSRF token cũ vào login, JSON và các form khác.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Login web mở form mới không giữ mật khẩu; form khác tiếp tục bị chặn.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 3 lần chạy, 22 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-029.} Trang đăng nhập hết phiên được cấp biểu mẫu mới, không lưu hoặc gửi lại mật khẩu\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-030.} Đăng nhập JSON sai mã CSRF vẫn bị từ chối với 419\par
+Nội dung xác nhận:\allowbreak{} nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-031.} Các biểu mẫu khác có mã CSRF sai không được thực hiện\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Nhiều tài khoản local}
+Chuẩn bị và thao tác:\allowbreak{} Mở tiện ích từ hostname local, workspace khác và production.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Tạo hostname riêng khi đủ điều kiện, không dùng token URL hoặc làm hỏng phiên hiện tại.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 4 lần chạy, 11 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-032.} Đăng nhập tài khoản khác qua tên máy local riêng, giữ phiên hiện tại\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-033.} Mở thêm không gian đăng nhập từ một không gian local đang dùng\par
+Nội dung xác nhận:\allowbreak{} kết quả xử lý và các điều kiện nghiệp vụ liên quan.\allowbreak{}
+
+\noindent\textbf{TC-034.} Vô hiệu tiện ích nhiều tài khoản local trên tên miền ngoài và production\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập.\allowbreak{}
+
+\noindent\textbf{TC-035.} Phiên nhiều tài khoản local yêu cầu cookie giới hạn theo tên máy\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Quên mật khẩu và hạn mức - phần 1}
+Chuẩn bị và thao tác:\allowbreak{} Thử email đã có/\allowbreak{}chưa có, lặp, rate limit, token dùng/\allowbreak{}hết hạn và mail transport.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Phản hồi thống nhất, chờ đúng thời gian và chỉ token hợp lệ đổi mật khẩu.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 5 lần chạy, 72 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-036.} Biểu mẫu xác thực khác không tiêu hao hạn mức khôi phục mật khẩu\par
+Nội dung xác nhận:\allowbreak{} thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-037.} Giữ biểu mẫu, báo thời gian chờ và mở lại sau một phút khi quá hạn mức\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-038.} Yêu cầu JSON quá hạn mức nhận 429 cùng thời gian thử lại\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện, nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-039.} Email có sẵn, chưa có và gửi lặp nhận cùng thông báo, cùng khoảng chờ\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-040.} Liên kết khôi phục đổi mật khẩu một lần và đăng nhập được bằng mật khẩu mới\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Quên mật khẩu và hạn mức - phần 2}
+Chuẩn bị và thao tác:\allowbreak{} Thử email đã có/\allowbreak{}chưa có, lặp, rate limit, token dùng/\allowbreak{}hết hạn và mail transport.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Phản hồi thống nhất, chờ đúng thời gian và chỉ token hợp lệ đổi mật khẩu.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 2 lần chạy, 10 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-041.} Thư khôi phục được kết xuất qua bộ gửi thư trong môi trường kiểm thử\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-042.} Liên kết khôi phục hết hạn không thay đổi mật khẩu\par
+Nội dung xác nhận:\allowbreak{} thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Lương, quyền sở hữu và khóa tiền - phần 1}
+Chuẩn bị và thao tác:\allowbreak{} Tạo ca bác sĩ/\allowbreak{}nhân viên ở nhiều trạng thái; chỉnh profile/\allowbreak{}bảng/\allowbreak{}PAID.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Đúng phút/\allowbreak{}ca và số tiền, snapshot cũ không đổi, nhân viên không đọc/\allowbreak{}sửa người khác.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 5 lần chạy, 140 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-043.} Lương bác sĩ lấy ca mở đã kết thúc, loại lịch nghỉ và làm tròn tới đồng\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-044.} Lễ tân, thu ngân có đơn giá riêng; chỉ tính ca chính thức đã kết thúc\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-045.} Không vượt quyền riêng tư lương bằng ID, tham số hoặc yêu cầu ghi của nhân viên\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-046.} Đổi đơn giá không thay bảng tháng cũ; lập trùng không ghi đè\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-047.} Điều chỉnh và tính lại lương bảo toàn nguồn; bảng đã trả khóa số tiền\par
+Nội dung xác nhận:\allowbreak{} thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Lương, quyền sở hữu và khóa tiền - phần 2}
+Chuẩn bị và thao tác:\allowbreak{} Tạo ca bác sĩ/\allowbreak{}nhân viên ở nhiều trạng thái; chỉnh profile/\allowbreak{}bảng/\allowbreak{}PAID.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Đúng phút/\allowbreak{}ca và số tiền, snapshot cũ không đổi, nhân viên không đọc/\allowbreak{}sửa người khác.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 2 lần chạy, 44 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-048.} Số tiền, thời gian, tháng hoặc nguồn ca sai không lưu bảng lương một phần\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-049.} Từ chối phiên bản thanh toán cũ và giữ điều hướng theo vai trò\par
+Nội dung xác nhận:\allowbreak{} thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Thao tác lễ tân và menu tài khoản}
+Chuẩn bị và thao tác:\allowbreak{} Mở Thông báo/\allowbreak{}ca; thử xác nhận, tiếp nhận, NO\_\allowbreak{}SHOW sớm và đổi role/\allowbreak{}branch.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Đúng trạng thái, đúng cơ sở, một Visit; lỗi web thân thiện và JSON giữ conflict.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 5 lần chạy, 108 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-050.} Lễ tân xác nhận, tiếp nhận từ Thông báo và chỉ tạo một lượt khám\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện, nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-051.} Chặn tiếp nhận ngày tương lai và đánh dấu vắng trước giờ hẹn\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-052.} Chuyển trạng thái sai trả về biểu mẫu; JSON giữ phản hồi xung đột\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-053.} Lễ tân chỉ xử lý lịch trong cơ sở; vai trò khác không tự xác nhận\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, giới hạn truy cập, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-054.} Menu tài khoản ở cuối thanh bên, điều hướng bệnh nhân được giữ nguyên\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Trang theo năm vai trò}
+Chuẩn bị và thao tác:\allowbreak{} Đăng nhập từng role với dữ liệu seed, gọi các trang chính.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Trang render phù hợp và điều hướng đặt lịch không cấp quyền ghi ngoài role.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 2 lần chạy, 54 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-055.} Điều hướng đặt lịch theo vai trò, thao tác ghi vẫn được kiểm quyền\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-056.} Trang công khai và trang từng vai trò hiển thị với dữ liệu chuẩn bị\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Chuyển ca có người nhận - phần 1}
+Chuẩn bị và thao tác:\allowbreak{} Tạo người nhận hợp lệ/\allowbreak{}bận/\allowbreak{}nghỉ và xung đột mới trước lúc chấp nhận.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Chỉ chuyển khi đồng ý và kiểm lại; không sửa một phần hoặc tiết lộ cho người không liên quan.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 10 lần chạy, 80 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-057.} Bác sĩ đủ điều kiện nhận thông báo và chấp nhận chuyển ca, lịch hẹn một lần\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, giới hạn truy cập, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-058.} Chỉ chủ thể liên quan được xem và xử lý yêu cầu chuyển ca\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-059.} Bác sĩ bận hoặc không đủ điều kiện không được đề xuất làm người nhận\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện, nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-060.} Kiểm lại xung đột phát sinh trước khi nhận ca, không cập nhật một phần\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-061.} Chặn nhận ca có bệnh nhân đã tiếp nhận hoặc yêu cầu đã quá hạn\par
+Nội dung xác nhận:\allowbreak{} thông báo dữ liệu hoặc điều kiện không hợp lệ.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Chuyển ca có người nhận - phần 2}
+Chuẩn bị và thao tác:\allowbreak{} Tạo người nhận hợp lệ/\allowbreak{}bận/\allowbreak{}nghỉ và xung đột mới trước lúc chấp nhận.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Chỉ chuyển khi đồng ý và kiểm lại; không sửa một phần hoặc tiết lộ cho người không liên quan.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 1 lần chạy, 10 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-062.} Chặn yêu cầu chờ trùng; từ chối hoặc rút không thay đổi lịch hẹn\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Luồng tích hợp nghiệp vụ - phần 1}
+Chuẩn bị và thao tác:\allowbreak{} Dùng năm vai trò đi qua khám, chỉ định, tiền, kho và báo cáo; thử các nhánh quyền/\allowbreak{}lặp.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Các module liên kết nhất quán, giao dịch nguyên tử và chứng từ chỉ công bố đúng người.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 5 lần chạy, 39 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-063.} Hiển thị các trang theo vai trò và biểu mẫu vận hành\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-064.} Tiếp nhận duy nhất và tạo lượt ở trạng thái chờ khám\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-065.} Tiếp nhận vãng lai không tạo hẹn giả, giới hạn bác sĩ phụ trách\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập.\allowbreak{}
+
+\noindent\textbf{TC-066.} Điều chỉnh hồ sơ đã ký cần lý do, từ chối phiên bản cũ\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-067.} Ký đơn không thay đổi tồn và lễ tân không được ký đơn\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Luồng tích hợp nghiệp vụ - phần 2}
+Chuẩn bị và thao tác:\allowbreak{} Dùng năm vai trò đi qua khám, chỉ định, tiền, kho và báo cáo; thử các nhánh quyền/\allowbreak{}lặp.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Các module liên kết nhất quán, giao dịch nguyên tử và chứng từ chỉ công bố đúng người.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 5 lần chạy, 48 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-068.} Thiếu thuốc hoàn tác cả đợt; loại lô hết hạn và xử lý gửi lại\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-069.} Kết quả ở trạng thái chờ tới khi người có quyền xác minh\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-070.} Giữ giá hóa đơn, thu từng phần, hoàn tiền và chống gửi lặp\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-071.} Giới hạn cơ sở trên hóa đơn, tìm bệnh nhân và xuất báo cáo\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-072.} Kiểm trùng ca, lịch nghỉ và bảo toàn lịch sử đổi hẹn\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Luồng tích hợp nghiệp vụ - phần 3}
+Chuẩn bị và thao tác:\allowbreak{} Dùng năm vai trò đi qua khám, chỉ định, tiền, kho và báo cáo; thử các nhánh quyền/\allowbreak{}lặp.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Các module liên kết nhất quán, giao dịch nguyên tử và chứng từ chỉ công bố đúng người.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 5 lần chạy, 33 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-073.} Nhận LIS chống lặp, chặn ánh xạ sai và kiểm đơn vị số đo\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, giới hạn truy cập, nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-074.} Chỉ tự đặt tái khám khi có đồng ý hợp lệ và không đặt lặp\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-075.} Lỗi email giữ lịch hẹn và thử gửi lại theo thời gian chờ tăng dần\par
+Nội dung xác nhận:\allowbreak{} kết quả xử lý và các điều kiện nghiệp vụ liên quan.\allowbreak{}
+
+\noindent\textbf{TC-076.} Một tác vụ email không gửi lại sau khi được ghi nhận thành công\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác.\allowbreak{}
+
+\noindent\textbf{TC-077.} PDF hiển thị tiếng Việt và chỉ được tải bởi người có quyền\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Luồng tích hợp nghiệp vụ - phần 4}
+Chuẩn bị và thao tác:\allowbreak{} Dùng năm vai trò đi qua khám, chỉ định, tiền, kho và báo cáo; thử các nhánh quyền/\allowbreak{}lặp.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Các module liên kết nhất quán, giao dịch nguyên tử và chứng từ chỉ công bố đúng người.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 4 lần chạy, 42 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-078.} Khóa tài khoản chặn cả phiên đăng nhập đang tồn tại\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập.\allowbreak{}
+
+\noindent\textbf{TC-079.} Luồng năm vai trò từ đặt hẹn đến thu tiền, cấp thuốc và báo cáo\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-080.} Kiểm đồng thời sức chứa ca và lịch trùng của bệnh nhân\par
+Nội dung xác nhận:\allowbreak{} kết quả xử lý và các điều kiện nghiệp vụ liên quan.\allowbreak{}
+
+\noindent\textbf{TC-081.} Tệp XLSX ghi chuỗi không tin cậy dưới dạng văn bản\par
+Nội dung xác nhận:\allowbreak{} kết quả xử lý và các điều kiện nghiệp vụ liên quan.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Lịch tuần và tải theo ca}
+Chuẩn bị và thao tác:\allowbreak{} Đăng nhập bác sĩ/\allowbreak{}nhân viên, chọn tuần/\allowbreak{}ca, thử truy cập ngoài phạm vi.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Bác sĩ chỉ thấy ca mình, không lộ bệnh nhân trước mở ca, Chủ nhật thuộc đúng tuần.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 5 lần chạy, 36 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-082.} Lịch bác sĩ chỉ có ca của mình, chưa tải bệnh nhân trước khi mở ca\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-083.} Chi tiết chỉ tải hẹn của ca được chọn và hỗ trợ tìm kiếm\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-084.} Quyền xem chi tiết ca kết hợp bác sĩ phụ trách và cơ sở\par
+Nội dung xác nhận:\allowbreak{} giới hạn truy cập, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-085.} Tuần lịch gồm Chủ nhật và không lấy sang thứ Hai tuần kế tiếp\par
+Nội dung xác nhận:\allowbreak{} kết quả xử lý và các điều kiện nghiệp vụ liên quan.\allowbreak{}
+
+\noindent\textbf{TC-086.} Thu ngân không thấy lý do khám; trang con đánh dấu đúng mục điều hướng\par
+Nội dung xác nhận:\allowbreak{} nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Nguyện vọng, xếp và chốt nhân viên - phần 1}
+Chuẩn bị và thao tác:\allowbreak{} Đăng ký WAITING, xếp tự động/\allowbreak{}tay, sửa ở nhiều tab, chốt và rút.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Không trùng/\allowbreak{}vượt phút; kiểm version/\allowbreak{}eligibility khi chốt; lịch chính thức và branch được bảo vệ.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 5 lần chạy, 103 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-087.} Nguyện vọng thuộc người đăng ký, bắt đầu WAITING và chưa là ca chính thức\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, giới hạn truy cập, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-088.} Từ chối cơ sở, thời gian sai và hoàn tác đợt đăng ký bị trùng một phần\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện, nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-089.} Xếp tự động cân bằng giờ, giữ lịch bác sĩ và chỉ công bố sau rà soát\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, nội dung hoặc điều hướng trên giao diện.\allowbreak{}
+
+\noindent\textbf{TC-090.} Xếp tay chặn trùng liên cơ sở và vượt số giờ ngày\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung phản hồi JSON.\allowbreak{}
+
+\noindent\textbf{TC-091.} Từ chối phương án, phiên bản chốt cũ; ca chính thức cần mở chốt trước sửa\par
+Nội dung xác nhận:\allowbreak{} thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện, nội dung phản hồi JSON.\allowbreak{}
+
+
+\par\vspace{8pt}
+
+\Needspace{6\baselineskip}\subsection{Nguyện vọng, xếp và chốt nhân viên - phần 2}
+Chuẩn bị và thao tác:\allowbreak{} Đăng ký WAITING, xếp tự động/\allowbreak{}tay, sửa ở nhiều tab, chốt và rút.\allowbreak{}
+
+Kết quả cần đạt:\allowbreak{} Không trùng/\allowbreak{}vượt phút; kiểm version/\allowbreak{}eligibility khi chốt; lịch chính thức và branch được bảo vệ.\allowbreak{}
+
+Kết quả JUnit của phần này:\allowbreak{} 2 lần chạy, 29 assertion, tất cả đạt.\allowbreak{} Môi trường chung:\allowbreak{} PHP 8.\allowbreak{}1.\allowbreak{}10, SQLite :\allowbreak{}memory:\allowbreak{}, thời gian đóng băng trong test nếu cần.\allowbreak{}
+
+\noindent\textbf{TC-092.} Chốt lịch kiểm lại điều kiện nhân viên và hoàn tác cả tập nếu có lỗi\par
+Nội dung xác nhận:\allowbreak{} trạng thái bản ghi sau thao tác, thông báo dữ liệu hoặc điều kiện không hợp lệ.\allowbreak{}
+
+\noindent\textbf{TC-093.} Rút nguyện vọng hủy phương án chưa chốt, bảo vệ phân công có ca chính thức\par
+Nội dung xác nhận:\allowbreak{} thông báo dữ liệu hoặc điều kiện không hợp lệ, nội dung hoặc điều hướng trên giao diện, nội dung phản hồi JSON.\allowbreak{}
+
+\endgroup
+\clearpage
+
+\section{Ma trận yêu cầu - phân hệ - kiểm thử}
+
+{\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.4\textwidth-4.8pt\relax} L{\dimexpr 0.27\textwidth-3.24pt\relax} L{\dimexpr 0.33\textwidth-3.96pt\relax}@{}}
+\caption{Liên kết UC-01 đến UC-08}\\
+\toprule
+\textbf{Use case /\allowbreak{} yêu cầu} & \textbf{Phân hệ thiết kế} & \textbf{Nhóm kiểm tra}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Use case /\allowbreak{} yêu cầu} & \textbf{Phân hệ thiết kế} & \textbf{Nhóm kiểm tra}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+UC-01 /\allowbreak{} FR-01:\allowbreak{} Đăng ký tài khoản bệnh nhân & Tài khoản và cổng bệnh nhân & Tài khoản và token\\[3pt]
+UC-02 /\allowbreak{} FR-02:\allowbreak{} Đăng nhập và mở phiên độc lập & Tài khoản và cổng bệnh nhân & Tài khoản và token; Nhiều tài khoản local; Trang đăng nhập hết phiên\\[3pt]
+UC-03 /\allowbreak{} FR-03:\allowbreak{} Khôi phục mật khẩu & Tài khoản và cổng bệnh nhân & Quên mật khẩu và hạn mức; Tài khoản và token\\[3pt]
+UC-04 /\allowbreak{} FR-04:\allowbreak{} Cập nhật hồ sơ cá nhân & Tài khoản và cổng bệnh nhân & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-05 /\allowbreak{} FR-05:\allowbreak{} Tra cứu bác sĩ theo cơ sở và chuyên khoa & Tài khoản và cổng bệnh nhân & Trang theo năm vai trò; Bổ sung lực lượng ban đầu\\[3pt]
+UC-06 /\allowbreak{} FR-06:\allowbreak{} Tra cứu giờ khám khả dụng & Lịch hẹn và tiếp nhận & Đặt lịch và khoảng giờ; Sinh ca sáng/\allowbreak{}chiều\\[3pt]
+UC-07 /\allowbreak{} FR-07:\allowbreak{} Đặt lịch khám cho bản thân hoặc đặt hộ & Lịch hẹn và tiếp nhận & Đặt lịch và khoảng giờ; Luồng tích hợp nghiệp vụ\\[3pt]
+UC-08 /\allowbreak{} FR-08:\allowbreak{} Đổi lịch khám trước hạn & Lịch hẹn và tiếp nhận & Biên 24 giờ đổi/\allowbreak{}hủy; Luồng tích hợp nghiệp vụ\\[3pt]
+\end{longtable}}
+Ma trận liên kết mục tiêu sử dụng với phân hệ chịu trách nhiệm và nhóm kiểm tra tương ứng.\allowbreak{} Khi yêu cầu thay đổi, cần rà soát đồng thời quy tắc, dữ liệu và các trường hợp biên.\allowbreak{} Sao lưu và khôi phục được đánh giá qua quy trình vận hành trên bản sao, tách khỏi kết quả kiểm thử chức năng tự động.\allowbreak{}
+
+\clearpage
+
+{\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.4\textwidth-4.8pt\relax} L{\dimexpr 0.27\textwidth-3.24pt\relax} L{\dimexpr 0.33\textwidth-3.96pt\relax}@{}}
+\caption{Liên kết UC-09 đến UC-16}\\
+\toprule
+\textbf{Use case /\allowbreak{} yêu cầu} & \textbf{Phân hệ thiết kế} & \textbf{Nhóm kiểm tra}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Use case /\allowbreak{} yêu cầu} & \textbf{Phân hệ thiết kế} & \textbf{Nhóm kiểm tra}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+UC-09 /\allowbreak{} FR-09:\allowbreak{} Hủy lịch khám trước hạn & Lịch hẹn và tiếp nhận & Biên 24 giờ đổi/\allowbreak{}hủy\\[3pt]
+UC-10 /\allowbreak{} FR-10:\allowbreak{} Xác nhận lịch hẹn & Lịch hẹn và tiếp nhận & Thao tác lễ tân và menu tài khoản\\[3pt]
+UC-11 /\allowbreak{} FR-11:\allowbreak{} Tiếp nhận bệnh nhân có lịch & Lịch hẹn và tiếp nhận & Luồng tích hợp nghiệp vụ; Thao tác lễ tân và menu tài khoản\\[3pt]
+UC-12 /\allowbreak{} FR-12:\allowbreak{} Tiếp nhận khách vãng lai & Lịch hẹn và tiếp nhận & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-13 /\allowbreak{} FR-13:\allowbreak{} Khám và chuyển trạng thái lượt khám & Khám và cận lâm sàng & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-14 /\allowbreak{} FR-14:\allowbreak{} Lưu nháp và ký hồ sơ khám & Khám và cận lâm sàng & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-15 /\allowbreak{} FR-15:\allowbreak{} Điều chỉnh hồ sơ đã ký & Khám và cận lâm sàng & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-16 /\allowbreak{} FR-16:\allowbreak{} Kê và ký đơn thuốc & Khám và cận lâm sàng & Luồng tích hợp nghiệp vụ\\[3pt]
+\end{longtable}}
+Ma trận liên kết mục tiêu sử dụng với phân hệ chịu trách nhiệm và nhóm kiểm tra tương ứng.\allowbreak{} Khi yêu cầu thay đổi, cần rà soát đồng thời quy tắc, dữ liệu và các trường hợp biên.\allowbreak{} Sao lưu và khôi phục được đánh giá qua quy trình vận hành trên bản sao, tách khỏi kết quả kiểm thử chức năng tự động.\allowbreak{}
+
+\clearpage
+
+{\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.4\textwidth-4.8pt\relax} L{\dimexpr 0.27\textwidth-3.24pt\relax} L{\dimexpr 0.33\textwidth-3.96pt\relax}@{}}
+\caption{Liên kết UC-17 đến UC-24}\\
+\toprule
+\textbf{Use case /\allowbreak{} yêu cầu} & \textbf{Phân hệ thiết kế} & \textbf{Nhóm kiểm tra}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Use case /\allowbreak{} yêu cầu} & \textbf{Phân hệ thiết kế} & \textbf{Nhóm kiểm tra}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+UC-17 /\allowbreak{} FR-17:\allowbreak{} Chỉ định dịch vụ cận lâm sàng & Khám và cận lâm sàng & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-18 /\allowbreak{} FR-18:\allowbreak{} Nhập và xác minh kết quả & Khám và cận lâm sàng & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-19 /\allowbreak{} FR-19:\allowbreak{} Phát hành hóa đơn khám & Tài chính và dược & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-20 /\allowbreak{} FR-20:\allowbreak{} Thu tiền từng phần và xác nhận chuyển khoản & Tài chính và dược & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-21 /\allowbreak{} FR-21:\allowbreak{} Hoàn tiền và hủy hóa đơn & Tài chính và dược & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-22 /\allowbreak{} FR-22:\allowbreak{} Nhập thuốc và theo dõi lô & Tài chính và dược & Dữ liệu thuốc và phân kho; Luồng tích hợp nghiệp vụ\\[3pt]
+UC-23 /\allowbreak{} FR-23:\allowbreak{} Cấp phát thuốc theo FEFO & Tài chính và dược & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-24 /\allowbreak{} FR-24:\allowbreak{} Điều chỉnh tồn kho có lý do & Tài chính và dược & Luồng tích hợp nghiệp vụ\\[3pt]
+\end{longtable}}
+Ma trận liên kết mục tiêu sử dụng với phân hệ chịu trách nhiệm và nhóm kiểm tra tương ứng.\allowbreak{} Khi yêu cầu thay đổi, cần rà soát đồng thời quy tắc, dữ liệu và các trường hợp biên.\allowbreak{} Sao lưu và khôi phục được đánh giá qua quy trình vận hành trên bản sao, tách khỏi kết quả kiểm thử chức năng tự động.\allowbreak{}
+
+\clearpage
+
+{\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.4\textwidth-4.8pt\relax} L{\dimexpr 0.27\textwidth-3.24pt\relax} L{\dimexpr 0.33\textwidth-3.96pt\relax}@{}}
+\caption{Liên kết UC-25 đến UC-32}\\
+\toprule
+\textbf{Use case /\allowbreak{} yêu cầu} & \textbf{Phân hệ thiết kế} & \textbf{Nhóm kiểm tra}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Use case /\allowbreak{} yêu cầu} & \textbf{Phân hệ thiết kế} & \textbf{Nhóm kiểm tra}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+UC-25 /\allowbreak{} FR-25:\allowbreak{} Xem lịch sử khám và tải chứng từ & Tài khoản và cổng bệnh nhân & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-26 /\allowbreak{} FR-26:\allowbreak{} Đề xuất và phản hồi tái khám & Tài khoản và cổng bệnh nhân & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-27 /\allowbreak{} FR-27:\allowbreak{} Đăng ký ca khám của bác sĩ & Ca khám và điều phối & Bác sĩ tự đăng ký ca\\[3pt]
+UC-28 /\allowbreak{} FR-28:\allowbreak{} Đổi người phụ trách ca với bác sĩ đang trống & Ca khám và điều phối & Chuyển ca có người nhận\\[3pt]
+UC-29 /\allowbreak{} FR-29:\allowbreak{} Đăng ký lịch làm nhân viên & Lịch nhân viên và tiền lương & Nguyện vọng, xếp và chốt nhân viên\\[3pt]
+UC-30 /\allowbreak{} FR-30:\allowbreak{} Xếp lịch nhân viên tự động & Lịch nhân viên và tiền lương & Nguyện vọng, xếp và chốt nhân viên\\[3pt]
+UC-31 /\allowbreak{} FR-31:\allowbreak{} Xếp tay và chốt lịch nhân viên & Lịch nhân viên và tiền lương & Nguyện vọng, xếp và chốt nhân viên\\[3pt]
+UC-32 /\allowbreak{} FR-32:\allowbreak{} Bảo đảm độ phủ bác sĩ theo cơ sở và khoa & Ca khám và điều phối & Độ phủ ca theo cơ sở-khoa\\[3pt]
+\end{longtable}}
+Ma trận liên kết mục tiêu sử dụng với phân hệ chịu trách nhiệm và nhóm kiểm tra tương ứng.\allowbreak{} Khi yêu cầu thay đổi, cần rà soát đồng thời quy tắc, dữ liệu và các trường hợp biên.\allowbreak{} Sao lưu và khôi phục được đánh giá qua quy trình vận hành trên bản sao, tách khỏi kết quả kiểm thử chức năng tự động.\allowbreak{}
+
+\clearpage
+
+{\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{\dimexpr 0.4\textwidth-4.8pt\relax} L{\dimexpr 0.27\textwidth-3.24pt\relax} L{\dimexpr 0.33\textwidth-3.96pt\relax}@{}}
+\caption{Liên kết UC-33 đến UC-40}\\
+\toprule
+\textbf{Use case /\allowbreak{} yêu cầu} & \textbf{Phân hệ thiết kế} & \textbf{Nhóm kiểm tra}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Use case /\allowbreak{} yêu cầu} & \textbf{Phân hệ thiết kế} & \textbf{Nhóm kiểm tra}\\\midrule
+\endhead
+\bottomrule\endlastfoot
+UC-33 /\allowbreak{} FR-33:\allowbreak{} Thiết lập đơn giá lương riêng & Lịch nhân viên và tiền lương & Lương, quyền sở hữu và khóa tiền\\[3pt]
+UC-34 /\allowbreak{} FR-34:\allowbreak{} Lập và đối chiếu bảng lương tháng & Lịch nhân viên và tiền lương & Lương, quyền sở hữu và khóa tiền\\[3pt]
+UC-35 /\allowbreak{} FR-35:\allowbreak{} Xem lương cá nhân và ghi nhận thanh toán & Lịch nhân viên và tiền lương & Lương, quyền sở hữu và khóa tiền\\[3pt]
+UC-36 /\allowbreak{} FR-36:\allowbreak{} Quản lý cơ sở, tài khoản và quyền bổ sung & Quản trị và xử lý nền & Nguyện vọng, xếp và chốt nhân viên; Luồng tích hợp nghiệp vụ\\[3pt]
+UC-37 /\allowbreak{} FR-37:\allowbreak{} Xem và xuất báo cáo nghiệp vụ & Quản trị và xử lý nền & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-38 /\allowbreak{} FR-38:\allowbreak{} Gửi thông báo và nhắc lịch qua outbox & Quản trị và xử lý nền & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-39 /\allowbreak{} FR-39:\allowbreak{} Nhận kết quả LIS và số đo thiết bị & Quản trị và xử lý nền & Luồng tích hợp nghiệp vụ\\[3pt]
+UC-40 /\allowbreak{} FR-40:\allowbreak{} Sao lưu và kiểm tra khôi phục & Quản trị và xử lý nền & Quy trình vận hành và phục hồi bản sao\\[3pt]
+\end{longtable}}
+Ma trận liên kết mục tiêu sử dụng với phân hệ chịu trách nhiệm và nhóm kiểm tra tương ứng.\allowbreak{} Khi yêu cầu thay đổi, cần rà soát đồng thời quy tắc, dữ liệu và các trường hợp biên.\allowbreak{} Sao lưu và khôi phục được đánh giá qua quy trình vận hành trên bản sao, tách khỏi kết quả kiểm thử chức năng tự động.\allowbreak{}
+

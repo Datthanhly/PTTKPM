@@ -1,0 +1,27 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\node[state,text width=3.5cm] (q0) at (0,0.0) {WAITING};
+\node[state,text width=3.5cm] (q1) at (7,0.0) {IN\_\allowbreak{}PROGRESS};
+\node[state,text width=3.5cm] (q2) at (14,0.0) {WAITING\_\allowbreak{}RESULT};
+\node[state,text width=3.5cm] (q3) at (0,-4.4) {CANCELLED};
+\node[state,text width=3.5cm] (q4) at (7,-4.4) {COMPLETED};
+\node[state,text width=3.5cm] (q5) at (14,-4.4) {CLOSED};
+\fill (-2.8,0) circle (.08); \draw[arr] (-2.8,0) -- (q0);
+\draw[arr] (q0) -- node[lab,above,sloped,text width=3cm] {bắt đầu khám} (q1);
+\draw[arr] (q0) -- node[lab,above,sloped,text width=3cm] {hủy} (q3);
+\draw[arr] (q1) -- node[lab,above,sloped,text width=3cm] {chờ kết quả} (q2);
+\draw[arr] (q2.south) to[out=220,in=320] node[lab,below,text width=3cm] {tiếp tục khám} (q1.south);
+\draw[arr] (q1) -- node[lab,above,sloped,text width=3cm] {đủ điều kiện} (q4);
+\draw[arr] (q2.south east) -- (16,-1.5) -- (16,-6.4) -- node[lab,below] {đủ điều kiện} (7,-6.4) -- (q4.south);
+\draw[arr] (q1) -- node[lab,above,sloped,text width=3cm] {hủy} (q3);
+\draw[arr] (q4) -- node[lab,above,sloped,text width=3cm] {đóng lượt} (q5);
+\end{tikzpicture}
+\endgroup

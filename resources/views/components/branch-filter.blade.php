@@ -1,0 +1,1 @@
+<label>Chi nhánh<select name="branch_id"><option value="">Tất cả chi nhánh được cấp</option>@foreach($branches as $branch)<option value="{{ $branch->id }}" @selected(request('branch_id')==$branch->id)>{{ $branch->name }}</option>@endforeach</select></label>

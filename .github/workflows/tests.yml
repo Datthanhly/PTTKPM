@@ -1,0 +1,16 @@
+name: Clinic tests
+on: [push, pull_request]
+jobs:
+  php81:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, intl, pdo_sqlite, gd, zip, dom
+          coverage: none
+      - run: composer install --prefer-dist --no-interaction
+      - run: cp .env.example .env && php artisan key:generate
+      - run: php vendor/phpunit/phpunit/phpunit
+      - run: php vendor/bin/pint --test app database routes tests config/clinic.php config/hashing.php

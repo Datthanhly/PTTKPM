@@ -1,0 +1,94 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\draw[draw=black!65] (3.5,1) rectangle (12.5,-11.8);
+\node[uc,text width=5cm] (g0) at (8,0.0) {Tài khoản và cổng bệnh nhân};
+\node[uc,text width=5cm] (g1) at (8,-1.8) {Lịch hẹn và tiếp nhận};
+\node[uc,text width=5cm] (g2) at (8,-3.6) {Khám và cận lâm sàng};
+\node[uc,text width=5cm] (g3) at (8,-5.4) {Tài chính và dược};
+\node[uc,text width=5cm] (g4) at (8,-7.2) {Ca khám và điều phối};
+\node[uc,text width=5cm] (g5) at (8,-9.0) {Lịch nhân viên và tiền lương};
+\node[uc,text width=5cm] (g6) at (8,-10.8) {Quản trị và xử lý nền};
+\draw (0.4,-0.10000000000000003) circle (.15);
+\draw (0.4,-0.25) -- (0.4,-0.75);
+\draw (0.10000000000000003,-0.4) -- (0.7,-0.4);
+\draw (0.4,-0.75) -- (0.15000000000000002,-1.1);
+\draw (0.4,-0.75) -- (0.65,-1.1);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (p) at (0.4,-1.4500000000000002) {Bệnh nhân/Khách};
+\coordinate (p-east) at (0.7,-0.4);
+\coordinate (p-west) at (0.10000000000000003,-0.4);
+\coordinate (p-out-east) at (1.9500000000000002,-0.4);
+\coordinate (p-out-west) at (-1.15,-0.4);
+\draw (0.4,-3.8) circle (.15);
+\draw (0.4,-3.9499999999999997) -- (0.4,-4.449999999999999);
+\draw (0.10000000000000003,-4.1) -- (0.7,-4.1);
+\draw (0.4,-4.449999999999999) -- (0.15000000000000002,-4.8);
+\draw (0.4,-4.449999999999999) -- (0.65,-4.8);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (d) at (0.4,-5.1499999999999995) {Bác sĩ};
+\coordinate (d-east) at (0.7,-4.1);
+\coordinate (d-west) at (0.10000000000000003,-4.1);
+\coordinate (d-out-east) at (1.9500000000000002,-4.1);
+\coordinate (d-out-west) at (-1.15,-4.1);
+\draw (0.4,-7.7) circle (.15);
+\draw (0.4,-7.85) -- (0.4,-8.35);
+\draw (0.10000000000000003,-8) -- (0.7,-8);
+\draw (0.4,-8.35) -- (0.15000000000000002,-8.7);
+\draw (0.4,-8.35) -- (0.65,-8.7);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (r) at (0.4,-9.05) {Lễ tân};
+\coordinate (r-east) at (0.7,-8);
+\coordinate (r-west) at (0.10000000000000003,-8);
+\coordinate (r-out-east) at (1.9500000000000002,-8);
+\coordinate (r-out-west) at (-1.15,-8);
+\draw (15.6,-0.10000000000000003) circle (.15);
+\draw (15.6,-0.25) -- (15.6,-0.75);
+\draw (15.299999999999999,-0.4) -- (15.9,-0.4);
+\draw (15.6,-0.75) -- (15.35,-1.1);
+\draw (15.6,-0.75) -- (15.85,-1.1);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (c) at (15.6,-1.4500000000000002) {Thu ngân};
+\coordinate (c-east) at (15.9,-0.4);
+\coordinate (c-west) at (15.299999999999999,-0.4);
+\coordinate (c-out-east) at (17.15,-0.4);
+\coordinate (c-out-west) at (14.049999999999999,-0.4);
+\draw (15.6,-3.8) circle (.15);
+\draw (15.6,-3.9499999999999997) -- (15.6,-4.449999999999999);
+\draw (15.299999999999999,-4.1) -- (15.9,-4.1);
+\draw (15.6,-4.449999999999999) -- (15.35,-4.8);
+\draw (15.6,-4.449999999999999) -- (15.85,-4.8);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (a) at (15.6,-5.1499999999999995) {Admin};
+\coordinate (a-east) at (15.9,-4.1);
+\coordinate (a-west) at (15.299999999999999,-4.1);
+\coordinate (a-out-east) at (17.15,-4.1);
+\coordinate (a-out-west) at (14.049999999999999,-4.1);
+\draw (15.6,-7.7) circle (.15);
+\draw (15.6,-7.85) -- (15.6,-8.35);
+\draw (15.299999999999999,-8) -- (15.9,-8);
+\draw (15.6,-8.35) -- (15.35,-8.7);
+\draw (15.6,-8.35) -- (15.85,-8.7);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (m) at (15.6,-9.05) {LIS/Device; worker};
+\coordinate (m-east) at (15.9,-8);
+\coordinate (m-west) at (15.299999999999999,-8);
+\coordinate (m-out-east) at (17.15,-8);
+\coordinate (m-out-west) at (14.049999999999999,-8);
+\draw[assoc] (p-east) -- (p-out-east) -- (g0.west);
+\draw[assoc] (p-east) -- (p-out-east) -- (g1.west);
+\draw[assoc] (d-east) -- (d-out-east) -- (g2.west);
+\draw[assoc] (d-east) -- (d-out-east) -- (g4.west);
+\draw[assoc] (d-east) -- (d-out-east) -- (g5.west);
+\draw[assoc] (r-east) -- (r-out-east) -- (g1.west);
+\draw[assoc] (r-east) -- (r-out-east) -- (g5.west);
+\draw[assoc] (c-west) -- (c-out-west) -- (g3.east);
+\draw[assoc] (c-west) -- (c-out-west) -- (g5.east);
+\draw[assoc] (c-west) -- (c-out-west) -- (g6.east);
+\draw[assoc] (a-west) -- (a-out-west) -- (g4.east);
+\draw[assoc] (a-west) -- (a-out-west) -- (g5.east);
+\draw[assoc] (a-west) -- (a-out-west) -- (g6.east);
+\draw[assoc] (m-west) -- (m-out-west) -- (g6.east);
+\end{tikzpicture}
+\endgroup

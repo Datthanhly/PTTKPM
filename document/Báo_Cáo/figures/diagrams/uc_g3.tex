@@ -1,0 +1,47 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\draw[rounded corners,draw=black!65] (3,1.5) rectangle (13,-10.1);
+\node[font=\bfseries] at (8,1) {Khám và cận lâm sàng};
+\draw (0.5,-1.2) circle (.15);
+\draw (0.5,-1.35) -- (0.5,-1.85);
+\draw (0.2,-1.5) -- (0.8,-1.5);
+\draw (0.5,-1.85) -- (0.25,-2.2);
+\draw (0.5,-1.85) -- (0.75,-2.2);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (actor0) at (0.5,-2.55) {Bác sĩ};
+\coordinate (actor0-east) at (0.8,-1.5);
+\coordinate (actor0-west) at (0.2,-1.5);
+\coordinate (actor0-out-east) at (2.05,-1.5);
+\coordinate (actor0-out-west) at (-1.05,-1.5);
+\draw (15.5,-7.8) circle (.15);
+\draw (15.5,-7.949999999999999) -- (15.5,-8.45);
+\draw (15.2,-8.1) -- (15.8,-8.1);
+\draw (15.5,-8.45) -- (15.25,-8.799999999999999);
+\draw (15.5,-8.45) -- (15.75,-8.799999999999999);
+\node[align=center,font=\fontsize{10}{12}\selectfont,text width=2.7cm] (actor1) at (15.5,-9.15) {Nhân sự kết quả};
+\coordinate (actor1-east) at (15.8,-8.1);
+\coordinate (actor1-west) at (15.2,-8.1);
+\coordinate (actor1-out-east) at (17.05,-8.1);
+\coordinate (actor1-out-west) at (13.95,-8.1);
+\node[uc,text width=5.5cm] (u13) at (8,-0.25) {UC-13. Khám và chuyển trạng thái lượt khám};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u13.west);
+\node[uc,text width=5.5cm] (u14) at (8,-2.05) {UC-14. Lưu nháp và ký hồ sơ khám};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u14.west);
+\node[uc,text width=5.5cm] (u15) at (8,-3.85) {UC-15. Điều chỉnh hồ sơ đã ký};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u15.west);
+\node[uc,text width=5.5cm] (u16) at (8,-5.65) {UC-16. Kê và ký đơn thuốc};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u16.west);
+\node[uc,text width=5.5cm] (u17) at (8,-7.45) {UC-17. Chỉ định dịch vụ cận lâm sàng};
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u17.west);
+\node[uc,text width=5.5cm] (u18) at (8,-9.25) {UC-18. Nhập và xác minh kết quả};
+\draw[assoc] (actor1-west) -- (actor1-out-west) -- (u18.east);
+\draw[assoc] (actor0-east) -- (actor0-out-east) -- (u18.west);
+\end{tikzpicture}
+\endgroup

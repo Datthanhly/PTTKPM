@@ -1,0 +1,30 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\node[circle,fill=black,inner sep=0pt,minimum size=5pt] (start) {};
+\node[box,text width=4.6cm,below=8mm of start] (s0) {Nhân viên gửi nguyện vọng WAITING};
+\draw[arr] (start.south) -- (s0.north);
+\node[box,text width=4.6cm,below=8mm of s0] (s1) {Admin chọn tuần và cơ sở};
+\draw[arr] (s0.south) -- (s1.north);
+\node[box,text width=4.6cm,below=8mm of s1] (s2) {Xếp tự động hoặc bằng tay thành DRAFT};
+\draw[arr] (s1.south) -- (s2.north);
+\node[box,text width=4.6cm,below=8mm of s2] (s3) {Rà soát ca và tải phút};
+\draw[arr] (s2.south) -- (s3.north);
+\node[decision,text width=3.2cm,below=8mm of s3] (s4) {Fingerprint, người và giờ còn hợp lệ?};
+\draw[arr] (s3.south) -- (s4.north);
+\node[box,text width=4.6cm,below=8mm of s4] (s5) {Chốt CONFIRMED và công bố};
+\draw[arr] (s4.south) -- node[lab,right] {Có} (s5.north);
+\node[box,text width=3.6cm,right=18mm of s4] (err) {Giữ ca dự kiến\\Tải lại phương án\\Rà soát và điều chỉnh};
+\draw[arr] (s4.east) -- node[lab,above] {Không} (err.west);
+\draw[arr] (err.north) |- (s3.east);
+\node[circle,draw=black,minimum size=9pt,inner sep=0pt,below=8mm of s5] (end) {\tikz\fill (0,0) circle (2.5pt);};
+\draw[arr] (s5.south) -- (end.north);
+\end{tikzpicture}
+\endgroup

@@ -1,0 +1,28 @@
+\begingroup\hyphenpenalty=10000
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+box/.style={draw=teal!65!black,fill=teal!4,rounded corners=2pt,align=center,minimum height=.9cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+uc/.style={draw=teal!65!black,fill=yellow!7,ellipse,align=center,minimum height=.8cm,inner sep=5pt,font=\fontsize{10}{12}\selectfont},
+state/.style={box,rounded corners=8pt},
+ent/.style={box,rounded corners=0pt,fill=white,align=left},
+decision/.style={diamond,draw=teal!65!black,fill=yellow!8,aspect=2,align=center,font=\fontsize{10}{12}\selectfont,inner sep=2pt},
+arr/.style={->,line width=.65pt,draw=black!75},
+assoc/.style={line width=.6pt,draw=black!65},
+lab/.style={font=\fontsize{8}{10}\selectfont,fill=white,inner sep=2pt,align=center}]
+\node[ent,text width=3.4cm] (BenhNhan) at (0,0) {\textbf{Benh\allowbreak{}Nhan}\par\smallskip\hrule\smallskip Thông tin hành chính};
+\node[ent,text width=3.4cm] (LichHen) at (5,0) {\textbf{Lich\allowbreak{}Hen}\par\smallskip\hrule\smallskip Ngày, giờ, trạng thái};
+\node[ent,text width=3.4cm] (CaKham) at (10,0) {\textbf{Ca\allowbreak{}Kham}\par\smallskip\hrule\smallskip Giờ, bước, sức chứa};
+\node[ent,text width=3.4cm] (LuotKham) at (5,-3) {\textbf{Luot\allowbreak{}Kham}\par\smallskip\hrule\smallskip Hàng chờ, tiến trình};
+\node[ent,text width=3.4cm] (BacSi) at (10,-3) {\textbf{Bac\allowbreak{}Si}\par\smallskip\hrule\smallskip Chuyên môn, phân công};
+\node[ent,text width=3.4cm] (HoSoKham) at (0,-6) {\textbf{Ho\allowbreak{}So\allowbreak{}Kham}\par\smallskip\hrule\smallskip Nội dung, chữ ký};
+\node[ent,text width=3.4cm] (DonThuoc) at (5,-6) {\textbf{Don\allowbreak{}Thuoc}\par\smallskip\hrule\smallskip Thuốc, hướng dẫn};
+\node[ent,text width=3.4cm] (ChiDinh) at (10,-6) {\textbf{Chi\allowbreak{}Dinh}\par\smallskip\hrule\smallskip Dịch vụ, kết quả};
+\draw[arr] (LichHen) -- node[lab] {0..* / 1} (BenhNhan);
+\draw[arr] (LichHen) -- node[lab] {0..* / 0..1} (CaKham);
+\draw[arr] (LuotKham) -- node[lab] {0..1 / 0..1} (LichHen);
+\draw[arr] (CaKham) -- node[lab] {0..* / 1} (BacSi);
+\draw[arr] (LuotKham) -- node[lab] {0..* / 1} (BacSi);
+\draw[arr] (HoSoKham) -- node[lab] {0..1 / 1} (LuotKham);
+\draw[arr] (DonThuoc) -- node[lab] {0..* / 1} (LuotKham);
+\draw[arr] (ChiDinh) -- node[lab] {0..* / 1} (LuotKham);
+\end{tikzpicture}
+\endgroup
